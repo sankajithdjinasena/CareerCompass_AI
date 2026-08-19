@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "role": "Backend Developer",
+    "category": "Software Engineering",
+    "required_skills": ["Python", "SQL", "REST APIs", "Git", "Database Design", "Linux", "Authentication & Security", "Unit Testing"],
+    "nice_to_have_skills": ["Docker", "Redis", "Message Queues", "GraphQL", "CI/CD"]
+  },
+  {
+    "role": "Frontend Developer",
+    "category": "Software Engineering",
+    "required_skills": ["JavaScript", "HTML", "CSS", "React", "Git", "Responsive Design", "REST APIs"],
+    "nice_to_have_skills": ["TypeScript", "Next.js", "Tailwind CSS", "Testing (Jest/Cypress)", "Accessibility"]
+  },
+  {
+    "role": "Full Stack Developer",
+    "category": "Software Engineering",
+    "required_skills": ["JavaScript", "Python", "SQL", "React", "REST APIs", "Git", "HTML", "CSS"],
+    "nice_to_have_skills": ["Docker", "Node.js", "TypeScript", "Cloud Deployment", "CI/CD"]
+  },
+  {
+    "role": "Data Scientist",
+    "category": "Data Science",
+    "required_skills": ["Python", "Pandas", "Numpy", "Machine Learning", "Statistics", "Data Visualization", "SQL", "Scikit-learn"],
+    "nice_to_have_skills": ["Deep Learning", "TensorFlow/PyTorch", "Cloud Computing", "MLOps", "R"]
+  },
+  {
+    "role": "Data Analyst",
+    "category": "Data Science",
+    "required_skills": ["SQL", "Excel", "Data Visualization", "Statistics", "PowerBI", "Python or R"],
+    "nice_to_have_skills": ["Tableau", "A/B Testing", "ETL Pipelines", "Machine Learning Basics"]
+  },
+  {
+    "role": "Machine Learning Engineer",
+    "category": "Data Science",
+    "required_skills": ["Python", "Machine Learning", "Deep Learning", "Scikit-learn", "TensorFlow/PyTorch", "SQL", "Statistics", "Model Deployment"],
+    "nice_to_have_skills": ["MLOps", "Cloud Computing", "Docker", "Kubernetes", "Data Engineering"]
+  },
+  {
+    "role": "DevOps Engineer",
+    "category": "Infrastructure",
+    "required_skills": ["Linux", "Docker", "CI/CD", "Cloud Computing", "Scripting (Bash/Python)", "Git", "Networking Basics"],
+    "nice_to_have_skills": ["Kubernetes", "Terraform", "AWS/Azure/GCP", "Monitoring & Logging"]
+  },
+  {
+    "role": "Cybersecurity Analyst",
+    "category": "Security",
+    "required_skills": ["Networking", "Linux", "Security Fundamentals", "Risk Assessment", "Incident Response", "Scripting"],
+    "nice_to_have_skills": ["Penetration Testing", "SIEM Tools", "Cloud Security", "Cryptography"]
+  },
+  {
+    "role": "Mobile App Developer",
+    "category": "Software Engineering",
+    "required_skills": ["Java or Kotlin", "Mobile UI Design", "REST APIs", "Git", "SQLite"],
+    "nice_to_have_skills": ["Flutter", "React Native", "Firebase", "CI/CD for Mobile"]
+  },
+  {
+    "role": "Cloud Engineer",
+    "category": "Infrastructure",
+    "required_skills": ["Cloud Computing", "Linux", "Networking", "Scripting", "Docker", "Security Fundamentals"],
+    "nice_to_have_skills": ["AWS/Azure/GCP Certification", "Terraform", "Kubernetes", "Serverless Architecture"]
+  },
+  {
+    "role": "QA / Test Engineer",
+    "category": "Software Engineering",
+    "required_skills": ["Manual Testing", "Test Case Design", "SQL", "Bug Tracking Tools", "Basic Scripting"],
+    "nice_to_have_skills": ["Automation Testing (Selenium)", "API Testing", "CI/CD", "Performance Testing"]
+  },
+  {
+    "role": "Business Analyst",
+    "category": "Business",
+    "required_skills": ["Requirements Gathering", "SQL", "Data Visualization", "Communication", "Excel", "Process Modeling"],
+    "nice_to_have_skills": ["PowerBI/Tableau", "Agile/Scrum", "Basic Python"]
+  }
+]

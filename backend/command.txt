@@ -1,1 +1,11 @@
 1. Inside the backend file, for testing purpose I added pdfs/resume.pdf then you can run following bash command : python -m tools.resume_parser pdfs/resume.pdf
+2. python -m agents.profile_analysis_agent pdfs/resume.pdf
+3. python -m uvicorn api.main:app --reload &
+4. curl http://127.0.0.1:8000/health
+5. curl -X POST http://127.0.0.1:8000/upload-resume -F "file=@pdfs/resume.pdf"
+
+6. curl -s -X POST http://127.0.0.1:8000/upload-resume -F "file=@pdfs/resume.pdf" \
+  | python -c "import json,sys; print(json.dumps(json.load(sys.stdin)['profile']))" > /tmp/profile.json
+
+  7. export HF_HUB_DOWNLOAD_TIMEOUT=120
+python -m agents.skill_gap_agent /tmp/profile.json "ml engineer"
