@@ -1,0 +1,1 @@
+1. Inside the backend file, for testing purpose I added pdfs/resume.pdf then you can run following bash command : python -m tools.resume_parser pdfs/resume.pdf
