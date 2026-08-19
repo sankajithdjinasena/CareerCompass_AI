@@ -1,1 +1,19 @@
-[]
+[
+  {"skill": "Statistics", "resource": "Khan Academy – Statistics and Probability", "type": "free course", "url": "https://www.khanacademy.org/math/statistics-probability", "est_hours": 20},
+  {"skill": "SQL", "resource": "Mode Analytics – SQL Tutorial", "type": "free course", "url": "https://mode.com/sql-tutorial/", "est_hours": 10},
+  {"skill": "Deep Learning", "resource": "DeepLearning.AI – Deep Learning Specialization", "type": "paid course (Coursera)", "url": "https://www.coursera.org/specializations/deep-learning", "est_hours": 60},
+  {"skill": "TensorFlow/PyTorch", "resource": "PyTorch – Official 60 Minute Blitz + Deep Learning with PyTorch", "type": "free tutorial", "url": "https://pytorch.org/tutorials/", "est_hours": 15},
+  {"skill": "Model Deployment", "resource": "Made With ML – Model Deployment", "type": "free course", "url": "https://madewithml.com/", "est_hours": 15},
+  {"skill": "MLOps", "resource": "DeepLearning.AI – Machine Learning Engineering for Production (MLOps)", "type": "paid course (Coursera)", "url": "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops", "est_hours": 40},
+  {"skill": "Docker", "resource": "Docker – Official Get Started Guide", "type": "free tutorial", "url": "https://docs.docker.com/get-started/", "est_hours": 8},
+  {"skill": "Kubernetes", "resource": "Kubernetes – Official Basics Tutorial", "type": "free tutorial", "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/", "est_hours": 12},
+  {"skill": "Data Engineering", "resource": "DataTalksClub – Data Engineering Zoomcamp", "type": "free course", "url": "https://github.com/DataTalksClub/data-engineering-zoomcamp", "est_hours": 50},
+  {"skill": "REST APIs", "resource": "freeCodeCamp – APIs for Beginners", "type": "free course", "url": "https://www.freecodecamp.org/", "est_hours": 10},
+  {"skill": "Docker & CI/CD", "resource": "GitHub Actions – CI/CD Documentation", "type": "free tutorial", "url": "https://docs.github.com/en/actions", "est_hours": 8},
+  {"skill": "Cloud Computing", "resource": "AWS Skill Builder – Cloud Practitioner Essentials", "type": "free course", "url": "https://skillbuilder.aws/", "est_hours": 15},
+  {"skill": "Data Visualization", "resource": "Kaggle Learn – Data Visualization", "type": "free course", "url": "https://www.kaggle.com/learn/data-visualization", "est_hours": 6},
+  {"skill": "React", "resource": "React – Official Quick Start", "type": "free tutorial", "url": "https://react.dev/learn", "est_hours": 15},
+  {"skill": "Linux", "resource": "Linux Journey", "type": "free course", "url": "https://linuxjourney.com/", "est_hours": 12},
+  {"skill": "Networking", "resource": "Professor Messer – Network+ Course", "type": "free course", "url": "https://www.professormesser.com/", "est_hours": 25},
+  {"skill": "Security Fundamentals", "resource": "TryHackMe – Pre Security Path", "type": "free/paid course", "url": "https://tryhackme.com/", "est_hours": 20}
+]
