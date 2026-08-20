@@ -3,16 +3,21 @@ import Sidebar from './components/Sidebar'
 import DashboardGrid from './components/DashboardGrid'
 import ResumeUploader from './components/ResumeUploader'
 import InterviewPractice from './components/InterviewPractice'
+import LandingPage from './components/LandingPage'
 
 function App() {
   const [sessionId, setSessionId] = useState(null)
-  const [page, setPage] = useState('dashboard') // 'dashboard' | 'practice'
+  const [page, setPage] = useState('landing') // 'landing' | 'dashboard' | 'practice'
 
   const pageTitles = {
     dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
     practice: { title: 'Mock Interview', subtitle: 'Practice with AI-generated questions for your target role' },
   }
-  const { title, subtitle } = pageTitles[page]
+  const { title, subtitle } = pageTitles[page] || {}
+
+  if (page === 'landing') {
+    return <LandingPage onGetStarted={() => setPage('dashboard')} />
+  }
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
