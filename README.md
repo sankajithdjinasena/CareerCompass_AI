@@ -25,13 +25,13 @@ The system is **adaptive**: if the Interview Simulator Agent uncovers a gap the 
 | Agent | Responsibility | Input | Output |
 |---|---|---|---|
 | **Orchestrator** | Interprets the goal, builds the execution plan, delegates tasks, resolves conflicts, triggers re-runs | User goal + agent outputs | Execution plan, final report |
-| **Profile Analysis Agent** | Parses the resume into structured data | Raw resume (PDF/text) | Structured candidate profile (JSON) |
-| **Skill Gap Agent** | Compares profile against target-role taxonomy | Structured profile, target role | Prioritized skill-gap list |
-| **Learning Path Agent** | Builds a sequenced roadmap for the highest-priority gaps | Skill-gap list | Personalized learning roadmap |
+| **Profile Analysis Agent** | Parses the resume into structured data (Uses `gpt-oss-120b` via Groq) | Raw resume (PDF/text) | Structured candidate profile (JSON) |
+| **Skill Gap Agent** | Compares profile against target-role taxonomy **(Deterministic Math + ChromaDB)** | Structured profile, target role | Prioritized skill-gap list |
+| **Learning Path Agent** | Builds a sequenced roadmap for the highest-priority gaps **(Database search + LLM Fallback)** | Skill-gap list | Personalized learning roadmap |
 | **Interview Simulator Agent** | Generates and evaluates role-specific interview Q&A | Profile, target role, live answers | Transcript, readiness score, newly-detected gaps |
-| **Job Matching Agent** | Ranks job/internship listings against the (possibly revised) profile | Profile, updated skill data | Ranked job list with rationale |
+| **Job Matching Agent** | Ranks job/internship listings against the profile **(Deterministic Math Scoring)** | Profile, updated skill data | Ranked job list with rationale |
 
-All agents communicate through a **shared context store** (vector DB + session memory) managed by the Orchestrator — each agent reads only what it needs and writes its result back for others to use.
+All agents communicate through a **shared context store** (session memory) — each agent reads only what it needs and writes its result back for others to use. The backend is a Hybrid system, using LLMs only where necessary to maximize speed and prevent hallucinations.
 
 ---
 

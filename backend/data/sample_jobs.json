@@ -1,12 +1,413 @@
 [
-  {"title": "Junior Backend Developer", "company": "LankaSoft Solutions", "location": "Colombo, Sri Lanka (Hybrid)", "type": "Full-time", "role_category": "Backend Developer", "required_skills": ["Python", "SQL", "REST APIs", "Git"], "description": "Build and maintain REST APIs for a fintech product. Mentorship provided for junior engineers."},
-  {"title": "Data Science Intern", "company": "Dialog Axiata", "location": "Colombo, Sri Lanka", "type": "Internship", "role_category": "Data Scientist", "required_skills": ["Python", "Pandas", "Machine Learning", "SQL"], "description": "6-month internship supporting the analytics team with churn prediction and customer segmentation models."},
-  {"title": "ML Engineer (Entry Level)", "company": "99X Technology", "location": "Colombo, Sri Lanka (Remote option)", "type": "Full-time", "role_category": "Machine Learning Engineer", "required_skills": ["Python", "Machine Learning", "Scikit-learn", "Model Deployment"], "description": "Work on production ML pipelines for e-commerce recommendation systems."},
-  {"title": "Junior Data Analyst", "company": "WSO2", "location": "Colombo, Sri Lanka", "type": "Full-time", "role_category": "Data Analyst", "required_skills": ["SQL", "Excel", "Data Visualization", "PowerBI"], "description": "Support product analytics and reporting for internal dashboards."},
-  {"title": "Frontend Developer", "company": "Virtusa", "location": "Colombo, Sri Lanka (Hybrid)", "type": "Full-time", "role_category": "Frontend Developer", "required_skills": ["JavaScript", "React", "HTML", "CSS"], "description": "Build customer-facing dashboards for enterprise clients."},
-  {"title": "Remote Junior Full Stack Developer", "company": "Toptal (Remote)", "location": "Remote", "type": "Contract", "role_category": "Full Stack Developer", "required_skills": ["JavaScript", "Python", "React", "SQL"], "description": "Freelance contract role building internal tools for a US-based startup."},
-  {"title": "DevOps Intern", "company": "IFS Sri Lanka", "location": "Colombo, Sri Lanka", "type": "Internship", "role_category": "DevOps Engineer", "required_skills": ["Linux", "Docker", "CI/CD", "Git"], "description": "Support the platform team with CI/CD pipeline maintenance and containerization."},
-  {"title": "Machine Learning Research Assistant", "company": "University of Moratuwa (Research Lab)", "location": "Moratuwa, Sri Lanka", "type": "Part-time", "role_category": "Machine Learning Engineer", "required_skills": ["Python", "Deep Learning", "Statistics", "TensorFlow/PyTorch"], "description": "Assist faculty research on applied deep learning for agricultural yield prediction."},
-  {"title": "Cybersecurity Trainee", "company": "hSenid Mobile Solutions", "location": "Colombo, Sri Lanka", "type": "Full-time", "role_category": "Cybersecurity Analyst", "required_skills": ["Networking", "Linux", "Security Fundamentals"], "description": "Entry-level role on the security operations team, training provided."},
-  {"title": "QA Engineer Intern", "company": "Sysco LABS", "location": "Colombo, Sri Lanka", "type": "Internship", "role_category": "QA / Test Engineer", "required_skills": ["Manual Testing", "SQL", "Bug Tracking Tools"], "description": "Support the QA team on manual and early automation testing for a logistics platform."}
+  {
+    "title": "Junior Backend Developer",
+    "company": "LankaSoft Solutions",
+    "location": "Colombo, Sri Lanka (Hybrid)",
+    "type": "Full-time",
+    "role_category": "Backend Developer",
+    "required_skills": [
+      "Python",
+      "SQL",
+      "REST APIs",
+      "Git"
+    ],
+    "description": "Build and maintain REST APIs for a fintech product. Mentorship provided for junior engineers."
+  },
+  {
+    "title": "Data Science Intern",
+    "company": "Dialog Axiata",
+    "location": "Colombo, Sri Lanka",
+    "type": "Internship",
+    "role_category": "Data Scientist",
+    "required_skills": [
+      "Python",
+      "Pandas",
+      "Machine Learning",
+      "SQL"
+    ],
+    "description": "6-month internship supporting the analytics team with churn prediction and customer segmentation models."
+  },
+  {
+    "title": "ML Engineer (Entry Level)",
+    "company": "99X Technology",
+    "location": "Colombo, Sri Lanka (Remote option)",
+    "type": "Full-time",
+    "role_category": "Machine Learning Engineer",
+    "required_skills": [
+      "Python",
+      "Machine Learning",
+      "Scikit-learn",
+      "Model Deployment"
+    ],
+    "description": "Work on production ML pipelines for e-commerce recommendation systems."
+  },
+  {
+    "title": "Junior Data Analyst",
+    "company": "WSO2",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Data Analyst",
+    "required_skills": [
+      "SQL",
+      "Excel",
+      "Data Visualization",
+      "PowerBI"
+    ],
+    "description": "Support product analytics and reporting for internal dashboards."
+  },
+  {
+    "title": "Frontend Developer",
+    "company": "Virtusa",
+    "location": "Colombo, Sri Lanka (Hybrid)",
+    "type": "Full-time",
+    "role_category": "Frontend Developer",
+    "required_skills": [
+      "JavaScript",
+      "React",
+      "HTML",
+      "CSS"
+    ],
+    "description": "Build customer-facing dashboards for enterprise clients."
+  },
+  {
+    "title": "Remote Junior Full Stack Developer",
+    "company": "Toptal (Remote)",
+    "location": "Remote",
+    "type": "Contract",
+    "role_category": "Full Stack Developer",
+    "required_skills": [
+      "JavaScript",
+      "Python",
+      "React",
+      "SQL"
+    ],
+    "description": "Freelance contract role building internal tools for a US-based startup."
+  },
+  {
+    "title": "DevOps Intern",
+    "company": "IFS Sri Lanka",
+    "location": "Colombo, Sri Lanka",
+    "type": "Internship",
+    "role_category": "DevOps Engineer",
+    "required_skills": [
+      "Linux",
+      "Docker",
+      "CI/CD",
+      "Git"
+    ],
+    "description": "Support the platform team with CI/CD pipeline maintenance and containerization."
+  },
+  {
+    "title": "Machine Learning Research Assistant",
+    "company": "University of Moratuwa (Research Lab)",
+    "location": "Moratuwa, Sri Lanka",
+    "type": "Part-time",
+    "role_category": "Machine Learning Engineer",
+    "required_skills": [
+      "Python",
+      "Deep Learning",
+      "Statistics",
+      "TensorFlow/PyTorch"
+    ],
+    "description": "Assist faculty research on applied deep learning for agricultural yield prediction."
+  },
+  {
+    "title": "Cybersecurity Trainee",
+    "company": "hSenid Mobile Solutions",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Cybersecurity Analyst",
+    "required_skills": [
+      "Networking",
+      "Linux",
+      "Security Fundamentals"
+    ],
+    "description": "Entry-level role on the security operations team, training provided."
+  },
+  {
+    "title": "QA Engineer Intern",
+    "company": "Sysco LABS",
+    "location": "Colombo, Sri Lanka",
+    "type": "Internship",
+    "role_category": "QA / Test Engineer",
+    "required_skills": [
+      "Manual Testing",
+      "SQL",
+      "Bug Tracking Tools"
+    ],
+    "description": "Support the QA team on manual and early automation testing for a logistics platform."
+  },
+  {
+    "title": "Data Scientist",
+    "company": "MAS Holdings",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Data Scientist",
+    "required_skills": [
+      "Python",
+      "Machine Learning",
+      "Data Analysis",
+      "Deep Learning"
+    ],
+    "description": "Analyze manufacturing data to improve efficiency."
+  },
+  {
+    "title": "Associate Software Engineer",
+    "company": "Creative Software",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Backend Developer",
+    "required_skills": [
+      "C#",
+      ".NET",
+      "SQL",
+      "Git"
+    ],
+    "description": "Develop scalable backend solutions for global clients."
+  },
+  {
+    "title": "Full Stack Developer",
+    "company": "CodeGen International",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Full Stack Developer",
+    "required_skills": [
+      "Java",
+      "Spring Boot",
+      "Angular",
+      "SQL"
+    ],
+    "description": "Build travel technology platforms."
+  },
+  {
+    "title": "AI/ML Engineer",
+    "company": "PickMe",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Machine Learning Engineer",
+    "required_skills": [
+      "Python",
+      "Deep Learning",
+      "TensorFlow/PyTorch",
+      "Model Deployment"
+    ],
+    "description": "Optimize routing and pricing models using deep learning."
+  },
+  {
+    "title": "Data Engineer",
+    "company": "Sysco LABS",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Data Engineer",
+    "required_skills": [
+      "Python",
+      "SQL",
+      "Data Engineering",
+      "Cloud Computing"
+    ],
+    "description": "Build robust data pipelines for enterprise analytics."
+  },
+  {
+    "title": "Mobile App Developer",
+    "company": "Arimac",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Mobile Developer",
+    "required_skills": [
+      "Flutter",
+      "Dart",
+      "REST APIs",
+      "Git"
+    ],
+    "description": "Create engaging mobile applications for enterprise clients."
+  },
+  {
+    "title": "Cloud DevOps Engineer",
+    "company": "MillenniumIT ESP",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "DevOps Engineer",
+    "required_skills": [
+      "Cloud Computing",
+      "Docker",
+      "Kubernetes",
+      "CI/CD"
+    ],
+    "description": "Manage and scale cloud infrastructure for enterprise customers."
+  },
+  {
+    "title": "Information Security Analyst",
+    "company": "Dialog Axiata",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Cybersecurity Analyst",
+    "required_skills": [
+      "Security Fundamentals",
+      "Networking",
+      "Linux"
+    ],
+    "description": "Monitor network security and respond to cyber threats."
+  },
+  {
+    "title": "React Native Developer",
+    "company": "DirectFN",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Mobile Developer",
+    "required_skills": [
+      "JavaScript",
+      "React",
+      "Mobile Development"
+    ],
+    "description": "Develop cutting edge financial applications for mobile platforms."
+  },
+  {
+    "title": "QA Automation Engineer",
+    "company": "Pearson",
+    "location": "Colombo, Sri Lanka (Hybrid)",
+    "type": "Full-time",
+    "role_category": "QA / Test Engineer",
+    "required_skills": [
+      "Automation Testing",
+      "Selenium",
+      "Java",
+      "CI/CD"
+    ],
+    "description": "Automate testing for global educational platforms."
+  },
+  {
+    "title": "Python Developer",
+    "company": "Surge Global",
+    "location": "Colombo, Sri Lanka (Remote)",
+    "type": "Full-time",
+    "role_category": "Backend Developer",
+    "required_skills": [
+      "Python",
+      "Django",
+      "REST APIs",
+      "Docker"
+    ],
+    "description": "Build scalable backend services for marketing platforms."
+  },
+  {
+    "title": "Data Visualization Specialist",
+    "company": "Brandix",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Data Analyst",
+    "required_skills": [
+      "Data Visualization",
+      "PowerBI",
+      "SQL"
+    ],
+    "description": "Create interactive dashboards for executive decision making."
+  },
+  {
+    "title": "Senior Frontend Engineer",
+    "company": "Enactor",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Frontend Developer",
+    "required_skills": [
+      "JavaScript",
+      "React",
+      "CSS",
+      "REST APIs"
+    ],
+    "description": "Lead development of retail point-of-sale interfaces."
+  },
+  {
+    "title": "Database Administrator",
+    "company": "Commercial Bank",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Database Administrator",
+    "required_skills": [
+      "SQL",
+      "Database Management",
+      "Linux"
+    ],
+    "description": "Maintain and optimize enterprise banking databases."
+  },
+  {
+    "title": "Game Developer",
+    "company": "LiveRoom",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Software Engineer",
+    "required_skills": [
+      "C#",
+      "Unity",
+      "3D Graphics"
+    ],
+    "description": "Develop augmented and virtual reality experiences."
+  },
+  {
+    "title": "NLP Researcher",
+    "company": "Sabaragamuwa University",
+    "location": "Belihuloya, Sri Lanka",
+    "type": "Contract",
+    "role_category": "Data Scientist",
+    "required_skills": [
+      "Python",
+      "NLP",
+      "Deep Learning",
+      "Transformers"
+    ],
+    "description": "Conduct research on Sinhala and Tamil natural language processing."
+  },
+  {
+    "title": "Intern - Software Engineering",
+    "company": "IFS",
+    "location": "Colombo, Sri Lanka",
+    "type": "Internship",
+    "role_category": "Full Stack Developer",
+    "required_skills": [
+      "Java",
+      "SQL",
+      "HTML",
+      "CSS"
+    ],
+    "description": "6-month internship on the core ERP development team."
+  },
+  {
+    "title": "Site Reliability Engineer",
+    "company": "WSO2",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "DevOps Engineer",
+    "required_skills": [
+      "Linux",
+      "Networking",
+      "Cloud Computing",
+      "CI/CD"
+    ],
+    "description": "Ensure high availability of cloud platforms."
+  },
+  {
+    "title": "Business Analyst",
+    "company": "Virtusa",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Business Analyst",
+    "required_skills": [
+      "Requirements Gathering",
+      "Agile",
+      "Communication"
+    ],
+    "description": "Bridge the gap between business needs and technical solutions."
+  },
+  {
+    "title": "UI/UX Designer",
+    "company": "Creative Software",
+    "location": "Colombo, Sri Lanka",
+    "type": "Full-time",
+    "role_category": "Designer",
+    "required_skills": [
+      "Figma",
+      "Prototyping",
+      "User Research"
+    ],
+    "description": "Design intuitive interfaces for web and mobile apps."
+  }
 ]

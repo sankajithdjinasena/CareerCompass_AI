@@ -32,12 +32,23 @@ class LearningPathAgent:
             model=self.model,
             messages=[{"role": "user", "content": FALLBACK_PROMPT.format(skill=skill)}],
             temperature=0.2,
+            max_tokens=2000,
         )
         content = response.choices[0].message.content.strip()
+        if "<think>" in content and "</think>" not in content:
+            # Truncated!
+            raise ValueError("Truncated inside think block")
+        if "</think>" in content:
+            content = content.split("</think>")[-1].strip()
         content = content.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
         try:
+            # find first { and last }
+            start = content.find('{')
+            end = content.rfind('}')
+            if start != -1 and end != -1:
+                return json.loads(content[start:end+1])
             return json.loads(content)
-        except json.JSONDecodeError:
+        except Exception:
             return {
                 "skill": skill,
                 "resource": f"Search for a course on '{skill}' (no curated resource found)",

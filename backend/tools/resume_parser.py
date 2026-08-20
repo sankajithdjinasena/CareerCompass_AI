@@ -58,38 +58,67 @@ def extract_text_from_pdf(file_path: str) -> str:
     return full_text
 
 
-def _strip_code_fences(text: str) -> str:
-    """Remove ```json ... ``` wrappers if the model adds them despite instructions."""
+def _extract_json(text: str) -> dict:
+    if not text:
+        return {}
     text = text.strip()
-    text = re.sub(r"^```(?:json)?\s*", "", text)
-    text = re.sub(r"\s*```$", "", text)
-    return text.strip()
+    if "<think>" in text and "</think>" not in text:
+        raise ValueError("Response was truncated inside the <think> block. No JSON was generated.")
+    if "</think>" in text:
+        text = text.split("</think>")[-1].strip()
+    try:
+        start_idx = -1
+        for i, char in enumerate(text):
+            if char in ['{', '[']:
+                start_idx = i
+                break
+        if start_idx == -1:
+            raise ValueError("No JSON object or array found.")
+        is_array = text[start_idx] == '['
+        open_char = '[' if is_array else '{'
+        close_char = ']' if is_array else '}'
+        count = 0
+        end_idx = -1
+        for i in range(start_idx, len(text)):
+            if text[i] == open_char:
+                count += 1
+            elif text[i] == close_char:
+                count -= 1
+                if count == 0:
+                    end_idx = i
+                    break
+        if end_idx != -1:
+            return json.loads(text[start_idx:end_idx+1])
+        else:
+            raise ValueError("Mismatched brackets in JSON.")
+    except Exception as e:
+        raise ValueError(f"JSON Parsing Error: {e}\nRaw Text: {text}")
 
 
 def structure_resume_text(raw_text: str) -> dict:
     """Send raw resume text to Groq and parse the structured JSON response."""
     client = get_groq_client()
     model = get_model()
-
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": SCHEMA_INSTRUCTIONS},
-            {"role": "user", "content": raw_text},
-        ],
-        temperature=0.1,
-    )
-
-    content = response.choices[0].message.content
-    cleaned = _strip_code_fences(content)
-
-    try:
-        return json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        raise ValueError(
-            f"Failed to parse structured resume JSON from LLM output: {e}\n"
-            f"Raw output was:\n{content}"
-        )
+    
+    last_err = None
+    for attempt in range(2):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": SCHEMA_INSTRUCTIONS},
+                    {"role": "user", "content": raw_text},
+                ],
+                temperature=0.1 + (0.2 * attempt), # Increase temperature slightly on retry
+                max_tokens=4000,
+            )
+        
+            content = response.choices[0].message.content
+            return _extract_json(content)
+        except Exception as e:
+            last_err = e
+            
+    raise ValueError(f"Failed to parse structured resume JSON after 2 attempts. Last error: {last_err}")
 
 
 def parse_resume(file_path: str) -> dict:

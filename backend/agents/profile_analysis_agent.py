@@ -13,23 +13,23 @@ from tools.resume_parser import parse_resume
 
 
 class EducationEntry(BaseModel):
-    institution: str
-    degree: str
+    institution: str | None = None
+    degree: str | None = None
     field: str | None = None
     start_year: str | None = None
     end_year: str | None = None
 
 
 class ExperienceEntry(BaseModel):
-    title: str
-    organization: str
+    title: str | None = None
+    organization: str | None = None
     start_date: str | None = None
     end_date: str | None = None
     description: str = ""
 
 
 class ProjectEntry(BaseModel):
-    name: str
+    name: str | None = None
     description: str = ""
     technologies: list[str] = []
 
