@@ -31,7 +31,7 @@ const LandingPage = ({ onGetStarted }) => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
           </span>
-          Agentic AI Phase - Sabaragamuwa University
+          Powered by Multi-Agent AI Architecture
         </div>
 
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight max-w-4xl leading-tight mb-6">
@@ -69,7 +69,7 @@ const LandingPage = ({ onGetStarted }) => {
 
       {/* Footer */}
       <footer className="py-6 text-center text-slate-500 text-sm relative z-10">
-        &copy; {new Date().getFullYear()} CodeSplash '26 - CareerCompass AI Team
+        &copy; 2026 CareerCompass AI. Team Predictra
       </footer>
     </div>
   );
