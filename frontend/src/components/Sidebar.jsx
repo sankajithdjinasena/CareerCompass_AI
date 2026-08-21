@@ -44,7 +44,7 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
           {navItem('dashboard', 'Dashboard', LayoutDashboard, true)}
           {navItem('resume', 'Resume', FileText, false, "The Resume Editor module is under construction for CodeSplash '26.")}
           {navItem('roadmap', 'Roadmap', Map, true)}
-          {navItem('jobs', 'Jobs', Briefcase, false, "The Job Search module is under construction for CodeSplash '26.")}
+          {navItem('jobs', 'Jobs', Briefcase, true)}
           {navItem('practice', 'Practice', PlayCircle, true)}
           {navItem('settings', 'Settings', Settings, true)}
         </ul>

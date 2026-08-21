@@ -63,7 +63,8 @@ def get_all_jobs() -> list[dict]:
                     "type": str(rj.get("job_type", "Full-time")).replace("_", " ").title(),
                     "role_category": rj.get("category", "IT"),
                     "required_skills": rj.get("tags", []),
-                    "description": str(rj.get("description", ""))[:200] + "..."
+                    "description": str(rj.get("description", ""))[:200] + "...",
+                    "url": rj.get("url")
                 })
                 
         # 2. Arbeitnow - Fetching 50 recent global jobs
@@ -78,7 +79,8 @@ def get_all_jobs() -> list[dict]:
                     "type": "Full-time",
                     "role_category": "Tech",
                     "required_skills": aj.get("tags", []),
-                    "description": str(aj.get("description", ""))[:200] + "..."
+                    "description": str(aj.get("description", ""))[:200] + "...",
+                    "url": aj.get("url")
                 })
                 
     except Exception as e:
