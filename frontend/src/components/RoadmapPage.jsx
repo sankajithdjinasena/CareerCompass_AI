@@ -152,9 +152,21 @@ export default function RoadmapPage({ sessionId }) {
                       </a>
                     ) : (
                       <span className="inline-flex items-center gap-1.5 bg-slate-200 text-slate-500 px-4 py-2 rounded-lg text-sm font-medium">
-                        <RefreshCw className="w-4 h-4" /> Searching for link...
+                        <Map className="w-4 h-4" /> Recommended Search Topic
                       </span>
                     )}
+                    
+                    <button
+                      onClick={() => toggleStep(idx)}
+                      className={`ml-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                        isCompleted 
+                          ? "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200" 
+                          : "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                      }`}
+                    >
+                      <CheckCircle2 className="w-4 h-4" /> 
+                      {isCompleted ? "Completed" : "Mark as Complete"}
+                    </button>
                   </div>
                 </div>
               </div>
