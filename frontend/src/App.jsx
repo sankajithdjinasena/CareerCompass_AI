@@ -37,6 +37,12 @@ function App() {
     setPage('landing')
   }
 
+  useEffect(() => {
+    if (page === 'logout') {
+      handleLogout()
+    }
+  }, [page])
+
   const pageTitles = {
     dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
     practice: { title: 'Mock Interview', subtitle: 'Practice with AI-generated questions for your target role' },
