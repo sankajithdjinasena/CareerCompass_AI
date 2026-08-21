@@ -3,11 +3,21 @@ import { UploadCloud, Loader2 } from 'lucide-react'
 
 export default function ResumeUploader({ onUploadComplete }) {
   const [file, setFile] = useState(null)
+  const [targetRole, setTargetRole] = useState('auto')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const ROLES = [
+    'Backend Developer', 'Frontend Developer', 'Full Stack Developer', 
+    'Data Scientist', 'Data Analyst', 'Machine Learning Engineer', 
+    'DevOps Engineer', 'Cybersecurity Analyst', 'Mobile App Developer', 
+    'Cloud Engineer', 'QA / Test Engineer', 'Business Analyst',
+    'Network Engineer', 'UI/UX Designer', 'Product Manager', 
+    'Game Developer', 'Database Administrator', 'Site Reliability Engineer'
+  ]
+
   const handleUpload = async () => {
-    if (!file) return
+    if (!file || !targetRole) return
     
     setLoading(true)
     setError(null)
@@ -29,7 +39,7 @@ export default function ResumeUploader({ onUploadComplete }) {
       const pipelineRes = await fetch(`http://localhost:8000/api/run-pipeline/${sid}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target_role: 'data_scientist' })
+        body: JSON.stringify({ target_role: targetRole })
       })
       
       if (!pipelineRes.ok) {
@@ -47,6 +57,18 @@ export default function ResumeUploader({ onUploadComplete }) {
     <div className="flex items-center gap-3">
       {error && <p className="text-red-500 text-sm max-w-xs truncate" title={error}>{error}</p>}
       
+      <select 
+        value={targetRole}
+        onChange={(e) => setTargetRole(e.target.value)}
+        disabled={loading}
+        className="bg-white border border-gray-200 text-gray-700 px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+      >
+        <option value="auto">✨ Auto-Detect Best Fit</option>
+        {ROLES.map(role => (
+          <option key={role} value={role}>{role}</option>
+        ))}
+      </select>
+
       <div className="relative">
         <input 
           type="file" 
@@ -57,7 +79,7 @@ export default function ResumeUploader({ onUploadComplete }) {
         />
         <button 
           disabled={loading}
-          className="bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+          className="bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm whitespace-nowrap"
         >
           <UploadCloud className="w-4 h-4" />
           {file ? file.name.substring(0, 15) + (file.name.length > 15 ? '...' : '') : 'Select Resume'}
@@ -66,8 +88,8 @@ export default function ResumeUploader({ onUploadComplete }) {
 
       <button 
         onClick={handleUpload}
-        disabled={!file || loading}
-        className="bg-brand-500 hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+        disabled={!file || !targetRole || loading}
+        className="bg-brand-500 hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm"
       >
         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Analyze'}
       </button>

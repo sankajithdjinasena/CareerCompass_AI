@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Loader2, PlayCircle, CheckCircle2, TrendingUp, RefreshCw } from 'lucide-react'
+import { Loader2, PlayCircle, CheckCircle2, TrendingUp, RefreshCw, Volume2 } from 'lucide-react'
 
 const API_BASE = 'http://localhost:8000'
 
@@ -71,6 +71,28 @@ export default function InterviewPractice({ sessionId }) {
     setAnswers({})
     setResult(null)
     loadQuestions()
+  }
+
+  const speakQuestion = (text) => {
+    if (!window.speechSynthesis) {
+      alert("Text-to-Speech is not supported in your browser.")
+      return
+    }
+    window.speechSynthesis.cancel()
+    
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.rate = 0.95 
+    utterance.pitch = 1.0
+    
+    const voices = window.speechSynthesis.getVoices()
+    const preferredVoice = voices.find(v => v.name.includes('Google US English')) || 
+                           voices.find(v => v.lang === 'en-US') || 
+                           voices.find(v => v.lang.startsWith('en'))
+    if (preferredVoice) {
+      utterance.voice = preferredVoice
+    }
+    
+    window.speechSynthesis.speak(utterance)
   }
 
   if (!sessionId) {
@@ -190,9 +212,18 @@ export default function InterviewPractice({ sessionId }) {
       <div className="space-y-5">
         {questions.map((q, idx) => (
           <div key={q.id}>
-            <label className="block text-sm font-semibold text-slate-800 mb-1">
-              {idx + 1}. {q.question}
-            </label>
+            <div className="flex items-start gap-2 mb-1">
+              <label className="block text-sm font-semibold text-slate-800">
+                {idx + 1}. {q.question}
+              </label>
+              <button 
+                onClick={() => speakQuestion(q.question)}
+                title="Read question out loud"
+                className="p-1 text-brand-500 hover:bg-brand-50 rounded-full transition-colors flex-shrink-0 -mt-0.5"
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
+            </div>
             <p className="text-xs text-slate-400 mb-2">Targets: {q.targets_skill}</p>
             <textarea
               value={answers[q.id] || ''}

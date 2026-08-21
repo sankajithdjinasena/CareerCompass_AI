@@ -1,22 +1,76 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import DashboardGrid from './components/DashboardGrid'
 import ResumeUploader from './components/ResumeUploader'
 import InterviewPractice from './components/InterviewPractice'
 import LandingPage from './components/LandingPage'
+import RoadmapPage from './components/RoadmapPage'
+import SettingsPage from './components/SettingsPage'
+import JobsPage from './components/JobsPage'
+import LoginPage from './components/LoginPage'
+import RegisterPage from './components/RegisterPage'
+import ForgotPasswordPage from './components/ForgotPasswordPage'
+import ResetPasswordPage from './components/ResetPasswordPage'
+import { isLoggedIn, clearAuth, getUser } from './lib/auth'
+import { apiLogout } from './lib/api'
+import { getToken } from './lib/auth'
 
 function App() {
   const [sessionId, setSessionId] = useState(null)
-  const [page, setPage] = useState('landing') // 'landing' | 'dashboard' | 'practice'
+  const [page, setPage] = useState('landing') // 'landing' | 'login' | 'register' | 'forgot-password' | 'reset-password' | 'dashboard' | 'practice'
+  const [authUser, setAuthUser] = useState(null)
+
+  // On mount: if a valid token exists, jump straight to dashboard
+  useEffect(() => {
+    if (isLoggedIn()) {
+      setAuthUser(getUser())
+      setPage('dashboard')
+    }
+  }, [])
+
+  const handleLogout = async () => {
+    const token = getToken()
+    if (token) {
+      try { await apiLogout(token) } catch (_) {}
+    }
+    clearAuth()
+    setAuthUser(null)
+    setPage('landing')
+  }
+
+  useEffect(() => {
+    if (page === 'logout') {
+      handleLogout()
+    }
+  }, [page])
 
   const pageTitles = {
     dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
     practice: { title: 'Mock Interview', subtitle: 'Practice with AI-generated questions for your target role' },
+    roadmap: { title: 'Learning Roadmap', subtitle: 'Master the skills you are missing' },
+    jobs: { title: 'Job Matching', subtitle: 'Discover open roles that fit your skill profile' },
+    settings: { title: 'Account Settings', subtitle: 'Manage your profile and preferences' },
   }
   const { title, subtitle } = pageTitles[page] || {}
 
   if (page === 'landing') {
-    return <LandingPage onGetStarted={() => setPage('dashboard')} />
+    return <LandingPage onGetStarted={() => setPage('login')} onNavigate={setPage} />
+  }
+
+  if (page === 'login') {
+    return <LoginPage onNavigate={setPage} />
+  }
+
+  if (page === 'register') {
+    return <RegisterPage onNavigate={setPage} />
+  }
+
+  if (page === 'forgot-password') {
+    return <ForgotPasswordPage onNavigate={setPage} />
+  }
+
+  if (page === 'reset-password') {
+    return <ResetPasswordPage onNavigate={setPage} />
   }
 
   return (
@@ -44,6 +98,9 @@ function App() {
 
           {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
           {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
+          {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
+          {page === 'jobs' && <JobsPage sessionId={sessionId} />}
+          {page === 'settings' && <SettingsPage />}
         </div>
       </main>
     </div>

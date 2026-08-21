@@ -1,7 +1,8 @@
 import React from 'react';
 import { Play, Bot, Target, FileText, CheckCircle } from 'lucide-react';
 
-const LandingPage = ({ onGetStarted }) => {
+const LandingPage = ({ onGetStarted, onNavigate }) => {
+  const nav = onNavigate || onGetStarted;
   return (
     <>
       <style>
@@ -43,13 +44,13 @@ const LandingPage = ({ onGetStarted }) => {
           </div>
 
           <div className="flex gap-12 items-center">
-            <span className="hidden md:block cursor-pointer hover:text-white transition-colors">Portfolio</span>
+            <span className="hidden md:block cursor-pointer hover:text-white transition-colors" onClick={() => nav('register')}>Register</span>
             <span className="hidden md:block cursor-pointer hover:text-white transition-colors">Blog</span>
             <button
-              onClick={onGetStarted}
+              onClick={() => nav('login')}
               className="px-6 py-2 border border-slate-400 hover:border-white hover:bg-white hover:text-slate-900 transition-all rounded-sm tracking-widest"
             >
-              Contact
+              Sign In
             </button>
           </div>
         </header>
