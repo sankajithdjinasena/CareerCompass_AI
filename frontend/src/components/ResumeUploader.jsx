@@ -61,9 +61,9 @@ export default function ResumeUploader({ onUploadComplete }) {
         value={targetRole}
         onChange={(e) => setTargetRole(e.target.value)}
         disabled={loading}
-        className="bg-white border border-gray-200 text-gray-700 px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+        className="bg-slate-800 border border-white/20 text-white px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
       >
-        <option value="auto">✨ Auto-Detect Best Fit</option>
+        <option value="auto">Auto-Detect Best Fit</option>
         {ROLES.map(role => (
           <option key={role} value={role}>{role}</option>
         ))}
@@ -79,7 +79,7 @@ export default function ResumeUploader({ onUploadComplete }) {
         />
         <button 
           disabled={loading}
-          className="bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm whitespace-nowrap"
+          className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-brand-200 px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm whitespace-nowrap"
         >
           <UploadCloud className="w-4 h-4" />
           {file ? file.name.substring(0, 15) + (file.name.length > 15 ? '...' : '') : 'Select Resume'}
@@ -89,7 +89,7 @@ export default function ResumeUploader({ onUploadComplete }) {
       <button 
         onClick={handleUpload}
         disabled={!file || !targetRole || loading}
-        className="bg-brand-500 hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm"
+        className="bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm"
       >
         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Analyze'}
       </button>

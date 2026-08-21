@@ -98,6 +98,7 @@ const ContactPage = ({ onBack }) => {
               <div>
                 <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Your Name</label>
                 <input
+                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
                   type="text"
                   name="name"
                   value={form.name}
@@ -110,6 +111,7 @@ const ContactPage = ({ onBack }) => {
               <div>
                 <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Email Address</label>
                 <input
+                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
                   type="email"
                   name="email"
                   value={form.email}
@@ -125,6 +127,7 @@ const ContactPage = ({ onBack }) => {
             <div>
               <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Subject</label>
               <input
+                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
                 type="text"
                 name="subject"
                 value={form.subject}
@@ -139,6 +142,7 @@ const ContactPage = ({ onBack }) => {
             <div>
               <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Message</label>
               <textarea
+                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
                 name="message"
                 value={form.message}
                 onChange={handleChange}

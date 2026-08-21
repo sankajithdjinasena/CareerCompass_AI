@@ -34,9 +34,9 @@ class ComponentErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-6 bg-red-50 border border-red-200 rounded-xl text-red-700">
+        <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-700">
           <h3 className="text-lg font-bold mb-2">Failed to render section</h3>
-          <p className="font-mono text-xs bg-red-100 p-3 rounded">{this.state.error?.toString()}</p>
+          <p className="font-mono text-xs bg-red-500/20 p-3 rounded">{this.state.error?.toString()}</p>
           <button
             onClick={() => this.setState({ hasError: false, error: null })}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-semibold hover:bg-red-700 transition"
@@ -114,38 +114,47 @@ function App() {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
-      <Sidebar activePage={page} onNavigate={setPage} />
+    <div 
+      className="flex h-screen font-montserrat text-white overflow-hidden relative bg-slate-900 bg-cover bg-center"
+      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')" }}
+    >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-slate-900/50 mix-blend-multiply pointer-events-none z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/40 to-slate-900 pointer-events-none z-0"></div>
+      
+      <div className="relative z-10 flex h-full w-full">
+        <Sidebar activePage={page} onNavigate={setPage} />
 
-      <main className="flex-1 overflow-y-auto p-8">
-        <div className="max-w-6xl mx-auto">
-          <header className="mb-8 flex justify-between items-start">
-            <div>
-              <h1 className="text-3xl font-bold text-brand-950">{title}</h1>
-              <p className="text-slate-500 mt-1">{subtitle}</p>
-            </div>
-            {page === 'dashboard' && (
-              <div className="flex flex-col items-end gap-2">
-                <ResumeUploader onUploadComplete={(id) => setSessionId(id)} />
-                {sessionId && (
-                  <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full font-medium">
-                    Analysis Complete
-                  </span>
-                )}
+        <main className="flex-1 overflow-y-auto p-8 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <header className="mb-8 flex justify-between items-start">
+              <div>
+                <h1 className="text-3xl font-bold text-white tracking-wide">{title}</h1>
+                <p className="text-slate-300 mt-1 font-light">{subtitle}</p>
               </div>
-            )}
-          </header>
+              {page === 'dashboard' && (
+                <div className="flex flex-col items-end gap-2">
+                  <ResumeUploader onUploadComplete={(id) => setSessionId(id)} />
+                  {sessionId && (
+                    <span className="bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full font-medium">
+                      Analysis Complete
+                    </span>
+                  )}
+                </div>
+              )}
+            </header>
 
-          <ComponentErrorBoundary>
-            {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
-            {page === 'resume' && <ResumePage sessionId={sessionId} onUploadComplete={(id) => setSessionId(id)} />}
-            {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
-            {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
-            {page === 'jobs' && <JobsPage sessionId={sessionId} />}
-            {page === 'settings' && <SettingsPage />}
-          </ComponentErrorBoundary>
-        </div>
-      </main>
+            <ComponentErrorBoundary>
+              {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
+              {page === 'resume' && <ResumePage sessionId={sessionId} onUploadComplete={(id) => setSessionId(id)} />}
+              {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
+              {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
+              {page === 'jobs' && <JobsPage sessionId={sessionId} />}
+              {page === 'settings' && <SettingsPage />}
+            </ComponentErrorBoundary>
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
