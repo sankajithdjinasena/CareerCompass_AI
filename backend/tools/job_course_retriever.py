@@ -44,4 +44,44 @@ def get_resources_for_skill(skill: str) -> list[dict]:
 
 
 def get_all_jobs() -> list[dict]:
-    return _load_jobs()
+    # Start with our local mock dataset (30 Sri Lankan jobs)
+    jobs = _load_jobs()
+    
+    # Dynamically fetch live jobs from multiple public APIs
+    try:
+        import requests
+        
+        # 1. Remotive - Fetching 100 recent remote jobs across all categories
+        url_remotive = 'https://remotive.com/api/remote-jobs?limit=100'
+        res_rem = requests.get(url_remotive, timeout=8)
+        if res_rem.status_code == 200:
+            for rj in res_rem.json().get('jobs', []):
+                jobs.append({
+                    "title": rj.get("title", "Unknown Title"),
+                    "company": rj.get("company_name", "Unknown Company"),
+                    "location": rj.get("candidate_required_location", "Remote") + " (Remote)",
+                    "type": str(rj.get("job_type", "Full-time")).replace("_", " ").title(),
+                    "role_category": rj.get("category", "IT"),
+                    "required_skills": rj.get("tags", []),
+                    "description": str(rj.get("description", ""))[:200] + "..."
+                })
+                
+        # 2. Arbeitnow - Fetching 50 recent global jobs
+        url_arbeitnow = 'https://www.arbeitnow.com/api/job-board-api'
+        res_arb = requests.get(url_arbeitnow, timeout=8)
+        if res_arb.status_code == 200:
+            for aj in res_arb.json().get('data', [])[:50]:
+                jobs.append({
+                    "title": aj.get("title", "Unknown Title"),
+                    "company": aj.get("company_name", "Unknown Company"),
+                    "location": aj.get("location", "Global"),
+                    "type": "Full-time",
+                    "role_category": "Tech",
+                    "required_skills": aj.get("tags", []),
+                    "description": str(aj.get("description", ""))[:200] + "..."
+                })
+                
+    except Exception as e:
+        print(f"Warning: Failed to fetch some live jobs: {e}")
+        
+    return jobs

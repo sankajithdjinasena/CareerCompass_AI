@@ -23,9 +23,23 @@ class SkillGapAgent:
     """
 
     def run(self, candidate_profile: Dict[str, Any], target_role_input: str) -> Dict[str, Any]:
-        role_entry = resolve_target_role(target_role_input)
-
         candidate_skills = {_normalize(s) for s in candidate_profile.get("skills", [])}
+
+        if target_role_input.lower() == "auto":
+            from tools.skills_taxonomy_db import _load_taxonomy
+            taxonomy = _load_taxonomy()
+            best_role_entry = None
+            best_pct = -1
+            for entry in taxonomy:
+                req = entry["required_skills"]
+                matched = [s for s in req if _normalize(s) in candidate_skills]
+                pct = round(100 * len(matched) / len(req)) if req else 0
+                if pct > best_pct:
+                    best_pct = pct
+                    best_role_entry = entry
+            role_entry = best_role_entry
+        else:
+            role_entry = resolve_target_role(target_role_input)
 
         required = role_entry["required_skills"]
         nice_to_have = role_entry.get("nice_to_have_skills", [])
