@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   Play, Bot, Target, FileText, CheckCircle, ShieldCheck, 
-  Lock, Scale, Cpu, BookOpen, Award, ArrowUpRight, ChevronRight 
+  Lock, Scale, Cpu, BookOpen, Award, ArrowUpRight, ChevronRight,
+  Search, Map, Mic, Briefcase, Settings, Upload, BrainCircuit
 } from 'lucide-react';
 import PoliciesModal from './PoliciesModal';
 
@@ -165,9 +166,9 @@ const LandingPage = ({ onGetStarted, onNavigate }) => {
             <div className="hidden md:block absolute top-8 left-[17%] right-[17%] h-px bg-white/10"></div>
 
             {[
-              { step: "01", title: "Upload Your Resume", desc: "Drop your PDF resume into the platform. Our Profile Analysis Agent reads and structures your skills and experience securely.", icon: "📄" },
-              { step: "02", title: "AI Analysis & Skill Mapping", desc: "6 specialized agents collaborate detecting skill gaps, ranking job matches, and building a personalized learning roadmap.", icon: "🧠" },
-              { step: "03", title: "Get Hired & Practice", desc: "Receive your ranked job matches, custom learning roadmap, and sharpen your skills with adaptive AI mock interviews.", icon: "🎯" },
+              { step: "01", title: "Upload Your Resume", desc: "Drop your PDF resume into the platform. Our Profile Analysis Agent reads and structures your skills and experience securely.", icon: <Upload size={32} className="text-emerald-400 stroke-1" /> },
+              { step: "02", title: "AI Analysis & Skill Mapping", desc: "6 specialized agents collaborate detecting skill gaps, ranking job matches, and building a personalized learning roadmap.", icon: <BrainCircuit size={32} className="text-emerald-400 stroke-1" /> },
+              { step: "03", title: "Get Hired & Practice", desc: "Receive your ranked job matches, custom learning roadmap, and sharpen your skills with adaptive AI mock interviews.", icon: <Target size={32} className="text-emerald-400 stroke-1" /> },
             ].map((item, i) => (
               <div key={i} className="flex flex-col items-center px-8 relative">
                 {/* Step number circle */}
@@ -190,15 +191,15 @@ const LandingPage = ({ onGetStarted, onNavigate }) => {
 
           <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { name: "Profile Analysis Agent", role: "The Reader", desc: "Parses your raw PDF resume into a clean, structured JSON profile using Groq LLM inference.", tag: "LLM Powered", icon: "📋" },
-              { name: "Skill Gap Agent", role: "The Strategist", desc: "Runs deterministic set-math against the skills taxonomy to find exactly what you are missing for your target role.", tag: "Deterministic", icon: "📊" },
-              { name: "Learning Path Agent", role: "The Mentor", desc: "Searches the course database and builds a sequenced roadmap — only calls the LLM when a resource isn't found locally.", tag: "Hybrid", icon: "🗺️" },
-              { name: "Interview Simulator", role: "The Coach", desc: "Generates adaptive, role-specific Q&A sessions and scores your readiness based on your answers.", tag: "LLM Powered", icon: "🎤" },
-              { name: "Job Matching Agent", role: "The Recruiter", desc: "Scores every job in the database using skill-intersection math and role-category bonuses to rank your best matches.", tag: "Deterministic", icon: "💼" },
-              { name: "Orchestrator", role: "The Commander", desc: "Coordinates all five agents, resolves conflicts, and triggers re-runs if the Interview Agent finds a gap that was missed.", tag: "Core Logic", icon: "🎛️" },
+              { name: "Profile Analysis Agent", role: "The Reader", desc: "Parses your raw PDF resume into a clean, structured JSON profile using Groq LLM inference.", tag: "LLM Powered", icon: <Search size={28} className="text-emerald-400 stroke-1" /> },
+              { name: "Skill Gap Agent", role: "The Strategist", desc: "Runs deterministic set-math against the skills taxonomy to find exactly what you are missing for your target role.", tag: "Deterministic", icon: <Scale size={28} className="text-emerald-400 stroke-1" /> },
+              { name: "Learning Path Agent", role: "The Mentor", desc: "Searches the course database and builds a sequenced roadmap — only calls the LLM when a resource isn't found locally.", tag: "Hybrid", icon: <Map size={28} className="text-emerald-400 stroke-1" /> },
+              { name: "Interview Simulator", role: "The Coach", desc: "Generates adaptive, role-specific Q&A sessions and scores your readiness based on your answers.", tag: "LLM Powered", icon: <Mic size={28} className="text-emerald-400 stroke-1" /> },
+              { name: "Job Matching Agent", role: "The Recruiter", desc: "Scores every job in the database using skill-intersection math and role-category bonuses to rank your best matches.", tag: "Deterministic", icon: <Briefcase size={28} className="text-emerald-400 stroke-1" /> },
+              { name: "Orchestrator", role: "The Commander", desc: "Coordinates all five agents, resolves conflicts, and triggers re-runs if the Interview Agent finds a gap that was missed.", tag: "Core Logic", icon: <Settings size={28} className="text-emerald-400 stroke-1" /> },
             ].map((agent, i) => (
               <div key={i} className="bg-white/5 border border-white/10 p-8 backdrop-blur-md text-left hover:bg-white/10 transition-all group">
-                <div className="text-3xl mb-5">{agent.icon}</div>
+                <div className="mb-5">{agent.icon}</div>
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="text-xs font-medium tracking-[0.15em] uppercase text-white">{agent.name}</h3>
                 </div>
