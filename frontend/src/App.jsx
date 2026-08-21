@@ -4,6 +4,7 @@ import DashboardGrid from './components/DashboardGrid'
 import ResumeUploader from './components/ResumeUploader'
 import InterviewPractice from './components/InterviewPractice'
 import LandingPage from './components/LandingPage'
+import RoadmapPage from './components/RoadmapPage'
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import ForgotPasswordPage from './components/ForgotPasswordPage'
@@ -38,6 +39,7 @@ function App() {
   const pageTitles = {
     dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
     practice: { title: 'Mock Interview', subtitle: 'Practice with AI-generated questions for your target role' },
+    roadmap: { title: 'Learning Roadmap', subtitle: 'Master the skills you are missing' },
   }
   const { title, subtitle } = pageTitles[page] || {}
 
@@ -86,6 +88,7 @@ function App() {
 
           {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
           {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
+          {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
         </div>
       </main>
     </div>

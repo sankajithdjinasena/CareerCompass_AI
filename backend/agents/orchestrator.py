@@ -35,8 +35,12 @@ class Orchestrator:
             phases.append({
                 "phase_number": step["step"],
                 "title": f"Learn {step['skill']}",
-                "week_range": f"Step {step['step']}",
+                "week_range": f"Step {step['step']} ({step.get('est_hours', 10)} hours)",
                 "focus_skills": [step["skill"]],
+                "resource": step.get("resource"),
+                "url": step.get("url"),
+                "resource_type": step.get("resource_type"),
+                "est_hours": step.get("est_hours")
             })
         return {"phases": phases}
 
