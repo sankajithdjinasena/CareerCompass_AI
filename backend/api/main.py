@@ -18,6 +18,7 @@ load_dotenv(backend_dir / ".env")
 from typing import Any
 from agents.orchestrator import orchestrator
 from shared_store.context_store import context_store
+from auth.router import router as auth_router
 
 app = FastAPI(
     title="CareerCompass AI",
@@ -27,11 +28,14 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount auth router
+app.include_router(auth_router)
 
 
 # ---------------------------------------------------------------------------

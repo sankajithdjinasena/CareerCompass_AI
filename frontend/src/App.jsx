@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import DashboardGrid from './components/DashboardGrid'
 import ResumeUploader from './components/ResumeUploader'
@@ -8,10 +8,32 @@ import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import ForgotPasswordPage from './components/ForgotPasswordPage'
 import ResetPasswordPage from './components/ResetPasswordPage'
+import { isLoggedIn, clearAuth, getUser } from './lib/auth'
+import { apiLogout } from './lib/api'
+import { getToken } from './lib/auth'
 
 function App() {
   const [sessionId, setSessionId] = useState(null)
   const [page, setPage] = useState('landing') // 'landing' | 'login' | 'register' | 'forgot-password' | 'reset-password' | 'dashboard' | 'practice'
+  const [authUser, setAuthUser] = useState(null)
+
+  // On mount: if a valid token exists, jump straight to dashboard
+  useEffect(() => {
+    if (isLoggedIn()) {
+      setAuthUser(getUser())
+      setPage('dashboard')
+    }
+  }, [])
+
+  const handleLogout = async () => {
+    const token = getToken()
+    if (token) {
+      try { await apiLogout(token) } catch (_) {}
+    }
+    clearAuth()
+    setAuthUser(null)
+    setPage('landing')
+  }
 
   const pageTitles = {
     dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
