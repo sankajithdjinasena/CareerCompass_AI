@@ -153,6 +153,24 @@ class AuthDB:
             google_id=google_id,
         )
 
+    def update_user_profile(self, user_id: str, name: str) -> dict:
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE users SET name = ? WHERE id = ?",
+                (name, user_id),
+            )
+            conn.commit()
+        return self.get_user_by_id(user_id)
+
+    def update_user_password(self, user_id: str, hashed_pw: str) -> dict:
+        with self._lock, self._connect() as conn:
+            conn.execute(
+                "UPDATE users SET hashed_pw = ? WHERE id = ?",
+                (hashed_pw, user_id),
+            )
+            conn.commit()
+        return self.get_user_by_id(user_id)
+
     # ------------------------------------------------------------------
     # Session helpers
     # ------------------------------------------------------------------

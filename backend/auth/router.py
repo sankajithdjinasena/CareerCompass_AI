@@ -76,6 +76,13 @@ class UserResponse(BaseModel):
     provider: str
     created_at: str
 
+class UpdateProfileRequest(BaseModel):
+    name: str
+
+class UpdatePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
 
 # ------------------------------------------------------------------
 # Auth dependency — extract user from Bearer token
@@ -215,3 +222,23 @@ async def logout(authorization: Optional[str] = Header(None)):
 @router.get("/me", response_model=UserResponse)
 async def me(user: dict = Depends(get_current_user)):
     return UserResponse(**_safe_user(user))
+
+@router.put("/profile", response_model=UserResponse)
+async def update_profile(body: UpdateProfileRequest, user: dict = Depends(get_current_user)):
+    updated_user = auth_db.update_user_profile(user["id"], body.name)
+    return UserResponse(**_safe_user(updated_user))
+
+@router.put("/password")
+async def update_password(body: UpdatePasswordRequest, user: dict = Depends(get_current_user)):
+    if user["provider"] != "email":
+        raise HTTPException(status_code=400, detail="Cannot change password for a Google-authenticated account")
+    
+    if not verify_password(body.current_password, user["hashed_pw"]):
+        raise HTTPException(status_code=401, detail="Incorrect current password")
+        
+    if len(body.new_password) < 8:
+        raise HTTPException(status_code=422, detail="New password must be at least 8 characters")
+        
+    hashed = hash_password(body.new_password)
+    auth_db.update_user_password(user["id"], hashed)
+    return {"message": "Password updated successfully"}

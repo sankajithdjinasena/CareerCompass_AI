@@ -46,7 +46,7 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
           {navItem('roadmap', 'Roadmap', Map, true)}
           {navItem('jobs', 'Jobs', Briefcase, false, "The Job Search module is under construction for CodeSplash '26.")}
           {navItem('practice', 'Practice', PlayCircle, true)}
-          {navItem('settings', 'Settings', Settings, false, 'Settings module is under construction.')}
+          {navItem('settings', 'Settings', Settings, true)}
         </ul>
       </nav>
     </aside>
