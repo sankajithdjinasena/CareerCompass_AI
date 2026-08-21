@@ -4,10 +4,14 @@ import DashboardGrid from './components/DashboardGrid'
 import ResumeUploader from './components/ResumeUploader'
 import InterviewPractice from './components/InterviewPractice'
 import LandingPage from './components/LandingPage'
+import LoginPage from './components/LoginPage'
+import RegisterPage from './components/RegisterPage'
+import ForgotPasswordPage from './components/ForgotPasswordPage'
+import ResetPasswordPage from './components/ResetPasswordPage'
 
 function App() {
   const [sessionId, setSessionId] = useState(null)
-  const [page, setPage] = useState('landing') // 'landing' | 'dashboard' | 'practice'
+  const [page, setPage] = useState('landing') // 'landing' | 'login' | 'register' | 'forgot-password' | 'reset-password' | 'dashboard' | 'practice'
 
   const pageTitles = {
     dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
@@ -16,7 +20,23 @@ function App() {
   const { title, subtitle } = pageTitles[page] || {}
 
   if (page === 'landing') {
-    return <LandingPage onGetStarted={() => setPage('dashboard')} />
+    return <LandingPage onGetStarted={() => setPage('login')} onNavigate={setPage} />
+  }
+
+  if (page === 'login') {
+    return <LoginPage onNavigate={setPage} />
+  }
+
+  if (page === 'register') {
+    return <RegisterPage onNavigate={setPage} />
+  }
+
+  if (page === 'forgot-password') {
+    return <ForgotPasswordPage onNavigate={setPage} />
+  }
+
+  if (page === 'reset-password') {
+    return <ResetPasswordPage onNavigate={setPage} />
   }
 
   return (
