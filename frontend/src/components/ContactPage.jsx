@@ -94,31 +94,29 @@ const ContactPage = ({ onBack }) => {
 
           <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-2xl space-y-4">
             {/* Name & Email side by side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Your Name</label>
                 <input
-                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
+                  className="input-field"
                   type="text"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
                   placeholder="firstname Lastname"
                   required
-                  className="input-field"
                 />
               </div>
               <div>
                 <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Email Address</label>
                 <input
-                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
+                  className="input-field"
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
                   required
-                  className="input-field"
                 />
               </div>
             </div>
@@ -127,14 +125,13 @@ const ContactPage = ({ onBack }) => {
             <div>
               <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Subject</label>
               <input
-                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
+                className="input-field"
                 type="text"
                 name="subject"
                 value={form.subject}
                 onChange={handleChange}
                 placeholder="How can we help?"
                 required
-                className="input-field"
               />
             </div>
 
@@ -142,14 +139,13 @@ const ContactPage = ({ onBack }) => {
             <div>
               <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Message</label>
               <textarea
-                  className="w-full bg-black/20 border border-white/10 text-white px-4 py-2.5 rounded-sm focus:outline-none focus:border-emerald-500 placeholder-slate-600 transition-colors"
+                className="input-field resize-none"
                 name="message"
                 value={form.message}
                 onChange={handleChange}
                 placeholder="Write your message here..."
                 required
                 rows={6}
-                className="input-field resize-none"
               />
             </div>
 
