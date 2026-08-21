@@ -166,7 +166,7 @@ const LandingPage = ({ onGetStarted, onNavigate }) => {
 
             {[
               { step: "01", title: "Upload Your Resume", desc: "Drop your PDF resume into the platform. Our Profile Analysis Agent reads and structures your skills and experience securely.", icon: "📄" },
-              { step: "02", title: "AI Analysis & Skill Mapping", desc: "6 specialized agents collaborate — detecting skill gaps, ranking job matches, and building a personalized learning roadmap.", icon: "🧠" },
+              { step: "02", title: "AI Analysis & Skill Mapping", desc: "6 specialized agents collaborate detecting skill gaps, ranking job matches, and building a personalized learning roadmap.", icon: "🧠" },
               { step: "03", title: "Get Hired & Practice", desc: "Receive your ranked job matches, custom learning roadmap, and sharpen your skills with adaptive AI mock interviews.", icon: "🎯" },
             ].map((item, i) => (
               <div key={i} className="flex flex-col items-center px-8 relative">
