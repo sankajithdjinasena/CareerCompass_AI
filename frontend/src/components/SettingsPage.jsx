@@ -1,12 +1,20 @@
 
 import { useState, useEffect } from "react"
-import { User, Lock, Loader2, CheckCircle2 } from "lucide-react"
+import { User, Lock, Loader2, CheckCircle2, ShieldCheck, Scale, FileText, Cpu, ExternalLink } from "lucide-react"
+import PoliciesModal from "./PoliciesModal"
 
 const API_BASE = "http://localhost:8000"
 
 export default function SettingsPage() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showPolicies, setShowPolicies] = useState(false)
+  const [policiesTab, setPoliciesTab] = useState('terms')
+
+  const openPolicy = (tab) => {
+    setPoliciesTab(tab)
+    setShowPolicies(true)
+  }
 
   // Profile Form
   const [name, setName] = useState("")
@@ -256,6 +264,99 @@ export default function SettingsPage() {
           </div>
         </div>
       )}
+
+      {/* Legal & Privacy Center */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="border-b border-slate-100 bg-slate-50 px-6 py-4 flex items-center gap-3">
+          <ShieldCheck className="w-5 h-5 text-emerald-600" />
+          <h2 className="text-lg font-bold text-slate-800">Legal, Policies & Student Privacy</h2>
+        </div>
+
+        <div className="p-6">
+          <p className="text-sm text-slate-600 mb-6">
+            Review how your resume and career data are secured, our AI ethics standards, and our official Terms of Service.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <button
+              onClick={() => openPolicy('terms')}
+              className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all text-left group cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <Scale className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Terms of Service</h4>
+                  <p className="text-[11px] text-slate-500">Usage rules & guidelines</p>
+                </div>
+              </div>
+              <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+            </button>
+
+            <button
+              onClick={() => openPolicy('privacy')}
+              className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all text-left group cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Privacy & Data</h4>
+                  <p className="text-[11px] text-slate-500">Resume security & rights</p>
+                </div>
+              </div>
+              <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+            </button>
+
+            <button
+              onClick={() => openPolicy('ethics')}
+              className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all text-left group cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <Cpu className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">AI Ethics</h4>
+                  <p className="text-[11px] text-slate-500">Bias & advisory notice</p>
+                </div>
+              </div>
+              <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+            </button>
+
+            <button
+              onClick={() => openPolicy('portability')}
+              className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all text-left group cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Data Rights & Export</h4>
+                  <p className="text-[11px] text-slate-500">Dossiers & deletion</p>
+                </div>
+              </div>
+              <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+            </button>
+
+            <button
+              onClick={() => openPolicy('governance')}
+              className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition-all text-left group cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition-colors" />
+                <div>
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Governance & Contacts</h4>
+                  <p className="text-[11px] text-slate-500">Team Predictra · SUSL</p>
+                </div>
+              </div>
+              <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Legal & Policies Modal */}
+      <PoliciesModal
+        isOpen={showPolicies}
+        onClose={() => setShowPolicies(false)}
+        initialTab={policiesTab}
+      />
       
     </div>
   )
