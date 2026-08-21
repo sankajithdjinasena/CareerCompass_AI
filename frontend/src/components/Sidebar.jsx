@@ -42,7 +42,7 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
       <nav className="flex-1 px-4 py-4">
         <ul className="space-y-2">
           {navItem('dashboard', 'Dashboard', LayoutDashboard, true)}
-          {navItem('resume', 'Resume', FileText, false, "The Resume Editor module is under construction for CodeSplash '26.")}
+          {navItem('resume', 'Resume', FileText, true)}
           {navItem('roadmap', 'Roadmap', Map, true)}
           {navItem('jobs', 'Jobs', Briefcase, true)}
           {navItem('practice', 'Practice', PlayCircle, true)}
