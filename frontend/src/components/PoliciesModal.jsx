@@ -45,12 +45,12 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 bg-slate-950/85 backdrop-blur-md animate-fade-in font-montserrat">
-      <div className="bg-slate-900/95 border border-white/15 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden text-slate-200 backdrop-blur-2xl transition-all">
+      <div className="bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden text-slate-200 transition-all">
         
         {/* Header */}
-        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-slate-950/80">
+        <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between bg-transparent">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
               <ShieldCheck size={22} />
             </div>
             <div>
@@ -96,7 +96,7 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
         </div>
 
         {/* Tab Navigation & Search Bar */}
-        <div className="border-b border-white/10 bg-slate-950/60 px-4 md:px-6 flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
+        <div className="border-b border-white/10 bg-transparent px-4 md:px-6 flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
           {/* Tabs */}
           <div className="flex overflow-x-auto no-scrollbar gap-1">
             {tabs.map((tab) => {
@@ -415,7 +415,7 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
         </div>
 
         {/* Footer Actions */}
-        <div className="px-6 py-3.5 border-t border-white/10 bg-slate-950/90 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+        <div className="px-6 py-3.5 border-t border-white/10 bg-transparent flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Official Policy · Effective August 21, 2026</span>
