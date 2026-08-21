@@ -185,13 +185,13 @@ export default function SettingsPage() {
       {/* Account Settings Header & Navigation Tabs */}
       <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-tr from-brand-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+          <div className="w-14 h-14 bg-gradient-to-tr from-emerald-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-[0_0_30px_rgba(0,0,0,0.3)]">
             {user?.name ? user.name.split(' ').map(n => n[0]).join('') : 'U'}
           </div>
           <div>
             <h2 className="text-xl font-bold text-white">{user?.name || "Candidate User"}</h2>
             <p className="text-xs text-slate-400 font-medium">{user?.email || "user@example.com"}</p>
-            <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-700 font-semibold text-[11px] rounded-full border border-emerald-100">
+            <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 font-semibold text-[11px] rounded-full border border-emerald-500/30">
               Active Student Account
             </span>
           </div>

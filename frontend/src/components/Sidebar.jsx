@@ -21,7 +21,7 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
               : 'text-slate-300 hover:bg-white/10 hover:text-white'
           }`}
         >
-          <Icon className={`w-5 h-5 ${active ? 'text-brand-400' : 'text-slate-400'}`} />
+          <Icon className={`w-5 h-5 ${active ? 'text-emerald-400' : 'text-slate-400'}`} />
           {label}
           {active && (
             <div className="ml-auto bg-emerald-500 text-xs px-2 py-0.5 rounded-full font-bold">ACTIVE</div>
