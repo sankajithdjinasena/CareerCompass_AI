@@ -255,7 +255,7 @@ export default function SettingsPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+                  className="w-full rounded-xl bg-black/20 text-white placeholder-slate-500 border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                 />
               </div>
 
@@ -265,7 +265,7 @@ export default function SettingsPage() {
                   type="email" 
                   value={email} 
                   disabled 
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm bg-slate-900 font-montserrat text-white text-slate-400 cursor-not-allowed"
+                  className="w-full rounded-xl bg-black/30 border border-white/10 px-4 py-2.5 text-sm text-slate-400 cursor-not-allowed"
                 />
                 <p className="text-[11px] text-slate-400 mt-1">Managed via authentication provider.</p>
               </div>
@@ -275,7 +275,7 @@ export default function SettingsPage() {
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="Software / AI Engineer">Software / AI Engineer</option>
                   <option value="Backend Developer">Backend Developer</option>
@@ -292,7 +292,7 @@ export default function SettingsPage() {
                   type="text" 
                   value="Sabaragamuwa University of Sri Lanka" 
                   disabled 
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm bg-slate-900 font-montserrat text-white text-slate-400 cursor-not-allowed font-medium"
+                  className="w-full rounded-xl bg-black/30 border border-white/10 px-4 py-2.5 text-sm text-slate-400 cursor-not-allowed font-medium"
                 />
               </div>
             </div>
@@ -353,7 +353,7 @@ export default function SettingsPage() {
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       required
                       placeholder="••••••••"
-                      className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
+                      className="w-full rounded-xl bg-black/20 text-white placeholder-slate-500 border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                     />
                   </div>
                   
@@ -366,7 +366,7 @@ export default function SettingsPage() {
                       required
                       minLength={8}
                       placeholder="At least 8 characters"
-                      className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
+                      className="w-full rounded-xl bg-black/20 text-white placeholder-slate-500 border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
                     />
                   </div>
                 </div>
@@ -412,7 +412,7 @@ export default function SettingsPage() {
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="llama-3.3-70b-versatile">Llama-3.3 70B Versatile (Recommended)</option>
                   <option value="llama3-8b-8192">Llama-3 8B (Low Latency)</option>
@@ -426,7 +426,7 @@ export default function SettingsPage() {
                 <select
                   value={interviewDifficulty}
                   onChange={(e) => setInterviewDifficulty(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="beginner">Junior / Undergraduate Entry</option>
                   <option value="intermediate">Intermediate (CodeSplash Benchmark)</option>
@@ -445,7 +445,7 @@ export default function SettingsPage() {
                 type="checkbox"
                 checked={autoFeedbackLoop}
                 onChange={(e) => setAutoFeedbackLoop(e.target.checked)}
-                className="w-5 h-5 text-emerald-400 rounded focus:ring-brand-500 cursor-pointer"
+                className="w-5 h-5 text-emerald-400 rounded focus:ring-emerald-500 cursor-pointer"
               />
             </div>
 

@@ -229,7 +229,7 @@ export default function InterviewPractice({ sessionId }) {
               value={answers[q.id] || ''}
               onChange={(e) => handleAnswerChange(q.id, e.target.value)}
               rows={3}
-              className="w-full rounded-lg border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+              className="w-full rounded-lg bg-black/20 text-white placeholder-slate-500 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               placeholder="Type your answer..."
             />
           </div>
