@@ -61,7 +61,7 @@ export default function ResumeUploader({ onUploadComplete }) {
         value={targetRole}
         onChange={(e) => setTargetRole(e.target.value)}
         disabled={loading}
-        className="bg-white/5 backdrop-blur-md border border-gray-200 text-gray-700 px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+        className="bg-slate-800 border border-white/20 text-white px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
       >
         <option value="auto">Auto-Detect Best Fit</option>
         {ROLES.map(role => (

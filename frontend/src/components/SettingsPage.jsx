@@ -416,7 +416,7 @@ export default function SettingsPage() {
                 >
                   <option value="llama-3.3-70b-versatile">Llama-3.3 70B Versatile (Recommended)</option>
                   <option value="llama3-8b-8192">Llama-3 8B (Low Latency)</option>
-                  <option value="mixtral-8x7b-32768">🧠 Mixtral 8x7B (Deep Reasoning)</option>
+                  <option value="mixtral-8x7b-32768">Mixtral 8x7B (Deep Reasoning)</option>
                 </select>
                 <p className="text-[11px] text-slate-400 mt-1">Select inference model hosted on Groq API.</p>
               </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { 
   FileText, UploadCloud, CheckCircle2, AlertCircle, Sparkles, 
-  User, Mail, Phone, GraduationCap, Briefcase, Award, Download, 
+  User, Mail, Phone, GraduationCap, Briefcase, Award, Download, Lightbulb, Target, 
   RefreshCw, Loader2, Star, Check, Code, ShieldCheck, Eye, Copy
 } from 'lucide-react'
 
@@ -190,7 +190,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
               value={targetRole}
               onChange={(e) => setTargetRole(e.target.value)}
               disabled={loading}
-              className="bg-white/10/80 border border-brand-700 text-white text-xs rounded-lg px-3 py-2.5 font-medium focus:outline-none focus:ring-2 focus:ring-brand-400"
+              className="bg-slate-800 border border-white/20 text-white text-xs rounded-lg px-3 py-2.5 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-400"
             >
               <option value="auto">Auto-Detect Role</option>
               {ROLES.map(r => (
@@ -506,10 +506,10 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
               </h4>
               <ul className="space-y-2 text-xs text-slate-300">
                 <li className="bg-amber-50 text-amber-900 p-2.5 rounded-lg border border-amber-100">
-                  <strong>Quantify Achievements:</strong> Add numerical metrics (e.g. "improved speed by 35%") to your project bullet points.
+                  <Lightbulb className="w-4 h-4 inline mr-1.5 text-amber-400" /><strong>Quantify Achievements:</strong> Add numerical metrics (e.g. "improved speed by 35%") to your project bullet points.
                 </li>
                 <li className="bg-emerald-500/10 text-white p-2.5 rounded-lg border border-brand-500/20">
-                  <strong>Target Keywords:</strong> Include key frameworks like PyTorch or Docker explicitly in project descriptions.
+                  <Target className="w-4 h-4 inline mr-1.5 text-emerald-400" /><strong>Target Keywords:</strong> Include key frameworks like PyTorch or Docker explicitly in project descriptions.
                 </li>
               </ul>
             </div>
