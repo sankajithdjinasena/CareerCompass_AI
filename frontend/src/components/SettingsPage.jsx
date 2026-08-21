@@ -275,7 +275,7 @@ export default function SettingsPage() {
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-xl bg-slate-800 text-white border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="Software / AI Engineer">Software / AI Engineer</option>
                   <option value="Backend Developer">Backend Developer</option>
@@ -412,7 +412,7 @@ export default function SettingsPage() {
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-xl bg-slate-800 text-white border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="llama-3.3-70b-versatile">Llama-3.3 70B Versatile (Recommended)</option>
                   <option value="llama3-8b-8192">Llama-3 8B (Low Latency)</option>
@@ -426,7 +426,7 @@ export default function SettingsPage() {
                 <select
                   value={interviewDifficulty}
                   onChange={(e) => setInterviewDifficulty(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-xl bg-slate-800 text-white border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option value="beginner">Junior / Undergraduate Entry</option>
                   <option value="intermediate">Intermediate (CodeSplash Benchmark)</option>
