@@ -8,6 +8,8 @@ export default function DashboardGrid({ sessionId }) {
 
   useEffect(() => {
     if (!sessionId) return
+    setStatus('processing')
+    setData(null)
 
     const pollStatus = async () => {
       try {
