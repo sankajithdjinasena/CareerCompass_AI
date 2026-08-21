@@ -10,3 +10,6 @@ backend/data/context_store.db
 backend/data/context_store.db-*
 backend/data/auth.db
 frontend/.env
+*.db
+*.db-shm
+*.db-wal
