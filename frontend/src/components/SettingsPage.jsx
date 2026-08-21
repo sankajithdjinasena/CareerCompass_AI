@@ -31,7 +31,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("auth_token")
+      const token = localStorage.getItem("cc_auth_token")
       if (!token) {
         setLoading(false)
         return
@@ -62,7 +62,7 @@ export default function SettingsPage() {
     setProfileSuccess(false)
 
     try {
-      const token = localStorage.getItem("auth_token")
+      const token = localStorage.getItem("cc_auth_token")
       const res = await fetch(`${API_BASE}/api/auth/profile`, {
         method: "PUT",
         headers: {
@@ -92,7 +92,7 @@ export default function SettingsPage() {
     setPasswordSuccess(false)
 
     try {
-      const token = localStorage.getItem("auth_token")
+      const token = localStorage.getItem("cc_auth_token")
       const res = await fetch(`${API_BASE}/api/auth/password`, {
         method: "PUT",
         headers: {

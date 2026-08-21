@@ -273,7 +273,13 @@ const RegisterPage = ({ onNavigate }) => {
               {/* Google Sign-Up */}
               <button
                 className="google-btn mb-5"
-                onClick={() => googleLogin()}
+                onClick={() => {
+                  if (!agreedToTerms) {
+                    setErrors({ terms: 'You must agree to the Terms and Privacy Policy before continuing with Google.' });
+                    return;
+                  }
+                  googleLogin();
+                }}
                 disabled={googleLoading || loading}
                 id="reg-google"
               >
