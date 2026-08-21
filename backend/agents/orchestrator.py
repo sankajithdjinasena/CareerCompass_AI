@@ -137,7 +137,7 @@ class Orchestrator:
     # interview flow + adaptive feedback loop
     # ------------------------------------------------------------------
 
-    def generate_interview_questions(self, session_id: str, num_questions: int = 5) -> List[Dict[str, Any]]:
+    def generate_interview_questions(self, session_id: str, num_questions: int = 20) -> List[Dict[str, Any]]:
         session = context_store.get(session_id)
         if session is None:
             raise ValueError("Session not found")
@@ -145,7 +145,7 @@ class Orchestrator:
             raise ValueError("Pipeline has not completed yet")
 
         cached = session.get("interview_questions")
-        if cached:
+        if cached and len(cached) >= num_questions:
             return cached
 
         profile_data = session.get("raw_profile")

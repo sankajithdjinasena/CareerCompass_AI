@@ -172,7 +172,7 @@ async def run_pipeline(session_id: str, request: PipelineRequest, background_tas
 async def get_interview_questions(session_id: str):
     check_session(session_id)
     try:
-        questions = orchestrator.generate_interview_questions(session_id)
+        questions = orchestrator.generate_interview_questions(session_id, num_questions=20)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
@@ -199,4 +199,4 @@ async def evaluate_interview(session_id: str, request: InterviewAnswersRequest):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
