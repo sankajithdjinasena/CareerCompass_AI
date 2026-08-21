@@ -403,10 +403,10 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <div className="px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded text-emerald-300 text-xs">
-                    📧 Support: <span className="font-mono text-white">support@careercompass.ai</span>
+                    📧 Support: <span className="font-mono text-white">predictrasusl@gmail.com</span>
                   </div>
                   <div className="px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded text-emerald-300 text-xs">
-                    🔒 Privacy Officer: <span className="font-mono text-white">privacy@careercompass.ai</span>
+                    🔒 Privacy Officer: <span className="font-mono text-white">predictrasusl@gmail.com</span>
                   </div>
                 </div>
               </div>

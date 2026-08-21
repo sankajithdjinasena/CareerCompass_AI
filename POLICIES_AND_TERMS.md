@@ -164,6 +164,6 @@ For questions regarding these Policies and Terms, or to exercise your student da
 - **Development Team:** Team Predictra
 - **Institution:** Sabaragamuwa University of Sri Lanka
 - **Event:** CodeSplash '26 — Agentic AI Phase
-- **Support & Privacy Inquiries:** `support@careercompass.ai` / `privacy@careercompass.ai`
+- **Support & Privacy Inquiries:** predictrasusl@gmail.com / predictrasusl@gmail.com
 
 *By using CareerCompass AI, you acknowledge that you have read, understood, and agreed to be bound by these Policies & Terms.*
