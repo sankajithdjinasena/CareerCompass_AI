@@ -24,7 +24,10 @@ export default function SettingsPage() {
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("auth_token")
-      if (!token) return
+      if (!token) {
+        setLoading(false)
+        return
+      }
 
       try {
         const res = await fetch(`${API_BASE}/api/auth/me`, {
