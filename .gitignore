@@ -6,3 +6,5 @@ node_modules/
 .vector_store/
 pdfs
 temp
+backend/data/context_store.db
+backend/data/context_store.db-*
