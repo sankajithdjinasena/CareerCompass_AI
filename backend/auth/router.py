@@ -16,7 +16,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Header
 from pydantic import BaseModel, EmailStr
-from passlib.context import CryptContext
+import bcrypt
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 
@@ -28,15 +28,13 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 # Password hashing
 # ------------------------------------------------------------------
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 def hash_password(plain: str) -> str:
-    return pwd_context.hash(plain)
+    return bcrypt.hashpw(plain.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)
+    return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
 
 
 # ------------------------------------------------------------------
