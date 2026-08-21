@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   X, ShieldCheck, FileText, Scale, Cpu, Download, Printer, 
-  Search, Check, Info, Lock, BookOpen, Award
+  Search, Check, Info, Lock, BookOpen, Award, Map, Mic, Briefcase, Mail, FileJson
 } from 'lucide-react';
 
 const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
@@ -58,9 +58,6 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
                 <h2 className="text-sm md:text-base font-bold tracking-[0.15em] text-white uppercase">
                   Legal, Policies & Student Privacy
                 </h2>
-                <span className="hidden sm:inline-block px-2 py-0.5 text-[9px] font-medium tracking-wider uppercase bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 rounded">
-                  v1.0.0 Verified
-                </span>
               </div>
               <p className="text-[11px] text-slate-400 font-light tracking-wider">
                 CareerCompass AI · Team Predictra · Sabaragamuwa University of Sri Lanka
@@ -96,9 +93,9 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
         </div>
 
         {/* Tab Navigation & Search Bar */}
-        <div className="border-b border-white/10 bg-transparent px-4 md:px-6 flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
+        <div className="border-b border-white/10 bg-transparent px-4 md:px-6 flex flex-col md:flex-row justify-between gap-3 pt-2">
           {/* Tabs */}
-          <div className="flex overflow-x-auto no-scrollbar gap-1">
+          <div className="flex flex-wrap gap-1 pb-2 md:pb-0">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -340,19 +337,31 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-3 bg-white/5 border border-white/10 rounded">
-                    <p className="text-white font-medium text-xs mb-1">📄 Skill Gap & Benchmark Report</p>
+                    <div className="flex items-center gap-2 mb-1 text-white font-medium text-xs">
+                      <FileJson size={14} className="text-emerald-400" />
+                      Skill Gap & Benchmark Report
+                    </div>
                     <p className="text-slate-400 text-[11px]">Downloadable as structured JSON or printable summary PDF.</p>
                   </div>
                   <div className="p-3 bg-white/5 border border-white/10 rounded">
-                    <p className="text-white font-medium text-xs mb-1">🗺️ Personalized Learning Roadmap</p>
+                    <div className="flex items-center gap-2 mb-1 text-white font-medium text-xs">
+                      <Map size={14} className="text-emerald-400" />
+                      Personalized Learning Roadmap
+                    </div>
                     <p className="text-slate-400 text-[11px]">Weekly milestone guides with resource links in Markdown or PDF.</p>
                   </div>
                   <div className="p-3 bg-white/5 border border-white/10 rounded">
-                    <p className="text-white font-medium text-xs mb-1">🎤 Mock Interview Transcripts</p>
+                    <div className="flex items-center gap-2 mb-1 text-white font-medium text-xs">
+                      <Mic size={14} className="text-emerald-400" />
+                      Mock Interview Transcripts
+                    </div>
                     <p className="text-slate-400 text-[11px]">Full Q&A logs with agent critique scores and readiness metrics.</p>
                   </div>
                   <div className="p-3 bg-white/5 border border-white/10 rounded">
-                    <p className="text-white font-medium text-xs mb-1">💼 Ranked Job Match Sheets</p>
+                    <div className="flex items-center gap-2 mb-1 text-white font-medium text-xs">
+                      <Briefcase size={14} className="text-emerald-400" />
+                      Ranked Job Match Sheets
+                    </div>
                     <p className="text-slate-400 text-[11px]">Matching scores and key required qualifications in CSV/PDF.</p>
                   </div>
                 </div>
@@ -402,11 +411,13 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
                   For inquiries regarding data protection, exercising your student privacy rights, or reporting security vulnerabilities:
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <div className="px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded text-emerald-300 text-xs">
-                    📧 Support: <span className="font-mono text-white">predictrasusl@gmail.com</span>
+                  <div className="px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded text-emerald-300 text-xs flex items-center gap-2">
+                    <Mail size={14} className="text-emerald-400" />
+                    Support: <span className="font-mono text-white">predictrasusl@gmail.com</span>
                   </div>
-                  <div className="px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded text-emerald-300 text-xs">
-                    🔒 Privacy Officer: <span className="font-mono text-white">predictrasusl@gmail.com</span>
+                  <div className="px-3.5 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded text-emerald-300 text-xs flex items-center gap-2">
+                    <ShieldCheck size={14} className="text-emerald-400" />
+                    Privacy Officer: <span className="font-mono text-white">predictrasusl@gmail.com</span>
                   </div>
                 </div>
               </div>
