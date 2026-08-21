@@ -2,13 +2,10 @@ import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { Bot, ArrowLeft, Send, CheckCircle, AlertCircle, Loader } from 'lucide-react';
 
-// ─────────────────────────────────────────────────────────────
-//  Replace these three values with your real EmailJS credentials
-//  after completing the setup steps below.
-// ─────────────────────────────────────────────────────────────
-const EMAILJS_SERVICE_ID = 'service_6dkm828';   // e.g. 'service_abc123'
-const EMAILJS_TEMPLATE_ID = 'template_vtfs6io';  // e.g. 'template_xyz456'
-const EMAILJS_PUBLIC_KEY = 'NjyqAnwi76Ib4pJro';   // e.g. 'AbCdEfGhIjKlMnOp'
+
+const EMAILJS_SERVICE_ID = 'service_6dkm828';
+const EMAILJS_TEMPLATE_ID = 'template_vtfs6io';
+const EMAILJS_PUBLIC_KEY = 'NjyqAnwi76Ib4pJro';
 
 const ContactPage = ({ onBack }) => {
   const formRef = useRef();
