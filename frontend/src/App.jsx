@@ -4,6 +4,7 @@ import DashboardGrid from './components/DashboardGrid'
 import ResumeUploader from './components/ResumeUploader'
 import InterviewPractice from './components/InterviewPractice'
 import LandingPage from './components/LandingPage'
+import ContactPage from './components/ContactPage'
 import RoadmapPage from './components/RoadmapPage'
 import SettingsPage from './components/SettingsPage'
 import JobsPage from './components/JobsPage'
@@ -71,6 +72,10 @@ function App() {
 
   if (page === 'reset-password') {
     return <ResetPasswordPage onNavigate={setPage} />
+  }
+
+  if (page === 'contact') {
+    return <ContactPage onBack={() => setPage('landing')} />
   }
 
   return (
