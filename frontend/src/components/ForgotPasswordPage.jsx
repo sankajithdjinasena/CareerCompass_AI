@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bot, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import PoliciesModal from './PoliciesModal';
 
 const ForgotPasswordPage = ({ onNavigate }) => {
@@ -15,14 +16,35 @@ const ForgotPasswordPage = ({ onNavigate }) => {
     setShowPolicies(true);
   };
 
-  const handleSubmit = (ev) => {
+  const handleSubmit = async (ev) => {
     ev.preventDefault();
     if (!email.trim()) { setError('Email is required'); return; }
     if (!/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email'); return; }
     setError('');
     setLoading(true);
-    // wire to backend/simulated reset link
-    setTimeout(() => { setLoading(false); setSent(true); }, 1200);
+    
+    try {
+      // Setup your template params (you can pass the link here)
+      const templateParams = {
+        to_email: email,
+        reset_link: `${window.location.origin}/reset-password`
+      };
+
+      // Ensure you add these missing keys to your .env file!
+      await emailjs.send(
+        'service_6dkm828', // The service key provided by the user
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_id_here',
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'public_key_here'
+      );
+      
+      setLoading(false);
+      setSent(true);
+    } catch (err) {
+      console.error('EmailJS Error:', err);
+      setError('Failed to send email. Please check your EmailJS configuration.');
+      setLoading(false);
+    }
   };
 
   return (
