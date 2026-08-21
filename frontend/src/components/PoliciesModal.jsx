@@ -44,7 +44,7 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 bg-slate-950/85 backdrop-blur-md animate-fade-in font-montserrat">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 bg-slate-900/40 backdrop-blur-sm animate-fade-in font-montserrat">
       <div className="bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden text-slate-200 transition-all">
         
         {/* Header */}
