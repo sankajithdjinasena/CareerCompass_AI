@@ -98,7 +98,7 @@ export default function InterviewPractice({ sessionId }) {
   if (!sessionId) {
     return (
       <div className="bg-white/5 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] text-center">
-        <PlayCircle className="w-10 h-10 text-brand-300 mx-auto mb-3" />
+        <PlayCircle className="w-10 h-10 text-emerald-400 mx-auto mb-3" />
         <h3 className="text-lg font-bold text-white">No active session</h3>
         <p className="text-slate-400 text-sm mt-1">Upload and analyze a resume from the Dashboard first.</p>
       </div>

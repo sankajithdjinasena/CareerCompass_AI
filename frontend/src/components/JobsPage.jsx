@@ -34,7 +34,7 @@ export default function JobsPage({ sessionId }) {
   if (!sessionId) {
     return (
       <div className="bg-white/5 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] text-center">
-        <Briefcase className="w-10 h-10 text-brand-300 mx-auto mb-3" />
+        <Briefcase className="w-10 h-10 text-emerald-400 mx-auto mb-3" />
         <h3 className="text-lg font-bold text-white">No active session</h3>
         <p className="text-slate-400 text-sm mt-1">Upload and analyze a resume from the Dashboard first.</p>
       </div>
@@ -91,7 +91,7 @@ export default function JobsPage({ sessionId }) {
         ) : (
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             {jobs.map((job, idx) => (
-              <div key={idx} className="border border-white/10 rounded-xl p-5 hover:border-brand-300 hover:shadow-[0_0_30px_rgba(0,0,0,0.3)] transition-all bg-slate-900 font-montserrat text-white hover:bg-white/5 backdrop-blur-md group flex flex-col h-full">
+              <div key={idx} className="border border-white/10 rounded-xl p-5 hover:border-emerald-500/50 hover:shadow-[0_0_30px_rgba(0,0,0,0.3)] transition-all bg-black/20 text-white hover:bg-white/5 backdrop-blur-md group flex flex-col h-full">
                 <div className="flex justify-between items-start gap-4 mb-3">
                   <div>
                     <h3 className="font-bold text-lg text-white leading-tight group-hover:text-emerald-300 transition-colors">
@@ -108,7 +108,7 @@ export default function JobsPage({ sessionId }) {
                   </div>
                   
                   <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                    <div className="bg-emerald-500/10 border border-emerald-100 rounded-lg px-3 py-1.5 text-center min-w-[70px]">
+                    <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg px-3 py-1.5 text-center min-w-[70px]">
                       <div className="text-lg font-bold text-emerald-600 leading-none">
                         {job.match_score || job.match_percentage}%
                       </div>
@@ -143,7 +143,7 @@ export default function JobsPage({ sessionId }) {
                     href={job.url || `https://www.google.com/search?q=${encodeURIComponent(job.title + " " + job.company + " careers")}`}
                     target="_blank" 
                     rel="noreferrer"
-                    className="flex items-center justify-center gap-2 w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-lg font-medium transition-colors"
+                    className="flex items-center justify-center gap-2 w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-lg font-medium transition-colors"
                   >
                     {job.url ? "View Job Application" : "Search for Job"}
                     <ExternalLink className="w-4 h-4" />

@@ -47,7 +47,7 @@ export default function RoadmapPage({ sessionId }) {
   if (!sessionId) {
     return (
       <div className="bg-white/5 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] text-center">
-        <Map className="w-10 h-10 text-brand-300 mx-auto mb-3" />
+        <Map className="w-10 h-10 text-emerald-400 mx-auto mb-3" />
         <h3 className="text-lg font-bold text-white">No active session</h3>
         <p className="text-slate-400 text-sm mt-1">Upload and analyze a resume from the Dashboard first.</p>
       </div>
@@ -137,7 +137,7 @@ export default function RoadmapPage({ sessionId }) {
                     </span>
                   </div>
 
-                  <div className="mt-4 p-4 rounded-xl border border-white/10 bg-slate-900 font-montserrat text-white">
+                  <div className="mt-4 p-4 rounded-xl border border-white/10 bg-black/20 text-white">
                     <p className="text-sm font-semibold text-slate-200 mb-1">Recommended Resource:</p>
                     <p className="text-sm text-slate-300 mb-3">{phase.resource || "AI Recommended Tutorial"}</p>
                     

@@ -241,7 +241,7 @@ export default function SettingsPage() {
       {/* SUB-TAB 1: Profile Settings */}
       {activeSubTab === 'profile' && (
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-          <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+          <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
             <User className="w-5 h-5 text-emerald-400" />
             <h3 className="text-base font-bold text-white">Personal & Target Role Information</h3>
           </div>
@@ -338,7 +338,7 @@ export default function SettingsPage() {
             </div>
           ) : (
             <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-              <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+              <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
                 <Lock className="w-5 h-5 text-emerald-400" />
                 <h3 className="text-base font-bold text-white">Change Password</h3>
               </div>
@@ -400,7 +400,7 @@ export default function SettingsPage() {
       {/* SUB-TAB 3: AI Coaching & Preference Options */}
       {activeSubTab === 'ai_pref' && (
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-          <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+          <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
             <Sliders className="w-5 h-5 text-emerald-400" />
             <h3 className="text-base font-bold text-white">AI Coaching & Agent Configurations</h3>
           </div>
@@ -436,7 +436,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-slate-900 font-montserrat text-white rounded-xl border border-white/10 flex items-center justify-between">
+            <div className="p-4 bg-black/20 text-white rounded-xl border border-white/10 flex items-center justify-between">
               <div>
                 <h4 className="text-xs font-bold text-white">Adaptive Re-trigger Loop</h4>
                 <p className="text-[11px] text-slate-400 mt-0.5">Automatically revise learning roadmap if interview simulator detects newly uncovered gaps.</p>
@@ -472,7 +472,7 @@ export default function SettingsPage() {
       {/* SUB-TAB 4: Privacy & Governance */}
       {activeSubTab === 'privacy' && (
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-          <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+          <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-600" />
             <h3 className="text-base font-bold text-white">Legal, Privacy & Governance Center</h3>
           </div>

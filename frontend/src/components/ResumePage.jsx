@@ -172,7 +172,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
         
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 relative z-10">
           <div className="space-y-2 max-w-xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-brand-400/30 text-brand-300 text-xs font-semibold">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-brand-400/30 text-emerald-400 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-brand-400" />
               AI Resume Parser & Optimizer
             </div>
@@ -206,7 +206,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               <button className="w-full bg-white/5 backdrop-blur-md/10 hover:bg-white/5 backdrop-blur-md/20 text-white border border-white/20 px-4 py-2.5 rounded-lg text-xs font-medium transition flex items-center justify-center gap-2 truncate">
-                <UploadCloud className="w-4 h-4 text-brand-300" />
+                <UploadCloud className="w-4 h-4 text-emerald-400" />
                 <span className="truncate">{file ? file.name : 'Choose PDF Resume'}</span>
               </button>
             </div>
@@ -279,7 +279,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
           )}
           <button
             onClick={handleCopyJSON}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 text-slate-200 hover:bg-slate-900 font-montserrat text-white rounded-lg text-xs font-medium transition shadow-[0_0_15px_rgba(0,0,0,0.2)]"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 backdrop-blur-md border border-white/10 text-slate-200 hover:bg-black/20 text-white rounded-lg text-xs font-medium transition shadow-[0_0_15px_rgba(0,0,0,0.2)]"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
             {copied ? 'Copied!' : 'Copy JSON'}
@@ -324,7 +324,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
               {profile.summary && (
                 <div className="border-t border-white/10 pt-4">
                   <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Executive Summary</p>
-                  <p className="text-slate-300 text-xs leading-relaxed italic bg-slate-900 font-montserrat text-white p-3 rounded-lg border border-white/10">
+                  <p className="text-slate-300 text-xs leading-relaxed italic bg-black/20 text-white p-3 rounded-lg border border-white/10">
                     "{profile.summary}"
                   </p>
                 </div>
@@ -380,7 +380,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
                     <div key={idx} className={idx > 0 ? 'pt-4 space-y-1' : 'space-y-1'}>
                       <div className="flex justify-between items-start">
                         <h5 className="font-semibold text-white text-sm">{exp.title}</h5>
-                        <span className="text-xs text-slate-400 font-medium px-2 py-0.5 bg-slate-900 font-montserrat text-white rounded">
+                        <span className="text-xs text-slate-400 font-medium px-2 py-0.5 bg-black/20 text-white rounded">
                           {exp.period}
                         </span>
                       </div>
