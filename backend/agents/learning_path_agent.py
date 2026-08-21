@@ -27,40 +27,44 @@ class LearningPathAgent:
         self.client = get_groq_client()
         self.model = get_model()
 
-    def _llm_fallback_resource(self, skill: str) -> Dict[str, Any]:
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[{"role": "user", "content": FALLBACK_PROMPT.format(skill=skill)}],
-            temperature=0.2,
-            max_tokens=2000,
-        )
-        content = response.choices[0].message.content.strip()
-        if "<think>" in content and "</think>" not in content:
-            # Truncated!
-            raise ValueError("Truncated inside think block")
-        if "</think>" in content:
-            content = content.split("</think>")[-1].strip()
-        content = content.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    def _live_youtube_fallback(self, skill: str) -> Dict[str, Any]:
+        """
+        Executes a live YouTube search to find the most relevant tutorial video
+        for the given skill without needing a YouTube API key.
+        """
+        import requests
+        import re
+        import urllib.parse
+        
+        query = urllib.parse.quote(f"{skill} tutorial for beginners full course")
+        url = f"https://www.youtube.com/results?search_query={query}"
         try:
-            # find first { and last }
-            start = content.find('{')
-            end = content.rfind('}')
-            if start != -1 and end != -1:
-                return json.loads(content[start:end+1])
-            return json.loads(content)
-        except Exception:
-            return {
-                "skill": skill,
-                "resource": f"Search for a course on '{skill}' (no curated resource found)",
-                "type": "unknown",
-                "url": None,
-                "est_hours": 10,
-            }
+            response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+            html = response.text
+            
+            match = re.search(r'"videoId":"([^"]{11})".*?"title":\{"runs":\[\{"text":"(.*?)"\}\]', html)
+            if match:
+                vid, title = match.groups()
+                return {
+                    "skill": skill,
+                    "resource": title,
+                    "type": "YouTube Video",
+                    "url": f"https://www.youtube.com/watch?v={vid}",
+                    "est_hours": 3
+                }
+        except Exception as e:
+            print(f"YouTube search failed for {skill}: {e}")
+            
+        return {
+            "skill": skill,
+            "resource": f"Search YouTube for '{skill} tutorial'",
+            "type": "Search",
+            "url": f"https://www.youtube.com/results?search_query={urllib.parse.quote(skill)}",
+            "est_hours": 5,
+        }
 
     def run(self, skill_gap_result: Dict[str, Any]) -> Dict[str, Any]:
         gaps: List[Dict[str, str]] = skill_gap_result.get("skill_gaps", [])
-
-        # Sort by priority: high before medium before low
         sorted_gaps = sorted(gaps, key=lambda g: PRIORITY_ORDER.get(g["priority"], 3))
 
         roadmap = []
@@ -72,8 +76,8 @@ class LearningPathAgent:
                 resource = resources[0]
                 source = "curated"
             else:
-                resource = self._llm_fallback_resource(skill)
-                source = "llm_fallback"
+                resource = self._live_youtube_fallback(skill)
+                source = "live_youtube_search"
 
             roadmap.append({
                 "step": step_num,
