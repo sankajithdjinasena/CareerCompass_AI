@@ -40,14 +40,14 @@ export default function DashboardGrid({ sessionId }) {
 
   if (status === 'processing' && sessionId) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 bg-white rounded-xl shadow-sm border border-slate-200">
-        <Loader2 className="w-10 h-10 text-brand-500 animate-spin mb-4" />
-        <h3 className="text-xl font-medium text-slate-800">AI Agents Analyzing...</h3>
-        <p className="text-slate-500 text-sm mt-2 text-center max-w-sm">
+      <div className="flex flex-col items-center justify-center h-96 bg-white/5 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-white/10">
+        <Loader2 className="w-10 h-10 text-emerald-400 animate-spin mb-4" />
+        <h3 className="text-xl font-medium text-white">AI Agents Analyzing...</h3>
+        <p className="text-slate-400 text-sm mt-2 text-center max-w-sm">
           Extracting skills, finding gaps, and matching jobs.
         </p>
-        <div className="mt-6 p-4 bg-brand-50 rounded-lg border border-brand-100 max-w-md">
-          <p className="text-xs text-brand-700 font-medium text-center">
+        <div className="mt-6 p-4 bg-emerald-500/10 rounded-lg border border-brand-500/20 max-w-md">
+          <p className="text-xs text-emerald-300 font-medium text-center">
             Note: We are using a free-tier Groq API which has strict rate limits. 
             The 4 AI agents may take <span className="font-bold">2-3 minutes</span> to complete their sequential analysis. 
             Please do not refresh the page.
@@ -59,7 +59,7 @@ export default function DashboardGrid({ sessionId }) {
 
   if (status === 'failed') {
     return (
-      <div className="p-6 bg-red-50 border border-red-200 rounded-xl text-red-700">
+      <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-700">
         <h3 className="text-lg font-bold mb-2">Analysis Failed</h3>
         <p>{data?.error}</p>
       </div>
@@ -83,32 +83,32 @@ export default function DashboardGrid({ sessionId }) {
     <div className={`grid grid-cols-1 lg:grid-cols-2 gap-6 ${isDemo ? 'opacity-50 pointer-events-none filter blur-[1px] hover:blur-none hover:opacity-100 transition-all duration-500' : ''}`}>
       
       {/* 1. Profile Widget */}
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
-        {isDemo && <div className="absolute top-0 right-0 bg-brand-100 text-brand-700 text-[10px] font-bold px-2 py-1 rounded-bl-lg">DEMO DATA</div>}
-        <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Candidate Profile</h3>
+      <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] relative overflow-hidden">
+        {isDemo && <div className="absolute top-0 right-0 bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-1 rounded-bl-lg">DEMO DATA</div>}
+        <h3 className="text-lg font-bold text-white mb-4 border-b pb-2">Candidate Profile</h3>
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-12 h-12 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center font-bold text-xl">
+          <div className="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-full flex items-center justify-center font-bold text-xl">
             {profile?.name ? profile.name.charAt(0) : 'U'}
           </div>
           <div>
-            <h4 className="font-semibold text-slate-900">{profile?.name || 'Unknown User'}</h4>
-            <div className="flex items-center text-slate-500 text-sm gap-1">
+            <h4 className="font-semibold text-white">{profile?.name || 'Unknown User'}</h4>
+            <div className="flex items-center text-slate-400 text-sm gap-1">
               <Mail className="w-3 h-3" /> {profile?.email || 'No email provided'}
             </div>
           </div>
         </div>
         
-        <h5 className="text-sm font-semibold text-slate-700 mb-2">Top Skills:</h5>
+        <h5 className="text-sm font-semibold text-slate-200 mb-2">Top Skills:</h5>
         <div className="flex flex-wrap gap-2">
           {profile?.all_skills?.slice(0, expandedSkills ? undefined : 8).map(skill => (
-            <span key={skill} className="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md text-sm font-medium border border-slate-200">
+            <span key={skill} className="bg-white/10 text-slate-300 px-2.5 py-1 rounded-md text-sm font-medium border border-white/10">
               {skill}
             </span>
           ))}
           {!expandedSkills && profile?.all_skills?.length > 8 && (
             <button 
               onClick={() => setExpandedSkills(true)}
-              className="bg-brand-50 text-brand-700 px-2.5 py-1 rounded-md text-sm font-bold border border-brand-200 hover:bg-brand-100 cursor-pointer transition-colors"
+              className="bg-emerald-500/10 text-emerald-300 px-2.5 py-1 rounded-md text-sm font-bold border border-brand-200 hover:bg-emerald-500/20 cursor-pointer transition-colors"
             >
               +{profile.all_skills.length - 8} more
             </button>
@@ -116,7 +116,7 @@ export default function DashboardGrid({ sessionId }) {
           {expandedSkills && profile?.all_skills?.length > 8 && (
             <button 
               onClick={() => setExpandedSkills(false)}
-              className="bg-slate-50 text-slate-500 px-2.5 py-1 rounded-md text-sm font-bold border border-slate-200 hover:bg-slate-100 cursor-pointer transition-colors"
+              className="bg-white/5 text-slate-400 px-2.5 py-1 rounded-md text-sm font-bold border border-white/10 hover:bg-white/10 cursor-pointer transition-colors"
             >
               Show less
             </button>
@@ -125,9 +125,9 @@ export default function DashboardGrid({ sessionId }) {
       </div>
 
       {/* 2. Skill Gaps Widget */}
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-        <h3 className="text-lg font-bold text-slate-800 mb-2 border-b pb-2">Skill Gaps Analysis</h3>
-        <p className="text-sm text-slate-500 mb-4">Target Role: <span className="font-semibold text-brand-600">{skill_gaps?.role || 'Developer'}</span></p>
+      <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] relative">
+        <h3 className="text-lg font-bold text-white mb-2 border-b pb-2">Skill Gaps Analysis</h3>
+        <p className="text-sm text-slate-400 mb-4">Target Role: <span className="font-semibold text-emerald-400">{skill_gaps?.role || 'Developer'}</span></p>
         
         <div className="h-48">
           <ResponsiveContainer width="100%" height="100%">
@@ -142,7 +142,7 @@ export default function DashboardGrid({ sessionId }) {
         </div>
         
         <div className="mt-4">
-          <h5 className="text-xs font-semibold uppercase text-slate-500 mb-2">Missing Key Skills</h5>
+          <h5 className="text-xs font-semibold uppercase text-slate-400 mb-2">Missing Key Skills</h5>
           <div className="flex flex-wrap gap-2">
             {(skill_gaps?.missing_skills?.must_have || []).slice(0, 4).map(skill => (
               <span key={skill} className="bg-amber-50 text-amber-700 px-2 py-0.5 rounded text-xs font-medium border border-amber-200">
@@ -157,22 +157,22 @@ export default function DashboardGrid({ sessionId }) {
       </div>
 
       {/* 3. Learning Roadmap Widget */}
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-        <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">AI Learning Roadmap</h3>
-        {!(learning_roadmap?.phases?.length) && <p className="text-slate-500 text-sm">No roadmap phases generated.</p>}
+      <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] relative">
+        <h3 className="text-lg font-bold text-white mb-4 border-b pb-2">AI Learning Roadmap</h3>
+        {!(learning_roadmap?.phases?.length) && <p className="text-slate-400 text-sm">No roadmap phases generated.</p>}
         <div className="space-y-4 mt-6">
           {(learning_roadmap?.phases || []).slice(0, 3).map((phase, idx) => (
             <div key={idx} className="flex gap-4 relative">
               <div className="flex flex-col items-center">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold z-10 ${idx === 0 ? 'bg-brand-500 text-white' : 'bg-slate-200 text-slate-500'}`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold z-10 ${idx === 0 ? 'bg-emerald-500 text-white' : 'bg-white/20 text-slate-400'}`}>
                   {phase.phase_number || (idx + 1)}
                 </div>
-                {idx < 2 && <div className="w-0.5 h-full bg-slate-200 absolute top-6 left-3 -ml-[1px]"></div>}
+                {idx < 2 && <div className="w-0.5 h-full bg-white/20 absolute top-6 left-3 -ml-[1px]"></div>}
               </div>
               <div className="pb-4 pt-0.5">
-                <h4 className="font-semibold text-slate-800 text-sm leading-tight">{phase.title}</h4>
-                <p className="text-xs text-slate-500 mt-1">{phase.week_range}</p>
-                <div className="mt-2 text-xs text-brand-700 bg-brand-50 inline-block px-2 py-1 rounded font-medium">
+                <h4 className="font-semibold text-white text-sm leading-tight">{phase.title}</h4>
+                <p className="text-xs text-slate-400 mt-1">{phase.week_range}</p>
+                <div className="mt-2 text-xs text-emerald-300 bg-emerald-500/10 inline-block px-2 py-1 rounded font-medium">
                   {(phase.focus_skills || []).slice(0,3).join(', ')}
                 </div>
               </div>
@@ -182,22 +182,22 @@ export default function DashboardGrid({ sessionId }) {
       </div>
 
       {/* 4. Top Job Matches Widget */}
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative">
-        <h3 className="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Top Job Matches</h3>
-        {!(job_matches?.jobs?.length) && <p className="text-slate-500 text-sm">No job matches found.</p>}
+      <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] relative">
+        <h3 className="text-lg font-bold text-white mb-4 border-b pb-2">Top Job Matches</h3>
+        {!(job_matches?.jobs?.length) && <p className="text-slate-400 text-sm">No job matches found.</p>}
         <div className="space-y-3">
           {(job_matches?.jobs || []).slice(0, 4).map((job, idx) => (
-            <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-slate-100 hover:border-brand-200 hover:bg-brand-50 transition-colors">
+            <div key={idx} className="flex items-center justify-between p-3 rounded-lg border border-white/10 hover:border-brand-200 hover:bg-emerald-500/10 transition-colors">
               <div>
-                <h4 className="font-semibold text-slate-800 text-sm truncate max-w-[180px]">{job.title}</h4>
-                <p className="text-xs text-slate-500 truncate max-w-[180px]">{job.company}</p>
+                <h4 className="font-semibold text-white text-sm truncate max-w-[180px]">{job.title}</h4>
+                <p className="text-xs text-slate-400 truncate max-w-[180px]">{job.company}</p>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-right">
                   <div className="text-sm font-bold text-emerald-600">{job.match_score || job.match_percentage}%</div>
                   <div className="text-[10px] text-slate-400 uppercase font-medium">Match</div>
                 </div>
-                <div className="w-10 h-10 rounded-full border-2 border-emerald-100 flex items-center justify-center bg-white flex-shrink-0">
+                <div className="w-10 h-10 rounded-full border-2 border-emerald-100 flex items-center justify-center bg-white/5 backdrop-blur-md flex-shrink-0">
                   <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                 </div>
               </div>

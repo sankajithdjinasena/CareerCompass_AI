@@ -17,14 +17,14 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
           }}
           className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
             active
-              ? 'bg-brand-900 text-white'
-              : 'text-slate-300 hover:bg-brand-900 hover:text-white'
+              ? 'bg-white/10 text-white'
+              : 'text-slate-300 hover:bg-white/10 hover:text-white'
           }`}
         >
           <Icon className={`w-5 h-5 ${active ? 'text-brand-400' : 'text-slate-400'}`} />
           {label}
           {active && (
-            <div className="ml-auto bg-brand-500 text-xs px-2 py-0.5 rounded-full font-bold">ACTIVE</div>
+            <div className="ml-auto bg-emerald-500 text-xs px-2 py-0.5 rounded-full font-bold">ACTIVE</div>
           )}
         </a>
       </li>
@@ -32,10 +32,10 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
   }
 
   return (
-    <aside className="w-64 bg-brand-950 text-white flex flex-col h-full">
+    <aside className="w-64 bg-white/5 backdrop-blur-xl border-r border-white/10 text-white flex flex-col h-full">
       <div className="p-6">
         <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-          CAREERWISE AI <span className="bg-brand-500 text-xs px-1 rounded-sm">+</span>
+          CAREERWISE AI <span className="bg-emerald-500 text-xs px-1 rounded-sm">+</span>
         </h2>
       </div>
 
@@ -50,13 +50,13 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
         </ul>
       </nav>
 
-      <div className="p-4 border-t border-brand-900 mt-auto">
+      <div className="p-4 border-t border-white/10 mt-auto">
         <button 
           onClick={(e) => {
             e.preventDefault();
             onNavigate('logout');
           }}
-          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg font-medium text-slate-300 hover:bg-brand-900 hover:text-white transition-colors"
+          className="flex items-center gap-3 px-4 py-3 w-full rounded-lg font-medium text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
         >
           <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

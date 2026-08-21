@@ -172,9 +172,9 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-white rounded-xl shadow-sm border border-slate-200">
-        <Loader2 className="w-8 h-8 text-brand-500 animate-spin mb-4" />
-        <h3 className="text-lg font-medium text-slate-800">Loading Account Settings...</h3>
+      <div className="flex flex-col items-center justify-center h-64 bg-white/5 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-white/10">
+        <Loader2 className="w-8 h-8 text-emerald-400 animate-spin mb-4" />
+        <h3 className="text-lg font-medium text-white">Loading Account Settings...</h3>
       </div>
     )
   }
@@ -183,15 +183,15 @@ export default function SettingsPage() {
     <div className="space-y-6 max-w-5xl">
       
       {/* Account Settings Header & Navigation Tabs */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-tr from-brand-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-md">
+          <div className="w-14 h-14 bg-gradient-to-tr from-brand-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-[0_0_30px_rgba(0,0,0,0.3)]">
             {user?.name ? user.name.split(' ').map(n => n[0]).join('') : 'U'}
           </div>
           <div>
-            <h2 className="text-xl font-bold text-slate-900">{user?.name || "Candidate User"}</h2>
-            <p className="text-xs text-slate-500 font-medium">{user?.email || "user@example.com"}</p>
-            <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-50 text-emerald-700 font-semibold text-[11px] rounded-full border border-emerald-100">
+            <h2 className="text-xl font-bold text-white">{user?.name || "Candidate User"}</h2>
+            <p className="text-xs text-slate-400 font-medium">{user?.email || "user@example.com"}</p>
+            <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-700 font-semibold text-[11px] rounded-full border border-emerald-100">
               Active Student Account
             </span>
           </div>
@@ -202,7 +202,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveSubTab('profile')}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'profile' ? 'bg-brand-950 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              activeSubTab === 'profile' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
             <User className="w-3.5 h-3.5" />
@@ -211,7 +211,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveSubTab('security')}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'security' ? 'bg-brand-950 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              activeSubTab === 'security' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
             <Lock className="w-3.5 h-3.5" />
@@ -220,7 +220,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveSubTab('ai_pref')}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'ai_pref' ? 'bg-brand-950 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              activeSubTab === 'ai_pref' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
             <Sliders className="w-3.5 h-3.5 text-brand-400" />
@@ -229,7 +229,7 @@ export default function SettingsPage() {
           <button
             onClick={() => setActiveSubTab('privacy')}
             className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'privacy' ? 'bg-brand-950 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              activeSubTab === 'privacy' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
@@ -240,42 +240,42 @@ export default function SettingsPage() {
 
       {/* SUB-TAB 1: Profile Settings */}
       {activeSubTab === 'profile' && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center gap-3">
-            <User className="w-5 h-5 text-brand-600" />
-            <h3 className="text-base font-bold text-slate-800">Personal & Target Role Information</h3>
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
+          <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+            <User className="w-5 h-5 text-emerald-400" />
+            <h3 className="text-base font-bold text-white">Personal & Target Role Information</h3>
           </div>
           
           <form onSubmit={handleUpdateProfile} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name</label>
+                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Full Name</label>
                 <input 
                   type="text" 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email Address</label>
+                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Email Address</label>
                 <input 
                   type="email" 
                   value={email} 
                   disabled 
-                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm bg-slate-50 text-slate-500 cursor-not-allowed"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm bg-slate-900 font-montserrat text-white text-slate-400 cursor-not-allowed"
                 />
                 <p className="text-[11px] text-slate-400 mt-1">Managed via authentication provider.</p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Primary Target Role</label>
+                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Primary Target Role</label>
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   <option value="Software / AI Engineer">Software / AI Engineer</option>
                   <option value="Backend Developer">Backend Developer</option>
@@ -287,21 +287,21 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Institution / University</label>
+                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Institution / University</label>
                 <input 
                   type="text" 
                   value="Sabaragamuwa University of Sri Lanka" 
                   disabled 
-                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm bg-slate-50 text-slate-500 cursor-not-allowed font-medium"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm bg-slate-900 font-montserrat text-white text-slate-400 cursor-not-allowed font-medium"
                 />
               </div>
             </div>
 
-            <div className="flex items-center gap-4 border-t border-slate-100 pt-4">
+            <div className="flex items-center gap-4 border-t border-white/10 pt-4">
               <button 
                 type="submit"
                 disabled={profileSaving}
-                className="bg-brand-600 hover:bg-brand-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-md shadow-brand-600/20"
+                className="bg-brand-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-[0_0_30px_rgba(0,0,0,0.3)] shadow-brand-600/20"
               >
                 {profileSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Save Changes
@@ -325,40 +325,40 @@ export default function SettingsPage() {
       {activeSubTab === 'security' && (
         <div className="space-y-6">
           {user?.provider === "google" ? (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex items-start gap-4">
-              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center shrink-0">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] p-6 flex items-start gap-4">
+              <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-bold text-slate-900">Google OAuth Single Sign-On Enabled</h4>
-                <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                <h4 className="font-bold text-white">Google OAuth Single Sign-On Enabled</h4>
+                <p className="text-xs text-slate-300 mt-1 leading-relaxed">
                   Your account is authenticated via Google SSO. Password management and multi-factor authentication are handled directly through your Google Security Settings.
                 </p>
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-              <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center gap-3">
-                <Lock className="w-5 h-5 text-brand-600" />
-                <h3 className="text-base font-bold text-slate-800">Change Password</h3>
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
+              <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+                <Lock className="w-5 h-5 text-emerald-400" />
+                <h3 className="text-base font-bold text-white">Change Password</h3>
               </div>
               
               <form onSubmit={handleUpdatePassword} className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Current Password</label>
+                    <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Current Password</label>
                     <input 
                       type="password" 
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       required
                       placeholder="••••••••"
-                      className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
+                      className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">New Password</label>
+                    <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">New Password</label>
                     <input 
                       type="password" 
                       value={newPassword}
@@ -366,16 +366,16 @@ export default function SettingsPage() {
                       required
                       minLength={8}
                       placeholder="At least 8 characters"
-                      className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
+                      className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 border-t border-slate-100 pt-4">
+                <div className="flex items-center gap-4 border-t border-white/10 pt-4">
                   <button 
                     type="submit"
                     disabled={passwordSaving}
-                    className="bg-brand-600 hover:bg-brand-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-md shadow-brand-600/20"
+                    className="bg-brand-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-[0_0_30px_rgba(0,0,0,0.3)] shadow-brand-600/20"
                   >
                     {passwordSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
                     Update Password
@@ -399,34 +399,34 @@ export default function SettingsPage() {
 
       {/* SUB-TAB 3: AI Coaching & Preference Options */}
       {activeSubTab === 'ai_pref' && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center gap-3">
-            <Sliders className="w-5 h-5 text-brand-600" />
-            <h3 className="text-base font-bold text-slate-800">AI Coaching & Agent Configurations</h3>
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
+          <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
+            <Sliders className="w-5 h-5 text-emerald-400" />
+            <h3 className="text-base font-bold text-white">AI Coaching & Agent Configurations</h3>
           </div>
 
           <form onSubmit={handleSaveAiPreferences} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Groq LPU Inference Model</label>
+                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Groq LPU Inference Model</label>
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="llama-3.3-70b-versatile">🚀 Llama-3.3 70B Versatile (Recommended)</option>
-                  <option value="llama3-8b-8192">⚡ Llama-3 8B (Low Latency)</option>
+                  <option value="llama-3.3-70b-versatile">Llama-3.3 70B Versatile (Recommended)</option>
+                  <option value="llama3-8b-8192">Llama-3 8B (Low Latency)</option>
                   <option value="mixtral-8x7b-32768">🧠 Mixtral 8x7B (Deep Reasoning)</option>
                 </select>
                 <p className="text-[11px] text-slate-400 mt-1">Select inference model hosted on Groq API.</p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Mock Interview Difficulty</label>
+                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Mock Interview Difficulty</label>
                 <select
                   value={interviewDifficulty}
                   onChange={(e) => setInterviewDifficulty(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full rounded-xl border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   <option value="beginner">Junior / Undergraduate Entry</option>
                   <option value="intermediate">Intermediate (CodeSplash Benchmark)</option>
@@ -436,24 +436,24 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+            <div className="p-4 bg-slate-900 font-montserrat text-white rounded-xl border border-white/10 flex items-center justify-between">
               <div>
-                <h4 className="text-xs font-bold text-slate-900">Adaptive Re-trigger Loop</h4>
-                <p className="text-[11px] text-slate-500 mt-0.5">Automatically revise learning roadmap if interview simulator detects newly uncovered gaps.</p>
+                <h4 className="text-xs font-bold text-white">Adaptive Re-trigger Loop</h4>
+                <p className="text-[11px] text-slate-400 mt-0.5">Automatically revise learning roadmap if interview simulator detects newly uncovered gaps.</p>
               </div>
               <input
                 type="checkbox"
                 checked={autoFeedbackLoop}
                 onChange={(e) => setAutoFeedbackLoop(e.target.checked)}
-                className="w-5 h-5 text-brand-600 rounded focus:ring-brand-500 cursor-pointer"
+                className="w-5 h-5 text-emerald-400 rounded focus:ring-brand-500 cursor-pointer"
               />
             </div>
 
-            <div className="flex items-center gap-4 border-t border-slate-100 pt-4">
+            <div className="flex items-center gap-4 border-t border-white/10 pt-4">
               <button 
                 type="submit"
                 disabled={aiSaving}
-                className="bg-brand-600 hover:bg-brand-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-md shadow-brand-600/20"
+                className="bg-brand-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-[0_0_30px_rgba(0,0,0,0.3)] shadow-brand-600/20"
               >
                 {aiSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Save AI Preferences
@@ -471,27 +471,27 @@ export default function SettingsPage() {
 
       {/* SUB-TAB 4: Privacy & Governance */}
       {activeSubTab === 'privacy' && (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4 flex items-center gap-3">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
+          <div className="border-b border-white/10 bg-slate-900 font-montserrat text-white/50 px-6 py-4 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-600" />
-            <h3 className="text-base font-bold text-slate-800">Legal, Privacy & Governance Center</h3>
+            <h3 className="text-base font-bold text-white">Legal, Privacy & Governance Center</h3>
           </div>
 
           <div className="p-6 space-y-6">
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-300 leading-relaxed">
               Review how your resume and career data are secured, our AI ethics standards, and our official Terms of Service built for CodeSplash '26.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <button
                 onClick={() => openPolicy('terms')}
-                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
                   <Scale className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Terms of Service</h4>
-                    <p className="text-[11px] text-slate-500">Usage rules & guidelines</p>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Terms of Service</h4>
+                    <p className="text-[11px] text-slate-400">Usage rules & guidelines</p>
                   </div>
                 </div>
                 <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
@@ -499,13 +499,13 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => openPolicy('privacy')}
-                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
                   <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Privacy Policy</h4>
-                    <p className="text-[11px] text-slate-500">Resume security & rights</p>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Privacy Policy</h4>
+                    <p className="text-[11px] text-slate-400">Resume security & rights</p>
                   </div>
                 </div>
                 <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
@@ -513,13 +513,13 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => openPolicy('ethics')}
-                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
                   <Cpu className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">AI Ethics</h4>
-                    <p className="text-[11px] text-slate-500">Bias & advisory notice</p>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">AI Ethics</h4>
+                    <p className="text-[11px] text-slate-400">Bias & advisory notice</p>
                   </div>
                 </div>
                 <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
@@ -527,13 +527,13 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => openPolicy('portability')}
-                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
                   <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Data Export</h4>
-                    <p className="text-[11px] text-slate-500">Dossiers & deletion</p>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Data Export</h4>
+                    <p className="text-[11px] text-slate-400">Dossiers & deletion</p>
                   </div>
                 </div>
                 <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
@@ -541,13 +541,13 @@ export default function SettingsPage() {
 
               <button
                 onClick={() => openPolicy('governance')}
-                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
                   <ShieldCheck className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Governance</h4>
-                    <p className="text-[11px] text-slate-500">Team Predictra · SUSL</p>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Governance</h4>
+                    <p className="text-[11px] text-slate-400">Team Predictra · SUSL</p>
                   </div>
                 </div>
                 <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />

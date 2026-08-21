@@ -97,32 +97,32 @@ export default function InterviewPractice({ sessionId }) {
 
   if (!sessionId) {
     return (
-      <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm text-center">
+      <div className="bg-white/5 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] text-center">
         <PlayCircle className="w-10 h-10 text-brand-300 mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-slate-800">No active session</h3>
-        <p className="text-slate-500 text-sm mt-1">Upload and analyze a resume from the Dashboard first.</p>
+        <h3 className="text-lg font-bold text-white">No active session</h3>
+        <p className="text-slate-400 text-sm mt-1">Upload and analyze a resume from the Dashboard first.</p>
       </div>
     )
   }
 
   if (phase === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-white rounded-xl shadow-sm border border-slate-200">
-        <Loader2 className="w-8 h-8 text-brand-500 animate-spin mb-4" />
-        <h3 className="text-lg font-medium text-slate-800">Preparing your mock interview...</h3>
-        <p className="text-slate-500 text-sm mt-1">Generating role-specific questions</p>
+      <div className="flex flex-col items-center justify-center h-64 bg-white/5 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-white/10">
+        <Loader2 className="w-8 h-8 text-emerald-400 animate-spin mb-4" />
+        <h3 className="text-lg font-medium text-white">Preparing your mock interview...</h3>
+        <p className="text-slate-400 text-sm mt-1">Generating role-specific questions</p>
       </div>
     )
   }
 
   if (phase === 'error') {
     return (
-      <div className="p-6 bg-red-50 border border-red-200 rounded-xl text-red-700">
+      <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-700">
         <h3 className="text-lg font-bold mb-2">Something went wrong</h3>
         <p className="text-sm">{error}</p>
         <button
           onClick={loadQuestions}
-          className="mt-4 bg-white border border-red-300 text-red-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100"
+          className="mt-4 bg-white/5 backdrop-blur-md border border-red-300 text-red-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-500/20"
         >
           Try again
         </button>
@@ -133,12 +133,12 @@ export default function InterviewPractice({ sessionId }) {
   if (phase === 'scored' && result) {
     return (
       <div className="space-y-6">
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+        <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
           <div className="flex items-center justify-between border-b pb-4 mb-4">
-            <h3 className="text-lg font-bold text-slate-800">Interview Results</h3>
+            <h3 className="text-lg font-bold text-white">Interview Results</h3>
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-brand-500" />
-              <span className="text-2xl font-bold text-brand-600">{result.readiness_score}</span>
+              <TrendingUp className="w-5 h-5 text-emerald-400" />
+              <span className="text-2xl font-bold text-emerald-400">{result.readiness_score}</span>
               <span className="text-slate-400 text-sm">/ 100 readiness</span>
             </div>
           </div>
@@ -158,19 +158,19 @@ export default function InterviewPractice({ sessionId }) {
               const q = questions.find((qq) => qq.id === f.id)
               const verdictColor =
                 f.verdict === 'strong'
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  ? 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20'
                   : f.verdict === 'partial'
                   ? 'bg-amber-50 text-amber-700 border-amber-200'
-                  : 'bg-red-50 text-red-700 border-red-200'
+                  : 'bg-red-500/10 text-red-700 border-red-500/20'
               return (
-                <div key={f.id} className="border border-slate-100 rounded-lg p-4">
+                <div key={f.id} className="border border-white/10 rounded-lg p-4">
                   <div className="flex items-start justify-between gap-3 mb-1">
-                    <p className="text-sm font-medium text-slate-800">{q?.question}</p>
+                    <p className="text-sm font-medium text-white">{q?.question}</p>
                     <span className={`text-xs font-bold px-2 py-0.5 rounded-full border capitalize flex-shrink-0 ${verdictColor}`}>
                       {f.verdict}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500">{f.feedback}</p>
+                  <p className="text-xs text-slate-400">{f.feedback}</p>
                 </div>
               )
             })}
@@ -178,7 +178,7 @@ export default function InterviewPractice({ sessionId }) {
 
           {result.newly_detected_gaps?.length > 0 && (
             <div className="mt-4">
-              <h5 className="text-xs font-semibold uppercase text-slate-500 mb-2">Newly detected gaps</h5>
+              <h5 className="text-xs font-semibold uppercase text-slate-400 mb-2">Newly detected gaps</h5>
               <div className="flex flex-wrap gap-2">
                 {result.newly_detected_gaps.map((g) => (
                   <span key={g} className="bg-amber-50 text-amber-700 px-2 py-0.5 rounded text-xs font-medium border border-amber-200">
@@ -191,7 +191,7 @@ export default function InterviewPractice({ sessionId }) {
 
           <button
             onClick={handleRetry}
-            className="mt-6 bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="mt-6 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
           >
             <RefreshCw className="w-4 h-4" /> Practice again
           </button>
@@ -202,9 +202,9 @@ export default function InterviewPractice({ sessionId }) {
 
   // phase === 'ready' or 'submitting'
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-      <h3 className="text-lg font-bold text-slate-800 mb-1 border-b pb-3">Mock Interview</h3>
-      <p className="text-sm text-slate-500 mt-3 mb-6">
+    <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
+      <h3 className="text-lg font-bold text-white mb-1 border-b pb-3">Mock Interview</h3>
+      <p className="text-sm text-slate-400 mt-3 mb-6">
         Answer honestly — your answers here can reveal gaps your resume didn't show, and your
         learning roadmap will adapt automatically.
       </p>
@@ -213,13 +213,13 @@ export default function InterviewPractice({ sessionId }) {
         {questions.map((q, idx) => (
           <div key={q.id}>
             <div className="flex items-start gap-2 mb-1">
-              <label className="block text-sm font-semibold text-slate-800">
+              <label className="block text-sm font-semibold text-white">
                 {idx + 1}. {q.question}
               </label>
               <button 
                 onClick={() => speakQuestion(q.question)}
                 title="Read question out loud"
-                className="p-1 text-brand-500 hover:bg-brand-50 rounded-full transition-colors flex-shrink-0 -mt-0.5"
+                className="p-1 text-emerald-400 hover:bg-emerald-500/10 rounded-full transition-colors flex-shrink-0 -mt-0.5"
               >
                 <Volume2 className="w-4 h-4" />
               </button>
@@ -229,7 +229,7 @@ export default function InterviewPractice({ sessionId }) {
               value={answers[q.id] || ''}
               onChange={(e) => handleAnswerChange(q.id, e.target.value)}
               rows={3}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
+              className="w-full rounded-lg border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
               placeholder="Type your answer..."
             />
           </div>
@@ -239,7 +239,7 @@ export default function InterviewPractice({ sessionId }) {
       <button
         onClick={handleSubmit}
         disabled={phase === 'submitting'}
-        className="mt-6 bg-brand-500 hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2"
+        className="mt-6 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-lg font-medium transition-colors flex items-center gap-2"
       >
         {phase === 'submitting' ? (
           <>

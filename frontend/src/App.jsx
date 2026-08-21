@@ -34,9 +34,9 @@ class ComponentErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-6 bg-red-50 border border-red-200 rounded-xl text-red-700">
+        <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-700">
           <h3 className="text-lg font-bold mb-2">Failed to render section</h3>
-          <p className="font-mono text-xs bg-red-100 p-3 rounded">{this.state.error?.toString()}</p>
+          <p className="font-mono text-xs bg-red-500/20 p-3 rounded">{this.state.error?.toString()}</p>
           <button
             onClick={() => this.setState({ hasError: false, error: null })}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-semibold hover:bg-red-700 transition"
@@ -114,21 +114,21 @@ function App() {
   }
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
+    <div className="flex h-screen bg-slate-900 font-montserrat text-white overflow-hidden font-sans">
       <Sidebar activePage={page} onNavigate={setPage} />
 
       <main className="flex-1 overflow-y-auto p-8">
         <div className="max-w-6xl mx-auto">
           <header className="mb-8 flex justify-between items-start">
             <div>
-              <h1 className="text-3xl font-bold text-brand-950">{title}</h1>
-              <p className="text-slate-500 mt-1">{subtitle}</p>
+              <h1 className="text-3xl font-bold text-white">{title}</h1>
+              <p className="text-slate-400 mt-1">{subtitle}</p>
             </div>
             {page === 'dashboard' && (
               <div className="flex flex-col items-end gap-2">
                 <ResumeUploader onUploadComplete={(id) => setSessionId(id)} />
                 {sessionId && (
-                  <span className="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded-full font-medium">
+                  <span className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-1 rounded-full font-medium">
                     Analysis Complete
                   </span>
                 )}
