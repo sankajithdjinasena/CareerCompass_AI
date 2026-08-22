@@ -20,6 +20,19 @@ The system is **adaptive**: if the Interview Simulator Agent uncovers a gap the 
 
 ---
 
+
+
+---
+
+## 🔥 Phase 2 Upgrades (Agentic AI Enhancements)
+
+This project has been upgraded with a powerful **StateGraph** architecture using LangGraph, unlocking advanced autonomous behaviors:
+
+1. **Autonomous Taxonomy Generation**: The *Skill Gap Agent* can now dynamically scale to evaluate *any* job title in the world. If a user inputs an unknown role, the LLM intercepts the query, hallucinates a highly accurate skills taxonomy on the fly, and benchmarks the user against it!
+2. **Auto-Correction Loops**: The *Profile Analysis Agent* is now protected by a LangGraph routing conditional edge. If the LLM extracts too few skills (e.g. from a messy PDF), the Orchestrator stops the pipeline and forces a deep-dive re-extraction pass.
+3. **Real-Time Web Search (DuckDuckGo)**: The *Job Matching Agent* now natively scrapes live job postings directly from LinkedIn and Glassdoor, while the *Learning Path Agent* scrapes live crash courses from YouTube, ensuring resources are always up-to-date!
+4. **The Adaptive Feedback Loop**: The entire backend is now a compiled LangGraph state machine. If the user bombs a mock interview, the system automatically routes backward to re-run the learning path generation.
+
 ## 2. Agent Architecture
 
 | Agent | Responsibility | Input | Output |
