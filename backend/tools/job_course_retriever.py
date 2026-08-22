@@ -60,21 +60,55 @@ def get_live_web_jobs(target_role: str) -> list[dict]:
 
 
 
+
+def get_live_web_courses(skill: str) -> list[dict]:
+    """Uses DuckDuckGo to find live YouTube crash courses for a skill."""
+    courses = []
+    try:
+        from duckduckgo_search import DDGS
+        with DDGS() as ddgs:
+            query = f"{skill} tutorial crash course full course site:youtube.com"
+            results = ddgs.text(query, max_results=3)
+            
+            for r in results:
+                title_text = r.get("title", "").replace(" - YouTube", "")
+                courses.append({
+                    "skill": skill,
+                    "title": title_text[:60] + ("..." if len(title_text) > 60 else ""),
+                    "platform": "YouTube (Live Web)",
+                    "url": r.get("href", ""),
+                    "cost": "Free",
+                    "duration": "1 week (est)",
+                    "difficulty": "Beginner/Intermediate",
+                    "language": "English"
+                })
+    except Exception as e:
+        print(f"Warning: DuckDuckGo course search failed: {e}")
+    return courses
+
 def get_resources_for_skill(skill: str) -> list[dict]:
-    """Exact/substring match against the curated course dataset for a given skill."""
+    """Exact/substring match against curated dataset + live YouTube scrape."""
     courses = _load_courses()
     skill_n = _normalize(skill)
 
-    exact = [c for c in courses if _normalize(c["skill"]) == skill_n]
+    exact = [c for c in courses if _normalize(c.get("skill", "")) == skill_n]
     if exact:
         return exact
 
-    # fallback: substring match either direction (e.g. "TensorFlow" vs "TensorFlow/PyTorch")
+    # Fallback to local substring match
     partial = [
         c for c in courses
-        if skill_n in _normalize(c["skill"]) or _normalize(c["skill"]) in skill_n
+        if skill_n in _normalize(c.get("skill", "")) or _normalize(c.get("skill", "")) in skill_n
     ]
+    
+    # Live Web Fallback: If no local course found (or we just want to augment it), fetch live YouTube courses!
+    if not partial:
+        live_courses = get_live_web_courses(skill)
+        if live_courses:
+            return live_courses
+            
     return partial
+
 
 
 def get_all_jobs(target_role: str = "") -> list[dict]:
