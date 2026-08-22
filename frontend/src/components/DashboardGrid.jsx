@@ -78,12 +78,23 @@ export default function DashboardGrid({ sessionId, authUser }) {
   const learning_roadmap = isDemo ? { phases: [] } : (data.learning_roadmap || { phases: [] });
   const job_matches = isDemo ? { jobs: [] } : (data.job_matches || { jobs: [] });
 
-  // Prepare chart data
-  const chartData = [
+  // Prepare chart data dynamically
+  let chartData = [
     { name: 'Core', candidate: 80, target: 100 },
     { name: 'Tools', candidate: 60, target: 80 },
     { name: 'Cloud', candidate: 70, target: 70 },
-  ]
+  ];
+  if (data?.raw_skill_gaps && !isDemo) {
+      const matchedCount = (data.raw_skill_gaps.matched_skills || []).length;
+      const missingCore = (data.skill_gaps?.missing_skills?.must_have || []).length;
+      const missingNice = (data.skill_gaps?.missing_skills?.nice_to_have || []).length;
+      
+      chartData = [
+          { name: 'Core Skills', candidate: matchedCount, target: matchedCount + missingCore },
+          { name: 'Bonus Skills', candidate: 0, target: missingNice || 5 }, // simplistic mock for bonus
+          { name: 'Readiness %', candidate: data.raw_skill_gaps.readiness_pct || 0, target: 100 }
+      ];
+  }
 
   return (
     <div className="space-y-6">
