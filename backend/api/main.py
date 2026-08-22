@@ -1,34 +1,47 @@
 import os
 import uuid
 import shutil
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from datetime import datetime
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import uvicorn
-
-import sys
 from pathlib import Path
+
 backend_dir = Path(__file__).resolve().parent.parent
+import sys
 sys.path.insert(0, str(backend_dir))
 load_dotenv(backend_dir / ".env")
 
-from typing import Any
 from agents.orchestrator import orchestrator
 from shared_store.context_store import context_store
 from auth.router import router as auth_router
 
 app = FastAPI(
     title="CareerCompass AI",
-    description="REST API for CareerCompass AI, a multi-agent career coaching system",
-    version="0.1.0"
+    description="REST API for CareerCompass AI, an autonomous multi-agent career coaching platform",
+    version="1.0.0"
 )
+
+# Configure CORS via environment variable with local fallbacks
+cors_origins_env = os.getenv("CORS_ORIGINS", "")
+allowed_origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
+if cors_origins_env:
+    for origin in cors_origins_env.split(","):
+        origin = origin.strip()
+        if origin and origin not in allowed_origins:
+            allowed_origins.append(origin)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,6 +49,9 @@ app.add_middleware(
 
 # Mount auth router
 app.include_router(auth_router)
+
+# Maximum file size: 10 MB
+MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024
 
 
 # ---------------------------------------------------------------------------
@@ -106,24 +122,54 @@ def check_session(session_id: str) -> None:
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "ok", "timestamp": datetime.utcnow().isoformat()}
+    """
+    Comprehensive system diagnostic health check endpoint.
+    Verifies SQLite context store persistence and Groq API key configuration.
+    """
+    groq_configured = bool(os.getenv("GROQ_API_KEY"))
+    store_healthy = True
+    try:
+        store_healthy = context_store.exists("non-existent-probe-check") == False
+    except Exception:
+        store_healthy = False
+
+    return {
+        "status": "healthy" if (groq_configured and store_healthy) else "degraded",
+        "timestamp": datetime.utcnow().isoformat(),
+        "services": {
+            "api": "online",
+            "groq_llm_api": "configured" if groq_configured else "missing_api_key",
+            "sqlite_session_store": "healthy" if store_healthy else "unhealthy"
+        },
+        "max_upload_size_mb": 10
+    }
 
 
 @app.post("/api/upload-resume", response_model=UploadResponse)
 async def upload_resume(file: UploadFile = File(...)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="No filename provided")
-    if not file.filename.endswith((".pdf", ".docx", ".txt")):
+    
+    clean_filename = os.path.basename(file.filename)
+    if not clean_filename.endswith((".pdf", ".docx", ".txt")):
         raise HTTPException(status_code=400, detail="Unsupported file type. Use PDF, DOCX, or TXT.")
+
+    # Read and validate file size (10 MB max limit)
+    contents = await file.read()
+    if len(contents) > MAX_UPLOAD_SIZE_BYTES:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"File too large ({len(contents) / (1024*1024):.1f} MB). Maximum allowed size is 10 MB."
+        )
 
     session_id = str(uuid.uuid4())
     temp_dir = os.path.join(os.path.dirname(__file__), "temp")
     os.makedirs(temp_dir, exist_ok=True)
-    file_path = os.path.join(temp_dir, f"{session_id}_{file.filename}")
+    file_path = os.path.join(temp_dir, f"{session_id}_{clean_filename}")
 
     try:
         with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+            buffer.write(contents)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
 
