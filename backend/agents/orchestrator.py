@@ -48,6 +48,44 @@ class Orchestrator:
 
     # --- LANGGRAPH NODES ---
 
+    def node_profile_correction(self, state: AgentState):
+        """
+        Auto-Correction Loop: If the initial profile extraction yielded too few skills,
+        this node explicitly asks the LLM to dig deeper into the raw text.
+        """
+        from tools.resume_parser import extract_text_from_pdf, structure_resume_text
+        
+        # We know it failed the quality check, so we re-extract with a stricter prompt
+        raw_text = extract_text_from_pdf(state["file_path"])
+        
+        # We append a stern warning to the raw text to force the LLM to do better
+        enhanced_prompt = raw_text + "\n\n[SYSTEM CRITICAL]: The previous extraction missed skills. Extract EVERY SINGLE programming language, framework, database, and tool mentioned in the text above!"
+        
+        corrected_structured = structure_resume_text(enhanced_prompt)
+        
+        return {
+            "raw_profile": corrected_structured,
+            "frontend_profile": {
+                "name": corrected_structured.get("name"),
+                "email": corrected_structured.get("email"),
+                "all_skills": corrected_structured.get("skills", []),
+                "experience": corrected_structured.get("experience", []),
+                "education": corrected_structured.get("education", []),
+            }
+        }
+
+    def route_profile(self, state: AgentState) -> str:
+        """
+        Auto-Correction Routing Logic.
+        If the Profile Analysis extracted fewer than 3 skills, we route to correction.
+        """
+        skills = state.get("raw_profile", {}).get("skills", [])
+        if len(skills) < 3:
+            print("Auto-Correction Triggered: Too few skills found. Rerouting to deep analysis...")
+            return "correction"
+        return "skill_gap"
+
+
     def node_profile(self, state: AgentState):
         from agents.profile_analysis_agent import ProfileAnalysisAgent
         agent = ProfileAnalysisAgent()
@@ -118,13 +156,24 @@ class Orchestrator:
         builder = StateGraph(AgentState)
         
         builder.add_node("profile", self.node_profile)
+        builder.add_node("profile_correction", self.node_profile_correction)
         builder.add_node("skill_gap", self.node_skill_gap)
         builder.add_node("learning_path", self.node_learning_path)
         builder.add_node("job_matching", self.node_job_matching)
         
-        # Define the linear execution pipeline
         builder.add_edge(START, "profile")
-        builder.add_edge("profile", "skill_gap")
+        
+        # Conditional Edge: Auto-Correction Loop!
+        builder.add_conditional_edges(
+            "profile",
+            self.route_profile,
+            {
+                "correction": "profile_correction",
+                "skill_gap": "skill_gap"
+            }
+        )
+        
+        builder.add_edge("profile_correction", "skill_gap")
         builder.add_edge("skill_gap", "learning_path")
         builder.add_edge("learning_path", "job_matching")
         builder.add_edge("job_matching", END)
