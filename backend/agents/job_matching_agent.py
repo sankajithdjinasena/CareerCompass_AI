@@ -26,7 +26,7 @@ class JobMatchingAgent:
         target_role: str,
         top_n: int = 5,
     ) -> Dict[str, Any]:
-        jobs = get_all_jobs()
+        jobs = get_all_jobs(target_role)
         candidate_skills = {_normalize(s) for s in candidate_profile.get("skills", [])}
         target_role_n = _normalize(target_role)
 

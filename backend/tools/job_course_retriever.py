@@ -22,8 +22,42 @@ def _load_jobs() -> list[dict]:
         return json.load(f)
 
 
+
 def _normalize(s: str) -> str:
     return s.strip().lower()
+
+def get_live_web_jobs(target_role: str) -> list[dict]:
+    """Uses DuckDuckGo Web Search to find the absolute latest job listings."""
+    jobs = []
+    try:
+        from duckduckgo_search import DDGS
+        with DDGS() as ddgs:
+            # Construct a targeted search query for the role
+            query = f"{target_role} jobs software remote OR Sri Lanka site:linkedin.com/jobs OR site:glassdoor.com"
+            results = ddgs.text(query, max_results=10)
+            
+            for r in results:
+                title_text = r.get("title", "")
+                jobs.append({
+                    "title": title_text[:50] + ("..." if len(title_text) > 50 else ""),
+                    "company": "External Company (Web)",
+                    "location": "Global / Sri Lanka",
+                    "type": "Full-time / Remote",
+                    "role_category": target_role,
+                    "required_skills": [target_role.split()[0]], # Basic fallback skill
+                    "description": str(r.get("body", ""))[:200] + "...",
+                    "url": r.get("href", "")
+                })
+
+        # 3. DuckDuckGo Real-Time Search (Phase 2 Upgrade!)
+        if target_role:
+            jobs.extend(get_live_web_jobs(target_role))
+            
+    except Exception as e:
+
+        print(f"Warning: DuckDuckGo search failed: {e}")
+    return jobs
+
 
 
 def get_resources_for_skill(skill: str) -> list[dict]:
@@ -43,7 +77,7 @@ def get_resources_for_skill(skill: str) -> list[dict]:
     return partial
 
 
-def get_all_jobs() -> list[dict]:
+def get_all_jobs(target_role: str = "") -> list[dict]:
     # Start with our local mock dataset (30 Sri Lankan jobs)
     jobs = _load_jobs()
     
@@ -83,7 +117,13 @@ def get_all_jobs() -> list[dict]:
                     "url": aj.get("url")
                 })
                 
+
+        # 3. DuckDuckGo Real-Time Search (Phase 2 Upgrade!)
+        if target_role:
+            jobs.extend(get_live_web_jobs(target_role))
+            
     except Exception as e:
+
         print(f"Warning: Failed to fetch some live jobs: {e}")
         
     return jobs
