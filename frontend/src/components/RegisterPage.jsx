@@ -19,7 +19,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const RegisterPage = ({ onNavigate }) => {
+const RegisterPage = ({ onNavigate, onAuthSuccess }) => {
   const { theme, toggleTheme } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -64,6 +64,7 @@ const RegisterPage = ({ onNavigate }) => {
         name: form.name,
       });
       saveAuth(token, user);
+      if (onAuthSuccess) onAuthSuccess(user);
       onNavigate('dashboard');
     } catch (err) {
       setApiError(err.message || 'Registration failed. Please try again.');
@@ -79,6 +80,7 @@ const RegisterPage = ({ onNavigate }) => {
       try {
         const { token, user } = await apiGoogleAuth(tokenResponse.access_token);
         saveAuth(token, user);
+        if (onAuthSuccess) onAuthSuccess(user);
         onNavigate('dashboard');
       } catch (err) {
         setApiError(err.message || 'Google sign-in failed. Please try again.');

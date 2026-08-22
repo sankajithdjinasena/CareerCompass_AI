@@ -16,7 +16,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const LoginPage = ({ onNavigate }) => {
+const LoginPage = ({ onNavigate, onAuthSuccess }) => {
   const { theme, toggleTheme } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [showPolicies, setShowPolicies] = useState(false);
@@ -50,6 +50,7 @@ const LoginPage = ({ onNavigate }) => {
     try {
       const { token, user } = await apiLogin({ email: form.email, password: form.password });
       saveAuth(token, user);
+      if (onAuthSuccess) onAuthSuccess(user);
       onNavigate('dashboard');
     } catch (err) {
       setApiError(err.message || 'Login failed. Please try again.');
@@ -65,6 +66,7 @@ const LoginPage = ({ onNavigate }) => {
       try {
         const { token, user } = await apiGoogleAuth(tokenResponse.access_token);
         saveAuth(token, user);
+        if (onAuthSuccess) onAuthSuccess(user);
         onNavigate('dashboard');
       } catch (err) {
         setApiError(err.message || 'Google sign-in failed. Please try again.');

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Loader2, Mail, CheckCircle2, Info } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 
-export default function DashboardGrid({ sessionId }) {
+export default function DashboardGrid({ sessionId, authUser }) {
   const [status, setStatus] = useState('processing')
   const [data, setData] = useState(null)
   const [expandedSkills, setExpandedSkills] = useState(false)
@@ -66,10 +66,17 @@ export default function DashboardGrid({ sessionId }) {
   }
 
   const isDemo = !sessionId || !data;
-  const profile = isDemo ? { name: "Alex Parker", email: "alex.parker@email.com", all_skills: ["Python", "Java", "AWS", "Machine Learning", "Docker", "SQL", "React", "Node.js"] } : data.profile;
-  const skill_gaps = isDemo ? { role: "AI/ML Engineer", missing_skills: { must_have: ["PyTorch", "TensorFlow", "Keras", "MLOps"] } } : data.skill_gaps;
-  const learning_roadmap = isDemo ? { phases: [{ phase_number: 1, title: "Python Advanced", week_range: "Week 1-2", focus_skills: ["Python", "Data Structures"] }, { phase_number: 2, title: "Machine Learning Basics", week_range: "Week 3-5", focus_skills: ["Scikit-learn", "Pandas"] }, { phase_number: 3, title: "Deep Learning Concepts", week_range: "Week 6-8", focus_skills: ["PyTorch", "Neural Networks"] }] } : (data.learning_roadmap || { phases: [] });
-  const job_matches = isDemo ? { jobs: [{ title: "Lead AI Engineer", company: "Google", match_score: 96 }, { title: "Senior MLE", company: "Netflix", match_score: 95 }, { title: "AI Developer", company: "Amazon", match_score: 89 }] } : (data.job_matches || { jobs: [] });
+  const profile = isDemo
+    ? {
+        name: authUser?.name || 'You',
+        email: authUser?.email || '',
+        picture: authUser?.picture || null,
+        all_skills: []
+      }
+    : data.profile;
+  const skill_gaps = isDemo ? { role: 'Upload Resume to Analyze', missing_skills: { must_have: [] } } : data.skill_gaps;
+  const learning_roadmap = isDemo ? { phases: [] } : (data.learning_roadmap || { phases: [] });
+  const job_matches = isDemo ? { jobs: [] } : (data.job_matches || { jobs: [] });
 
   // Prepare chart data
   const chartData = [
@@ -85,7 +92,7 @@ export default function DashboardGrid({ sessionId }) {
         <div className="flex items-center gap-3 p-4 bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 rounded-xl text-brand-900 dark:text-brand-200 shadow-sm">
           <Info className="w-5 h-5 text-brand-600 dark:text-brand-400 flex-shrink-0" />
           <div className="text-sm">
-            <span className="font-bold">Sample Demo View:</span> Upload your resume using the button at the top right to analyze your profile and see live personalized insights.
+            <span className="font-bold">Upload Your Resume:</span> Click the button at the top right to analyze your profile — we'll extract your skills, identify gaps, and match you with real jobs.
           </div>
         </div>
       )}
@@ -94,7 +101,7 @@ export default function DashboardGrid({ sessionId }) {
         
         {/* 1. Profile Widget */}
         <div className="bg-white dark:bg-slate-900/90 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md relative overflow-hidden transition-colors">
-          {isDemo && (
+          {isDemo && !authUser && (
             <div className="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg tracking-wider">
               DEMO DATA
             </div>
@@ -103,8 +110,11 @@ export default function DashboardGrid({ sessionId }) {
             Candidate Profile
           </h3>
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 bg-brand-100 dark:bg-brand-500/20 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-xl border border-brand-200 dark:border-brand-500/30">
-              {profile?.name ? profile.name.charAt(0) : 'U'}
+            <div className="w-12 h-12 bg-brand-100 dark:bg-brand-500/20 text-brand-700 dark:text-brand-300 rounded-full flex items-center justify-center font-bold text-xl border border-brand-200 dark:border-brand-500/30 overflow-hidden flex-shrink-0">
+              {profile?.picture
+                ? <img src={profile.picture} alt={profile.name} className="w-full h-full object-cover rounded-full" />
+                : (profile?.name ? profile.name.charAt(0).toUpperCase() : 'U')
+              }
             </div>
             <div>
               <h4 className="font-bold text-slate-900 dark:text-white text-base">{profile?.name || 'Unknown User'}</h4>

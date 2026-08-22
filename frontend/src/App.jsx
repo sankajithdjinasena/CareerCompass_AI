@@ -125,7 +125,7 @@ function AppContent() {
   }, [page])
 
   const pageTitles = {
-    dashboard: { title: 'Hi there!', subtitle: 'Welcome to CareerCompass AI' },
+    dashboard: { title: `Hi, ${authUser?.name?.split(' ')[0] || 'there'}!`, subtitle: 'Welcome to CareerCompass AI' },
     resume: { title: 'Resume & Profile', subtitle: 'Manage your resume and view AI-parsed profile insights' },
     practice: { title: 'Mock Interview', subtitle: 'Practice with AI-generated questions for your target role' },
     roadmap: { title: 'Learning Roadmap', subtitle: 'Master the skills you are missing' },
@@ -139,11 +139,11 @@ function AppContent() {
   }
 
   if (page === 'login') {
-    return <LoginPage onNavigate={setPage} />
+    return <LoginPage onNavigate={setPage} onAuthSuccess={(user) => { setAuthUser(user); }} />
   }
 
   if (page === 'register') {
-    return <RegisterPage onNavigate={setPage} />
+    return <RegisterPage onNavigate={setPage} onAuthSuccess={(user) => { setAuthUser(user); }} />
   }
 
   if (page === 'forgot-password') {
@@ -167,7 +167,7 @@ function AppContent() {
       setSessionId={setSessionId}
       onNavigate={setPage}
     >
-      {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
+      {page === 'dashboard' && <DashboardGrid sessionId={sessionId} authUser={authUser} />}
       {page === 'resume' && <ResumePage sessionId={sessionId} onUploadComplete={(id) => setSessionId(id)} />}
       {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
       {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
