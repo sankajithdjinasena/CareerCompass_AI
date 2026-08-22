@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { Bot, ArrowLeft, Send, CheckCircle, AlertCircle, Loader } from 'lucide-react';
-
+import { Bot, ArrowLeft, Send, CheckCircle, AlertCircle, Loader, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../lib/ThemeContext';
 
 const EMAILJS_SERVICE_ID = 'service_6dkm828';
 const EMAILJS_TEMPLATE_ID = 'template_vtfs6io';
@@ -9,6 +9,7 @@ const EMAILJS_PUBLIC_KEY = 'NjyqAnwi76Ib4pJro';
 
 const ContactPage = ({ onBack }) => {
   const formRef = useRef();
+  const { theme, toggleTheme } = useTheme();
   const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
 
@@ -39,148 +40,143 @@ const ContactPage = ({ onBack }) => {
     <>
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
           .font-montserrat { font-family: 'Montserrat', sans-serif; }
-          .input-field {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            width: 100%;
-            padding: 14px 18px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            letter-spacing: 0.1em;
-            outline: none;
-            transition: border-color 0.2s;
-            backdrop-filter: blur(10px);
-          }
-          .input-field::placeholder { color: rgba(255,255,255,0.3); letter-spacing: 0.1em; }
-          .input-field:focus { border-color: rgba(255,255,255,0.4); }
         `}
       </style>
 
-      <div
-        className="min-h-screen font-montserrat text-white flex flex-col relative bg-slate-900 bg-cover bg-center overflow-x-hidden"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')" }}
-      >
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-slate-900/60 pointer-events-none"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900 pointer-events-none"></div>
-
+      <div className="min-h-screen font-montserrat flex flex-col relative bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-200 overflow-x-hidden">
         {/* Header */}
-        <header className="px-6 md:px-12 py-8 flex justify-between items-center relative z-10 text-[10px] uppercase tracking-[0.2em] font-medium text-slate-200">
+        <header className="px-6 md:px-12 py-6 flex justify-between items-center relative z-10 text-xs uppercase tracking-wider font-bold text-slate-700 dark:text-slate-300 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 hover:text-white transition-colors"
+            className="flex items-center gap-2 hover:text-brand-600 dark:hover:text-white transition-colors"
           >
-            <ArrowLeft size={14} />
+            <ArrowLeft size={16} />
             Back
           </button>
 
-          <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-            <Bot size={32} className="opacity-90" />
+          <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2 text-slate-900 dark:text-white">
+            <div className="w-9 h-9 bg-brand-500 text-white rounded-lg flex items-center justify-center shadow-md">
+              <Bot size={22} />
+            </div>
           </div>
 
-          <span className="opacity-0 pointer-events-none">placeholder</span>
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-700"
+            title="Toggle Light/Dark Theme"
+          >
+            {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-indigo-600" />}
+          </button>
         </header>
 
         {/* Contact Form Section */}
-        <main className="flex-1 flex flex-col justify-center items-center px-6 py-20 relative z-10">
-          <p className="text-[10px] tracking-[0.4em] uppercase text-slate-400 mb-3 font-light">Get in Touch</p>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-[0.25em] uppercase text-white mb-4">Contact Us</h1>
-          <p className="text-slate-300 text-xs tracking-wider font-light max-w-lg text-center mb-16">
+        <main className="flex-1 flex flex-col justify-center items-center px-6 py-16 relative z-10">
+          <p className="text-xs tracking-widest uppercase text-brand-600 dark:text-brand-400 mb-2 font-bold">Get in Touch</p>
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight uppercase text-slate-900 dark:text-white mb-3">Contact Us</h1>
+          <p className="text-slate-600 dark:text-slate-300 text-sm font-medium max-w-lg text-center mb-12 leading-relaxed">
             Have a question or want to collaborate? Send us a message and Team Predictra will get back to you.
           </p>
 
-          <form ref={formRef} onSubmit={handleSubmit} className="w-full max-w-2xl space-y-4">
-            {/* Name & Email side by side */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 md:p-10 rounded-2xl shadow-xl transition-colors">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+              {/* Name & Email side by side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">Your Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Alex Parker"
+                    value={form.name}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-brand-500 font-medium transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="alex.parker@email.com"
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-brand-500 font-medium transition"
+                  />
+                </div>
+              </div>
+
+              {/* Subject */}
               <div>
-                <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Your Name</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">Subject</label>
                 <input
-                  className="input-field"
                   type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="firstname Lastname"
+                  name="subject"
                   required
+                  placeholder="Inquiry / Feedback / Bug Report"
+                  value={form.subject}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-brand-500 font-medium transition"
                 />
               </div>
+
+              {/* Message */}
               <div>
-                <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Email Address</label>
-                <input
-                  className="input-field"
-                  type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">Message</label>
+                <textarea
+                  name="message"
                   required
+                  rows={5}
+                  placeholder="Type your message here..."
+                  value={form.message}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-brand-500 font-medium transition"
                 />
               </div>
-            </div>
 
-            {/* Subject */}
-            <div>
-              <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Subject</label>
-              <input
-                className="input-field"
-                type="text"
-                name="subject"
-                value={form.subject}
-                onChange={handleChange}
-                placeholder="How can we help?"
-                required
-              />
-            </div>
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={status === 'sending'}
+                className="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs tracking-wider uppercase rounded-xl flex items-center justify-center gap-2 transition shadow-md disabled:opacity-50"
+              >
+                {status === 'sending' ? (
+                  <>
+                    <Loader size={16} className="animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={16} />
+                    Send Message
+                  </>
+                )}
+              </button>
 
-            {/* Message */}
-            <div>
-              <label className="block text-[9px] tracking-[0.3em] uppercase text-slate-400 mb-2 font-light">Message</label>
-              <textarea
-                className="input-field resize-none"
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                placeholder="Write your message here..."
-                required
-                rows={6}
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={status === 'sending'}
-              className="w-full py-4 border border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-md text-white text-[11px] tracking-[0.3em] uppercase font-medium flex items-center justify-center gap-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {status === 'sending' ? (
-                <><Loader size={14} className="animate-spin" /> Sending...</>
-              ) : (
-                <><Send size={14} /> Send Message</>
+              {/* Feedback messages */}
+              {status === 'success' && (
+                <div className="flex items-center gap-3 text-emerald-700 dark:text-emerald-300 text-xs font-bold p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800/60 rounded-xl">
+                  <CheckCircle size={18} className="text-emerald-500 flex-shrink-0" />
+                  Your message has been sent successfully! We'll reply soon.
+                </div>
               )}
-            </button>
 
-            {/* Success / Error feedback */}
-            {status === 'success' && (
-              <div className="flex items-center gap-3 text-emerald-400 text-xs tracking-wider font-light p-4 bg-emerald-500/10 border border-emerald-500/20">
-                <CheckCircle size={16} />
-                Message sent! We'll get back to you soon.
-              </div>
-            )}
-            {status === 'error' && (
-              <div className="flex items-center gap-3 text-red-400 text-xs tracking-wider font-light p-4 bg-red-500/10 border border-red-500/20">
-                <AlertCircle size={16} />
-                Something went wrong. Please try again or email us directly at predictrasusl@gmail.com
-              </div>
-            )}
-          </form>
+              {status === 'error' && (
+                <div className="flex items-center gap-3 text-red-700 dark:text-red-300 text-xs font-bold p-4 bg-red-50 dark:bg-red-950/40 border border-red-300 dark:border-red-800/60 rounded-xl">
+                  <AlertCircle size={18} className="text-red-500 flex-shrink-0" />
+                  Failed to send message. Please check your network and try again.
+                </div>
+              )}
+            </form>
+          </div>
         </main>
 
         {/* Footer */}
-        <footer className="py-8 text-center text-slate-500 text-[10px] tracking-widest uppercase font-light relative z-10 border-t border-white/5 bg-slate-900/80 backdrop-blur-xl">
-          &copy; 2026 CareerCompass AI. Team Predictra
+        <footer className="py-6 px-6 text-center text-slate-500 dark:text-slate-400 text-xs tracking-wider font-semibold border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
+          © 2026 CareerCompass AI · Team Predictra · Sabaragamuwa University of Sri Lanka
         </footer>
       </div>
     </>
