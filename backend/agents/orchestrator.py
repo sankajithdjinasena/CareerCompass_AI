@@ -1,110 +1,107 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, TypedDict
+from langgraph.graph import StateGraph, START, END
 
 from shared_store.context_store import context_store
 
+class AgentState(TypedDict):
+    session_id: str
+    file_path: str
+    target_role: str
+
+    raw_profile: Optional[Dict[str, Any]]
+    raw_skill_gaps: Optional[Dict[str, Any]]
+    lp_data: Optional[Dict[str, Any]]
+    jobs_data: Optional[Dict[str, Any]]
+
+    frontend_profile: Optional[Dict[str, Any]]
+    frontend_skill_gaps: Optional[Dict[str, Any]]
+    frontend_roadmap: Optional[Dict[str, Any]]
+    frontend_jobs: Optional[Dict[str, Any]]
 
 class Orchestrator:
     def __init__(self, max_retries: int = 1):
         self.max_retries = max_retries
-
-    # ------------------------------------------------------------------
-    # internal helpers
-    # ------------------------------------------------------------------
+        self.graph = self._build_graph()
 
     def _run_step(self, session_id: str, step_name: str, fn, *args, **kwargs):
-        """
-        Runs a single agent call with a capped retry count (bounded by
-        MAX_AGENT_RETRIES-style config via max_retries). Records the last
-        error on the session and re-raises on final failure, so callers
-        can catch at the pipeline boundary and mark the session failed
-        rather than leaving it stuck in 'processing' forever.
-        """
         last_err: Optional[Exception] = None
         for _ in range(self.max_retries + 1):
             try:
                 return fn(*args, **kwargs)
-            except Exception as e:  # noqa: BLE001 - intentionally broad, see docstring
+            except Exception as e:
                 last_err = e
         context_store.append_error(session_id, f"{step_name} failed: {last_err}")
         raise last_err
 
-    @staticmethod
-    def _roadmap_to_phases(lp_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _roadmap_to_phases(self, lp_data: dict) -> dict:
         phases = []
-        for step in lp_data.get("roadmap", []):
+        for i, item in enumerate(lp_data.get("learning_path", [])):
             phases.append({
-                "phase_number": step["step"],
-                "title": f"Learn {step['skill']}",
-                "week_range": f"Step {step['step']} ({step.get('est_hours', 10)} hours)",
-                "focus_skills": [step["skill"]],
-                "resource": step.get("resource"),
-                "url": step.get("url"),
-                "resource_type": step.get("resource_type"),
-                "est_hours": step.get("est_hours")
+                "phase_number": i + 1,
+                "title": item.get("topic", "Learning Topic"),
+                "week_range": item.get("time_estimate", "1 week"),
+                "focus_skills": [item.get("target_skill", "")],
+                "resource": item.get("recommended_resource", {}).get("title", "Resource"),
+                "url": item.get("recommended_resource", {}).get("url", ""),
             })
         return {"phases": phases}
 
-    # ------------------------------------------------------------------
-    # main pipeline: resume -> profile -> gaps -> roadmap -> jobs
-    # ------------------------------------------------------------------
+    # --- LANGGRAPH NODES ---
 
-    def run_pipeline(self, session_id: str, file_path: str, target_role: str) -> None:
-        """
-        Meant to run as a background task. Never raises past its own
-        boundary: failures are recorded on the session (status='failed'
-        + an errors list) instead of crashing the caller.
-        """
-        context_store.update(session_id, status="processing")
-
-        try:
-            # 1. Profile Analysis
-            from agents.profile_analysis_agent import ProfileAnalysisAgent
-            profile_agent = ProfileAnalysisAgent()
-            profile_data = self._run_step(
-                session_id, "Profile Analysis", profile_agent.run, file_path
-            )
-
-            frontend_profile = {
+    def node_profile(self, state: AgentState):
+        from agents.profile_analysis_agent import ProfileAnalysisAgent
+        agent = ProfileAnalysisAgent()
+        profile_data = self._run_step(state["session_id"], "Profile Analysis", agent.run, state["file_path"])
+        
+        return {
+            "raw_profile": profile_data,
+            "frontend_profile": {
                 "name": profile_data.get("name"),
                 "email": profile_data.get("email"),
                 "all_skills": profile_data.get("skills", []),
                 "experience": profile_data.get("experience", []),
                 "education": profile_data.get("education", []),
             }
+        }
 
-            # 2. Skill Gap
-            from agents.skill_gap_agent import SkillGapAgent
-            gap_agent = SkillGapAgent()
-            gap_data = self._run_step(
-                session_id, "Skill Gap Analysis", gap_agent.run, profile_data, target_role
-            )
-
-            frontend_skill_gaps = {
-                "role": gap_data.get("matched_role", target_role),
+    def node_skill_gap(self, state: AgentState):
+        from agents.skill_gap_agent import SkillGapAgent
+        agent = SkillGapAgent()
+        gap_data = self._run_step(
+            state["session_id"], "Skill Gap Analysis", agent.run, state.get("raw_profile"), state["target_role"]
+        )
+        
+        return {
+            "raw_skill_gaps": gap_data,
+            "frontend_skill_gaps": {
+                "role": gap_data.get("matched_role", state["target_role"]),
                 "missing_skills": {
-                    "must_have": [
-                        g["skill"] for g in gap_data.get("skill_gaps", []) if g["priority"] == "high"
-                    ],
-                    "nice_to_have": [
-                        g["skill"] for g in gap_data.get("skill_gaps", []) if g["priority"] == "medium"
-                    ],
+                    "must_have": [g["skill"] for g in gap_data.get("skill_gaps", []) if g["priority"] == "high"],
+                    "nice_to_have": [g["skill"] for g in gap_data.get("skill_gaps", []) if g["priority"] == "medium"],
                 },
             }
+        }
 
-            # 3. Learning Path
-            from agents.learning_path_agent import LearningPathAgent
-            lp_agent = LearningPathAgent()
-            lp_data = self._run_step(session_id, "Learning Path", lp_agent.run, gap_data)
-            frontend_roadmap = self._roadmap_to_phases(lp_data)
+    def node_learning_path(self, state: AgentState):
+        from agents.learning_path_agent import LearningPathAgent
+        agent = LearningPathAgent()
+        lp_data = self._run_step(state["session_id"], "Learning Path", agent.run, state.get("raw_skill_gaps"))
+        return {
+            "lp_data": lp_data,
+            "frontend_roadmap": self._roadmap_to_phases(lp_data)
+        }
 
-            # 4. Job Matching
-            from agents.job_matching_agent import JobMatchingAgent
-            job_agent = JobMatchingAgent()
-            jobs_data = self._run_step(
-                session_id, "Job Matching", job_agent.run,
-                profile_data, gap_data.get("matched_role", target_role),
-            )
-            frontend_jobs = {
+    def node_job_matching(self, state: AgentState):
+        from agents.job_matching_agent import JobMatchingAgent
+        agent = JobMatchingAgent()
+        jobs_data = self._run_step(
+            state["session_id"], "Job Matching", agent.run,
+            state.get("raw_profile"), state.get("raw_skill_gaps", {}).get("matched_role", state["target_role"])
+        )
+        
+        return {
+            "jobs_data": jobs_data,
+            "frontend_jobs": {
                 "jobs": [
                     {
                         "title": j.get("title", ""),
@@ -115,27 +112,53 @@ class Orchestrator:
                     for j in jobs_data.get("ranked_jobs", [])
                 ]
             }
+        }
 
+    def _build_graph(self):
+        builder = StateGraph(AgentState)
+        
+        builder.add_node("profile", self.node_profile)
+        builder.add_node("skill_gap", self.node_skill_gap)
+        builder.add_node("learning_path", self.node_learning_path)
+        builder.add_node("job_matching", self.node_job_matching)
+        
+        # Define the linear execution pipeline
+        builder.add_edge(START, "profile")
+        builder.add_edge("profile", "skill_gap")
+        builder.add_edge("skill_gap", "learning_path")
+        builder.add_edge("learning_path", "job_matching")
+        builder.add_edge("job_matching", END)
+        
+        return builder.compile()
+
+    # --- PIPELINE EXECUTIONS ---
+
+    def run_pipeline(self, session_id: str, file_path: str, target_role: str) -> None:
+        """
+        Executes the LangGraph StateGraph pipeline.
+        """
+        context_store.update(session_id, status="processing")
+        try:
+            initial_state = {
+                "session_id": session_id,
+                "file_path": file_path,
+                "target_role": target_role,
+            }
+            # Execute the compiled LangGraph state machine!
+            final_state = self.graph.invoke(initial_state)
+            
             context_store.update(
                 session_id,
                 status="completed",
-                profile=frontend_profile,
-                skill_gaps=frontend_skill_gaps,
-                learning_roadmap=frontend_roadmap,
-                job_matches=frontend_jobs,
-                # Raw (un-adapted) agent outputs, needed later by the
-                # interview flow and the adaptive re-run below.
-                raw_profile=profile_data,
-                raw_skill_gaps=gap_data,
+                profile=final_state.get("frontend_profile"),
+                skill_gaps=final_state.get("frontend_skill_gaps"),
+                learning_roadmap=final_state.get("frontend_roadmap"),
+                job_matches=final_state.get("frontend_jobs"),
+                raw_profile=final_state.get("raw_profile"),
+                raw_skill_gaps=final_state.get("raw_skill_gaps"),
             )
-
         except Exception:
-            # The specific failure was already recorded by _run_step.
             context_store.update(session_id, status="failed")
-
-    # ------------------------------------------------------------------
-    # interview flow + adaptive feedback loop
-    # ------------------------------------------------------------------
 
     def generate_interview_questions(self, session_id: str, num_questions: int = 20) -> List[Dict[str, Any]]:
         session = context_store.get(session_id)
@@ -169,12 +192,7 @@ class Orchestrator:
 
     def evaluate_interview(self, session_id: str, answers: Dict[int, str]) -> Dict[str, Any]:
         """
-        Scores the interview, then runs the ADAPTIVE FEEDBACK LOOP: any
-        skill in newly_detected_gaps that isn't already a known gap gets
-        merged in (as high priority) and the Learning Path Agent is
-        re-run automatically. The stored roadmap is updated in place —
-        the next time the frontend polls /api/report it sees the revised
-        plan with no further input from the user.
+        Scores the interview, then triggers the ADAPTIVE FEEDBACK LOOP via LangGraph.
         """
         session = context_store.get(session_id)
         if session is None:
@@ -182,7 +200,7 @@ class Orchestrator:
 
         questions = session.get("interview_questions")
         if not questions:
-            raise ValueError("No interview questions found for this session — generate them first")
+            raise ValueError("No interview questions found for this session - generate them first")
 
         role = session.get("interview_role", "the target role")
 
@@ -224,19 +242,21 @@ class Orchestrator:
             return False
 
         try:
-            from agents.learning_path_agent import LearningPathAgent
-            lp_agent = LearningPathAgent()
-            lp_data = self._run_step(
-                session_id, "Adaptive Learning Path Re-run", lp_agent.run, gap_data
-            )
+            # ADAPTIVE FEEDBACK LOOP USING LANGGRAPH NODE EXECUTION
+            # Since we defined nodes, we can manually invoke the learning_path node for the loop!
+            dummy_state = {
+                "session_id": session_id,
+                "file_path": "",
+                "target_role": "",
+                "raw_skill_gaps": gap_data
+            }
+            # Re-run just the learning path node from the graph
+            lp_state_update = self.node_learning_path(dummy_state)
         except Exception:
-            # Error already recorded by _run_step. Don't let a failed
-            # re-run invalidate the (already-valid) interview result.
             return False
 
-        frontend_roadmap = self._roadmap_to_phases(lp_data)
+        frontend_roadmap = lp_state_update["frontend_roadmap"]
 
-        # Keep the frontend-shaped skill gaps view in sync too.
         role = session.get("interview_role", gap_data.get("matched_role", "the target role"))
         skill_gaps = session.get("skill_gaps") or {
             "role": role,
@@ -255,7 +275,4 @@ class Orchestrator:
         )
         return True
 
-
-# Module-level singleton — one Orchestrator instance shared across the
-# API process, mirroring context_store's pattern.
 orchestrator = Orchestrator()
