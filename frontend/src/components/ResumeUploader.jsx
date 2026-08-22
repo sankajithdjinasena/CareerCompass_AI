@@ -57,17 +57,39 @@ export default function ResumeUploader({ onUploadComplete }) {
     <div className="flex items-center gap-3">
       {error && <p className="text-red-500 text-sm max-w-xs truncate" title={error}>{error}</p>}
       
-      <select 
-        value={targetRole}
-        onChange={(e) => setTargetRole(e.target.value)}
-        disabled={loading}
-        className="bg-slate-800 border border-white/20 text-white px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
-      >
-        <option value="auto">Auto-Detect Best Fit</option>
-        {ROLES.map(role => (
-          <option key={role} value={role}>{role}</option>
-        ))}
-      </select>
+      {targetRole !== 'custom' && !(!ROLES.includes(targetRole) && targetRole !== 'auto') ? (
+        <select 
+          value={targetRole}
+          onChange={(e) => setTargetRole(e.target.value)}
+          disabled={loading}
+          className="bg-slate-800 border border-white/20 text-white px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+        >
+          <option value="auto">Auto-Detect Best Fit</option>
+          {ROLES.map(role => (
+            <option key={role} value={role}>{role}</option>
+          ))}
+          <option value="custom">Other (Custom Role)...</option>
+        </select>
+      ) : (
+        <div className="flex items-center gap-1">
+          <input
+            type="text"
+            autoFocus
+            placeholder="e.g. Quantum Engineer"
+            value={targetRole === 'custom' ? '' : targetRole}
+            onChange={(e) => setTargetRole(e.target.value)}
+            disabled={loading}
+            className="bg-black/20 border border-white/20 text-white placeholder-slate-400 px-3 py-2 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 w-48"
+          />
+          <button
+            type="button"
+            onClick={() => setTargetRole('auto')}
+            className="text-slate-400 hover:text-white px-2"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       <div className="relative">
         <input 
