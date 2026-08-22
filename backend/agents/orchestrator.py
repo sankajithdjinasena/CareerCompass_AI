@@ -35,14 +35,15 @@ class Orchestrator:
 
     def _roadmap_to_phases(self, lp_data: dict) -> dict:
         phases = []
-        for i, item in enumerate(lp_data.get("learning_path", [])):
+        # learning_path_agent now returns 'roadmap' array natively
+        for i, item in enumerate(lp_data.get("roadmap", [])):
             phases.append({
-                "phase_number": i + 1,
-                "title": item.get("topic", "Learning Topic"),
-                "week_range": item.get("time_estimate", "1 week"),
-                "focus_skills": [item.get("target_skill", "")],
-                "resource": item.get("recommended_resource", {}).get("title", "Resource"),
-                "url": item.get("recommended_resource", {}).get("url", ""),
+                "phase_number": item.get("step", i + 1),
+                "title": f"Master {item.get('skill', 'Skill')}",
+                "week_range": f"{item.get('est_hours', 5)} hours",
+                "focus_skills": [item.get("skill", "")],
+                "resource": item.get("resource", "Resource"),
+                "url": item.get("url", ""),
             })
         return {"phases": phases}
 

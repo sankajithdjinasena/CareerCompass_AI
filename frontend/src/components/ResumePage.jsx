@@ -116,7 +116,7 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
   const experienceList = profile?.experience || demoProfile.experience
   const educationList = profile?.education || demoProfile.education
   const projectList = profile?.projects || demoProfile.projects
-  const atsScore = reportData?.resume_optimization?.ats_match_percentage || 88
+  const atsScore = reportData?.raw_skill_gaps?.readiness_pct ?? 88
 
   const handleCopyJSON = () => {
     navigator.clipboard.writeText(JSON.stringify(profile, null, 2))
