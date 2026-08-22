@@ -169,7 +169,7 @@ const POLICIES_DATA = [
     tabId: 'governance',
     clauseNumber: '5.1',
     title: 'Project & Institutional Governance',
-    text: 'CareerCompass AI is developed by Team Predictra from the Faculty of Applied Sciences, Sabaragamuwa University of Sri Lanka, for CodeSplash \'26 — Agentic AI Phase.'
+    text: 'CareerCompass AI is developed by Team Predictra from the Faculty of Computing, Sabaragamuwa University of Sri Lanka, for CodeSplash \'26 — Agentic AI Phase.'
   },
   {
     id: 'governance-5.2',

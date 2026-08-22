@@ -325,7 +325,7 @@ const LandingPage = ({ onGetStarted, onNavigate }) => {
               <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Institution</h4>
               <div className="space-y-2 text-xs font-medium text-slate-600 dark:text-slate-400 leading-relaxed">
                 <p className="text-slate-900 dark:text-white font-bold">Team Predictra</p>
-                <p>Faculty of Applied Sciences</p>
+                <p>Faculty of Computing</p>
                 <p>Sabaragamuwa University of Sri Lanka</p>
                 <p className="text-xs text-slate-500 pt-1 font-bold">CodeSplash '26 · Agentic AI Phase</p>
                 <div className="pt-3">

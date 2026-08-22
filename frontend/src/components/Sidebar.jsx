@@ -40,7 +40,7 @@ export default function Sidebar({ activePage = 'dashboard', onNavigate = () => {
     <aside className="w-64 bg-white dark:bg-slate-900/95 backdrop-blur-xl border-r border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white flex flex-col h-full shadow-lg transition-colors duration-200 z-20 flex-shrink-0">
       <div className="p-6 border-b border-slate-100 dark:border-slate-800/80">
         <h2 className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-          <span>CAREERWISE</span>
+          <span>CAREERCOMPASS</span>
           <span className="bg-brand-500 text-white text-xs px-2 py-0.5 rounded-md font-bold">AI</span>
         </h2>
       </div>
