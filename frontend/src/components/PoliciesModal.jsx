@@ -1,14 +1,189 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   X, ShieldCheck, FileText, Scale, Cpu, Download, Printer, 
   Search, Check, Info, Lock, BookOpen, Award, Map, Mic, Briefcase, Mail, FileJson
 } from 'lucide-react';
 
+const POLICIES_DATA = [
+  // TERMS OF SERVICE (terms)
+  {
+    id: 'terms-summary',
+    tabId: 'terms',
+    isSummary: true,
+    title: 'Terms Summary',
+    icon: Info,
+    text: 'CareerCompass AI provides autonomous AI-driven skill-gap analysis, learning path recommendations, and mock interviews. By using our platform, you agree to submit legitimate career documents and respect system safety boundaries.'
+  },
+  {
+    id: 'terms-1.1',
+    tabId: 'terms',
+    clauseNumber: '1.1',
+    title: 'Acceptance of Terms',
+    text: 'By creating an account, uploading a resume, accessing our web application, or utilizing any of the multi-agent career coaching features on CareerCompass AI ("Service", "Platform", "We", "Us"), you ("User", "Student", "Candidate") agree to be bound by these Terms of Service. If you do not agree to these terms, you must discontinue use of the platform immediately.'
+  },
+  {
+    id: 'terms-1.2',
+    tabId: 'terms',
+    clauseNumber: '1.2',
+    title: 'Eligibility & Target Audience',
+    text: 'CareerCompass AI is structured for computing undergraduates, academic researchers, and job seekers aiming to assess career readiness and bridge skill gaps. You must be at least 16 years of age (or have verified institutional consent) to register and process career data.'
+  },
+  {
+    id: 'terms-1.3',
+    tabId: 'terms',
+    clauseNumber: '1.3',
+    title: 'User Accounts & Authentication Security',
+    text: 'You agree to provide accurate, current, and complete registration information. You are responsible for safeguarding your password and account credentials. When authenticating via Google OAuth 2.0, you grant CareerCompass AI permission to verify your email identity in accordance with Google\'s authentication standards.'
+  },
+  {
+    id: 'terms-1.4',
+    tabId: 'terms',
+    clauseNumber: '1.4',
+    title: 'Acceptable Use & Prohibited Activities',
+    text: 'You agree that you will strictly NOT: (1) Upload resumes containing malicious macros, hidden payloads, or exploit scripts. (2) Submit fraudulent or intentionally falsified academic records to manipulate algorithmic scoring. (3) Attempt to reverse-engineer, decompile, scrape, or extract model weights, prompts, or taxonomy embeddings without authorization. (4) Exploit platform endpoints through high-frequency automated requests or denial-of-service attempts.'
+  },
+  {
+    id: 'terms-1.5',
+    tabId: 'terms',
+    clauseNumber: '1.5',
+    title: 'Multi-Agent Advisory Disclaimer',
+    text: 'CareerCompass AI deploys a coordinated pipeline of Level-3 autonomous agents (Profile Analysis, Skill Gap, Learning Path, Interview Simulator, Job Matching, and Orchestrator). All scores, skill gap evaluations, learning roadmaps, mock interview critiques, and job match percentages are strictly advisory recommendations. The platform does not guarantee employment or university examination results.'
+  },
+  {
+    id: 'terms-1.6',
+    tabId: 'terms',
+    clauseNumber: '1.6',
+    title: 'Intellectual Property Rights',
+    text: 'User Content: Students retain full ownership and intellectual property rights over their uploaded resumes, written interview answers, and personal profile information. Platform IP: The software codebase, design system, taxonomy database, and multi-agent orchestration architecture belong exclusively to Team Predictra.'
+  },
+  {
+    id: 'terms-1.7',
+    tabId: 'terms',
+    clauseNumber: '1.7',
+    title: 'Governing Law & Jurisdiction',
+    text: 'These Terms shall be governed by and construed in accordance with the applicable laws of Sri Lanka. Any legal disputes arising under these terms shall be subject to the exclusive jurisdiction of the competent courts in Sri Lanka.'
+  },
+
+  // PRIVACY POLICY (privacy)
+  {
+    id: 'privacy-summary',
+    tabId: 'privacy',
+    isSummary: true,
+    title: 'Zero Public Model Training Guarantee',
+    icon: Lock,
+    text: 'Your private resume files and interview transcripts are processed strictly in-memory and isolated session stores. We never sell your data or use your resumes to train public AI foundation models.'
+  },
+  {
+    id: 'privacy-2.1',
+    tabId: 'privacy',
+    clauseNumber: '2.1',
+    title: 'Information We Collect',
+    text: 'We collect only information necessary to deliver career analysis: Account Identifiers (Name, Email, Hashed Passwords, OAuth ID), Resume Data (PDF/Text resumes, education, work history, skills, certifications), Interactive Performance Records (mock interview transcripts, scores, roadmap progress), and Technical Metadata.'
+  },
+  {
+    id: 'privacy-2.2',
+    tabId: 'privacy',
+    clauseNumber: '2.2',
+    title: 'How We Use Your Data',
+    text: 'Your data is used exclusively to: (1) Parse and structure your candidate profile, (2) Compare your skills deterministically against industry taxonomies, (3) Build customized weekly learning roadmaps, and (4) Conduct dynamic technical mock interviews.'
+  },
+  {
+    id: 'privacy-2.3',
+    tabId: 'privacy',
+    clauseNumber: '2.3',
+    title: 'Storage, Encryption & Security Standards',
+    text: 'All transmissions utilize TLS 1.3 HTTPS encryption. Passwords are salted and hashed, and session tokens use cryptographically signed JSON Web Tokens (JWT). Private resume vector representations in ChromaDB are segregated by session ID.'
+  },
+  {
+    id: 'privacy-2.4',
+    tabId: 'privacy',
+    clauseNumber: '2.4',
+    title: 'Student Privacy Rights (GDPR & Right to Erasure)',
+    text: 'Every student holds enforceable data rights: Right to Access (view profile entities and reports in real-time), Right to Erasure / Right to be Forgotten (permanent deletion of account and resume embeddings via Settings), and Right to Data Portability (export career dossiers, roadmaps, and transcripts in PDF/JSON).'
+  },
+  {
+    id: 'privacy-2.5',
+    tabId: 'privacy',
+    clauseNumber: '2.5',
+    title: 'Cookies & Session Management',
+    text: 'CareerCompass AI uses essential local storage and secure session cookies solely for authentication state management. We do not deploy third-party advertising tracking cookies.'
+  },
+
+  // AI ETHICS & ADVISORY (ethics)
+  {
+    id: 'ethics-summary',
+    tabId: 'ethics',
+    isSummary: true,
+    title: 'Hybrid Deterministic Architecture',
+    icon: Cpu,
+    text: 'We combine deterministic taxonomy mathematics with Groq LPU inference to mathematically eliminate hallucinations and bias during candidate scoring.'
+  },
+  {
+    id: 'ethics-3.1',
+    tabId: 'ethics',
+    clauseNumber: '3.1',
+    title: 'Anti-Hallucination & Determinism Guardrails',
+    text: 'Skill gap percentages and course mappings are derived from deterministic set-operations over structured taxonomy matrices, not unconstrained generative guessing. Responses are anchored against strict schema validation guardrails.'
+  },
+  {
+    id: 'ethics-3.2',
+    tabId: 'ethics',
+    clauseNumber: '3.2',
+    title: 'Algorithmic Fairness & Bias Mitigation',
+    text: 'Candidate readiness is evaluated strictly based on verifiable technical proficiencies, project experience, and competency demonstrations. Demographic indicators (gender, age, ethnicity, nationality) are explicitly stripped or ignored by our agent pipelines.'
+  },
+  {
+    id: 'ethics-3.3',
+    tabId: 'ethics',
+    clauseNumber: '3.3',
+    title: 'Autonomous Closed-Loop Transparency',
+    text: 'When the Interview Simulator Agent discovers an unmastered concept during mock Q&A, the Orchestrator autonomously prompts the Learning Path Agent to revise the student\'s roadmap. All automated adjustments are recorded and transparently presented.'
+  },
+  {
+    id: 'ethics-3.4',
+    tabId: 'ethics',
+    clauseNumber: '3.4',
+    title: 'Academic Integrity & Educational Purpose',
+    text: 'CareerCompass AI is built to empower self-directed learning and skill development. It is intended to complement university academic advising and career development programs.'
+  },
+
+  // DATA RIGHTS & PORTABILITY (portability)
+  {
+    id: 'portability-4.1',
+    tabId: 'portability',
+    clauseNumber: '4.1',
+    title: 'Permitted Export Formats',
+    text: 'Under our Open Student Data standard, users are free to export all platform-generated career dossiers at any time without fee or restriction: Skill Gap & Benchmark Report (JSON/PDF), Personalized Learning Roadmap (Markdown/PDF), Mock Interview Transcripts (Full Q&A logs & readiness scores), and Ranked Job Match Sheets (CSV/PDF).'
+  },
+  {
+    id: 'portability-4.2',
+    tabId: 'portability',
+    clauseNumber: '4.2',
+    title: 'Attribution & Usage of Generated Reports',
+    text: 'Exported career reports are for the student\'s personal, academic, and professional self-improvement. They may be shared freely with university mentors, academic supervisors, and prospective employers.'
+  },
+
+  // GOVERNANCE & CONTACT (governance)
+  {
+    id: 'governance-5.1',
+    tabId: 'governance',
+    clauseNumber: '5.1',
+    title: 'Project & Institutional Governance',
+    text: 'CareerCompass AI is developed by Team Predictra from the Faculty of Applied Sciences, Sabaragamuwa University of Sri Lanka, for CodeSplash \'26 — Agentic AI Phase.'
+  },
+  {
+    id: 'governance-5.2',
+    tabId: 'governance',
+    clauseNumber: '5.2',
+    title: 'Privacy & Compliance Contact',
+    text: 'For inquiries regarding data protection, exercising your student privacy rights, or reporting security vulnerabilities, contact our support & privacy team at predictrasusl@gmail.com.'
+  }
+];
+
 const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Keep activeTab in sync when initialTab changes on open
   React.useEffect(() => {
     if (isOpen) {
       setActiveTab(initialTab);
@@ -42,6 +217,16 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
     { id: 'portability', label: 'Data Rights & Export', icon: BookOpen },
     { id: 'governance', label: 'Governance & Contact', icon: Award },
   ];
+
+  // Filter clauses live based on searchQuery
+  const filteredClauses = POLICIES_DATA.filter((item) => {
+    if (!searchQuery.trim()) return item.tabId === activeTab;
+    const query = searchQuery.toLowerCase();
+    const matchTitle = item.title.toLowerCase().includes(query);
+    const matchText = item.text.toLowerCase().includes(query);
+    const matchClause = item.clauseNumber ? item.clauseNumber.includes(query) : false;
+    return matchTitle || matchText || matchClause;
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 bg-slate-950/60 backdrop-blur-md animate-fade-in font-montserrat">
@@ -93,39 +278,48 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
         </div>
 
         {/* Tab Navigation & Search Bar */}
-        <div className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 md:px-6 flex flex-col md:flex-row justify-between gap-3 pt-2">
+        <div className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-4 md:px-6 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 py-2.5">
           {/* Tabs */}
-          <div className="flex flex-wrap gap-1 pb-2 md:pb-0">
+          <div className="flex flex-wrap gap-1">
             {tabs.map((tab) => {
               const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
+              const isActive = !searchQuery && activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => { setActiveTab(tab.id); setSearchQuery(''); }}
-                  className={`flex items-center gap-2 px-3.5 py-2.5 text-xs tracking-wider uppercase font-bold border-b-2 whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-2 px-3 py-2 text-xs tracking-wider uppercase font-bold rounded-lg transition-all ${
                     isActive
-                      ? 'border-brand-500 text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/40'
-                      : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/40'
+                      ? 'bg-brand-600 text-white shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
                   }`}
                 >
-                  <Icon size={14} className={isActive ? 'text-brand-500' : 'text-slate-400'} />
+                  <Icon size={14} className={isActive ? 'text-white' : 'text-slate-400'} />
                   {tab.label}
                 </button>
               );
             })}
           </div>
 
-          {/* Quick Filter */}
-          <div className="relative pb-2 md:pb-0 min-w-[200px]">
-            <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+          {/* Quick Search Bar with Perfect Alignment */}
+          <div className="relative min-w-[220px] flex items-center">
+            <Search size={15} className="absolute left-3 text-slate-400 pointer-events-none" />
             <input
               type="text"
               placeholder="Search clauses..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-brand-500 rounded-lg text-xs pl-8 pr-3 py-1.5 text-slate-900 dark:text-white placeholder-slate-400 outline-none transition-all font-medium"
+              className="w-full h-9 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-brand-500 rounded-lg text-xs pl-9 pr-8 py-2 text-slate-900 dark:text-white placeholder-slate-400 outline-none transition-all font-medium shadow-sm"
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 p-0.5 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-full transition"
+                title="Clear search"
+              >
+                <X size={14} />
+              </button>
+            )}
           </div>
         </div>
 
@@ -134,294 +328,53 @@ const PoliciesModal = ({ isOpen, onClose, initialTab = 'terms', onAccept }) => {
           id="policy-content-area" 
           className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 text-xs md:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium select-text"
         >
-          {/* TERMS OF SERVICE */}
-          {activeTab === 'terms' && (
-            <div className="space-y-6">
-              <div className="p-4 rounded-xl bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 text-brand-900 dark:text-brand-200 text-xs flex items-start gap-3">
-                <Info size={18} className="text-brand-600 dark:text-brand-400 mt-0.5 flex-shrink-0" />
-                <p>
-                  <strong>Summary:</strong> CareerCompass AI provides autonomous AI-driven skill-gap analysis, learning path recommendations, and mock interviews. By using our platform, you agree to submit legitimate career documents and respect system safety boundaries.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.1</span> Acceptance of Terms
-                </h3>
-                <p>
-                  By creating an account, uploading a resume, accessing our web application, or utilizing any of the multi-agent career coaching features on CareerCompass AI ("Service", "Platform", "We", "Us"), you ("User", "Student", "Candidate") agree to be bound by these Terms of Service. If you do not agree to these terms, you must discontinue use of the platform immediately.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.2</span> Eligibility & Target Audience
-                </h3>
-                <p>
-                  CareerCompass AI is structured for computing undergraduates, academic researchers, and job seekers aiming to assess career readiness and bridge skill gaps. You must be at least 16 years of age (or have verified institutional consent) to register and process career data.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.3</span> User Accounts & Authentication Security
-                </h3>
-                <p>
-                  You agree to provide accurate, current, and complete registration information. You are responsible for safeguarding your password and account credentials. When authenticating via Google OAuth 2.0, you grant CareerCompass AI permission to verify your email identity in accordance with Google's authentication standards.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.4</span> Acceptable Use & Prohibited Activities
-                </h3>
-                <p className="mb-2">You agree that you will strictly NOT:</p>
-                <ul className="list-disc pl-5 space-y-1.5 marker:text-brand-500">
-                  <li>Upload resumes containing malicious macros, hidden payloads, or exploit scripts.</li>
-                  <li>Submit fraudulent or intentionally falsified academic records to manipulate algorithmic scoring.</li>
-                  <li>Attempt to reverse-engineer, decompile, scrape, or extract model weights, prompts, or taxonomy embeddings without authorization.</li>
-                  <li>Exploit platform endpoints through high-frequency automated requests or denial-of-service attempts.</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.5</span> Multi-Agent Advisory Disclaimer
-                </h3>
-                <p>
-                  CareerCompass AI deploys a coordinated pipeline of Level-3 autonomous agents (Profile Analysis, Skill Gap, Learning Path, Interview Simulator, Job Matching, and Orchestrator). All scores, skill gap evaluations, learning roadmaps, mock interview critiques, and job match percentages are <strong className="text-slate-900 dark:text-white">strictly advisory recommendations</strong>. The platform does not guarantee employment or university examination results.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.6</span> Intellectual Property Rights
-                </h3>
-                <p>
-                  <strong className="text-slate-900 dark:text-white">User Content:</strong> Students retain full ownership and intellectual property rights over their uploaded resumes, written interview answers, and personal profile information. <strong className="text-slate-900 dark:text-white">Platform IP:</strong> The software codebase, design system, taxonomy database, and multi-agent orchestration architecture belong exclusively to Team Predictra.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">1.7</span> Governing Law & Jurisdiction
-                </h3>
-                <p>
-                  These Terms shall be governed by and construed in accordance with the applicable laws of Sri Lanka. Any legal disputes arising under these terms shall be subject to the exclusive jurisdiction of the competent courts in Sri Lanka.
-                </p>
-              </div>
+          {searchQuery && (
+            <div className="p-3 bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 rounded-xl text-brand-900 dark:text-brand-200 text-xs font-semibold flex justify-between items-center">
+              <span>Showing search results for "<strong>{searchQuery}</strong>" ({filteredClauses.length} clauses matched)</span>
+              <button onClick={() => setSearchQuery('')} className="underline hover:text-brand-600 font-bold">Clear Search</button>
             </div>
           )}
 
-          {/* PRIVACY POLICY */}
-          {activeTab === 'privacy' && (
-            <div className="space-y-6">
-              <div className="p-4 rounded-xl bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 text-brand-900 dark:text-brand-200 text-xs flex items-start gap-3">
-                <Lock size={18} className="text-brand-600 dark:text-brand-400 mt-0.5 flex-shrink-0" />
-                <p>
-                  <strong>Zero Public Model Training Guarantee:</strong> Your private resume files and interview transcripts are processed strictly in-memory and isolated session stores. We <strong className="text-slate-900 dark:text-white">never</strong> sell your data or use your resumes to train public AI foundation models.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">2.1</span> Information We Collect
-                </h3>
-                <p className="mb-2">We collect only information necessary to deliver career analysis:</p>
-                <ul className="list-disc pl-5 space-y-1.5 marker:text-brand-500">
-                  <li><strong className="text-slate-900 dark:text-white">Account Identifiers:</strong> Name, Email Address, Hashed Passwords (salted SHA-256 / bcrypt), OAuth ID.</li>
-                  <li><strong className="text-slate-900 dark:text-white">Resume Data:</strong> Uploaded PDF/Text resumes (education, work history, skills, certifications, projects).</li>
-                  <li><strong className="text-slate-900 dark:text-white">Interactive Performance Records:</strong> Mock interview Q&A transcripts, score cards, and roadmap progress.</li>
-                  <li><strong className="text-slate-900 dark:text-white">Technical Metadata:</strong> Session timestamps, essential authentication tokens.</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">2.2</span> How We Use Your Data
-                </h3>
-                <p>
-                  Your data is used exclusively to: (1) Parse and structure your candidate profile, (2) Compare your skills deterministically against industry taxonomies, (3) Build customized weekly learning roadmaps, and (4) Conduct dynamic technical mock interviews.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">2.3</span> Storage, Encryption & Security Standards
-                </h3>
-                <p>
-                  All transmissions utilize TLS 1.3 HTTPS encryption. Passwords are salted and hashed, and session tokens use cryptographically signed JSON Web Tokens (JWT). Private resume vector representations in ChromaDB are segregated by session ID.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">2.4</span> Student Privacy Rights (GDPR & Right to Erasure)
-                </h3>
-                <p className="mb-2">Every student holds enforceable data rights:</p>
-                <ul className="list-disc pl-5 space-y-1.5 marker:text-brand-500">
-                  <li><strong className="text-slate-900 dark:text-white">Right to Access:</strong> View all extracted profile entities, skill gap reports, and interview records in real-time.</li>
-                  <li><strong className="text-slate-900 dark:text-white">Right to Erasure ("Right to be Forgotten"):</strong> Request instant permanent deletion of your account and resume embeddings via Account Settings.</li>
-                  <li><strong className="text-slate-900 dark:text-white">Right to Data Portability:</strong> Export complete career dossiers, roadmaps, and interview performance logs in PDF or JSON format.</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">2.5</span> Cookies & Session Management
-                </h3>
-                <p>
-                  CareerCompass AI uses essential local storage and secure session cookies solely for authentication state management. We do not deploy third-party advertising tracking cookies.
-                </p>
-              </div>
+          {filteredClauses.length === 0 ? (
+            <div className="text-center py-12 space-y-3">
+              <Search size={36} className="text-slate-400 mx-auto" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">No matching policy clauses found</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Try searching for keywords like "GDPR", "privacy", "resume", "ethics", or "terms".</p>
+              <button 
+                onClick={() => setSearchQuery('')}
+                className="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg text-xs font-bold transition"
+              >
+                Reset Search
+              </button>
             </div>
-          )}
-
-          {/* AI ETHICS & DISCLAIMERS */}
-          {activeTab === 'ethics' && (
-            <div className="space-y-6">
-              <div className="p-4 rounded-xl bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 text-brand-900 dark:text-brand-200 text-xs flex items-start gap-3">
-                <Cpu size={18} className="text-brand-600 dark:text-brand-400 mt-0.5 flex-shrink-0" />
-                <p>
-                  <strong>Hybrid Deterministic Architecture:</strong> We combine deterministic taxonomy mathematics with Groq LPU inference to mathematically eliminate hallucinations and bias during candidate scoring.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">3.1</span> Anti-Hallucination & Determinism Guardrails
-                </h3>
-                <p>
-                  Skill gap percentages and course mappings are derived from deterministic set-operations over structured taxonomy matrices, not unconstrained generative guessing. When LLMs are used (e.g. resume summarization or mock interview roleplay), responses are anchored against strict schema validation guardrails.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">3.2</span> Algorithmic Fairness & Bias Mitigation
-                </h3>
-                <p>
-                  Candidate readiness is evaluated strictly based on verifiable technical proficiencies, project experience, and competency demonstrations. Demographic indicators (such as gender, age, ethnicity, or nationality) are explicitly stripped or ignored by our agent pipelines.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">3.3</span> Autonomous Closed-Loop Transparency
-                </h3>
-                <p>
-                  When the Interview Simulator Agent discovers an unmastered concept during mock Q&A, the Orchestrator autonomously prompts the Learning Path Agent to revise the student's roadmap. All automated adjustments are recorded and transparently presented in the candidate's roadmap dashboard.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">3.4</span> Academic Integrity & Educational Purpose
-                </h3>
-                <p>
-                  CareerCompass AI is built to empower self-directed learning and skill development. It is intended to complement university academic advising and career development programs.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* DATA PORTABILITY */}
-          {activeTab === 'portability' && (
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">4.1</span> Permitted Export Formats
-                </h3>
-                <p className="mb-3">
-                  Under our Open Student Data standard, users are free to export all platform-generated career dossiers at any time without fee or restriction:
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-xl">
-                    <div className="flex items-center gap-2 mb-1 text-slate-900 dark:text-white font-bold text-xs">
-                      <FileJson size={15} className="text-brand-500" />
-                      Skill Gap & Benchmark Report
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs font-medium">Downloadable as structured JSON or printable summary PDF.</p>
+          ) : (
+            filteredClauses.map((clause) => {
+              if (clause.isSummary) {
+                const SummaryIcon = clause.icon || Info;
+                return (
+                  <div key={clause.id} className="p-4 rounded-xl bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 text-brand-900 dark:text-brand-200 text-xs flex items-start gap-3">
+                    <SummaryIcon size={18} className="text-brand-600 dark:text-brand-400 mt-0.5 flex-shrink-0" />
+                    <p>
+                      <strong>{clause.title}:</strong> {clause.text}
+                    </p>
                   </div>
-                  <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-xl">
-                    <div className="flex items-center gap-2 mb-1 text-slate-900 dark:text-white font-bold text-xs">
-                      <Map size={15} className="text-brand-500" />
-                      Personalized Learning Roadmap
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs font-medium">Weekly milestone guides with resource links in Markdown or PDF.</p>
-                  </div>
-                  <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-xl">
-                    <div className="flex items-center gap-2 mb-1 text-slate-900 dark:text-white font-bold text-xs">
-                      <Mic size={15} className="text-brand-500" />
-                      Mock Interview Transcripts
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs font-medium">Full Q&A logs with agent critique scores and readiness metrics.</p>
-                  </div>
-                  <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-xl">
-                    <div className="flex items-center gap-2 mb-1 text-slate-900 dark:text-white font-bold text-xs">
-                      <Briefcase size={15} className="text-brand-500" />
-                      Ranked Job Match Sheets
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 text-xs font-medium">Matching scores and key required qualifications in CSV/PDF.</p>
-                  </div>
+                );
+              }
+
+              return (
+                <div key={clause.id} className="space-y-1.5 p-4 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-800">
+                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                    {clause.clauseNumber && (
+                      <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">{clause.clauseNumber}</span>
+                    )}
+                    <span>{clause.title}</span>
+                  </h3>
+                  <p className="text-slate-700 dark:text-slate-300 text-xs md:text-sm font-medium leading-relaxed">
+                    {clause.text}
+                  </p>
                 </div>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">4.2</span> Attribution & Usage of Generated Reports
-                </h3>
-                <p>
-                  Exported career reports are for the student's personal, academic, and professional self-improvement. They may be shared freely with university mentors, academic supervisors, and prospective employers.
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* GOVERNANCE & CONTACT */}
-          {activeTab === 'governance' && (
-            <div className="space-y-6">
-              <div className="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-3">
-                <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Project & Institutional Governance</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700 dark:text-slate-300">
-                  <div>
-                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs block mb-0.5 font-bold">Project</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">CareerCompass AI</span>
-                  </div>
-                  <div>
-                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs block mb-0.5 font-bold">Development Team</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">Team Predictra</span>
-                  </div>
-                  <div>
-                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs block mb-0.5 font-bold">Academic Institution</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">Sabaragamuwa University of Sri Lanka</span>
-                  </div>
-                  <div>
-                    <span className="text-slate-500 dark:text-slate-400 uppercase tracking-wider text-xs block mb-0.5 font-bold">Event Edition</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">CodeSplash '26 — Agentic AI Phase</span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-2 uppercase tracking-wider flex items-center gap-2">
-                  <span className="text-brand-600 dark:text-brand-400 font-mono text-sm">5.1</span> Privacy & Compliance Contact
-                </h3>
-                <p className="leading-relaxed mb-3">
-                  For inquiries regarding data protection, exercising your student privacy rights, or reporting security vulnerabilities:
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <div className="px-4 py-2 bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 rounded-lg text-brand-900 dark:text-brand-200 text-xs font-semibold flex items-center gap-2">
-                    <Mail size={15} className="text-brand-600 dark:text-brand-400" />
-                    Support: <span className="font-mono font-bold text-slate-900 dark:text-white">predictrasusl@gmail.com</span>
-                  </div>
-                  <div className="px-4 py-2 bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60 rounded-lg text-brand-900 dark:text-brand-200 text-xs font-semibold flex items-center gap-2">
-                    <ShieldCheck size={15} className="text-brand-600 dark:text-brand-400" />
-                    Privacy Officer: <span className="font-mono font-bold text-slate-900 dark:text-white">predictrasusl@gmail.com</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              );
+            })
           )}
         </div>
 
