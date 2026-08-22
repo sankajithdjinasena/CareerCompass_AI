@@ -6,6 +6,10 @@ SQLite-backed auth database.
 Tables:
   users         — registered users (email/password OR Google OAuth)
   auth_sessions — active session tokens (30-day TTL)
+
+Columns added (v2):
+  users.target_role  — user's primary career target role (text)
+  users.skills       — JSON-serialised list of user skills (text)
 """
 
 import json
@@ -66,32 +70,55 @@ class AuthDB:
                 );
                 """
             )
+            # Migrate existing DBs — ADD COLUMN is a no-op if column already exists
+            for alter_sql in [
+                "ALTER TABLE users ADD COLUMN target_role TEXT",
+                "ALTER TABLE users ADD COLUMN skills      TEXT",
+            ]:
+                try:
+                    conn.execute(alter_sql)
+                except Exception:
+                    pass  # Column already exists
             conn.commit()
 
     # ------------------------------------------------------------------
     # User helpers
     # ------------------------------------------------------------------
 
+    def _deserialize_user(self, row) -> Optional[dict]:
+        """Convert a DB row to a dict, deserialising JSON fields."""
+        if row is None:
+            return None
+        d = dict(row)
+        if d.get("skills"):
+            try:
+                d["skills"] = json.loads(d["skills"])
+            except Exception:
+                d["skills"] = []
+        else:
+            d["skills"] = []
+        return d
+
     def get_user_by_email(self, email: str) -> Optional[dict]:
         with self._connect() as conn:
             row = conn.execute(
                 "SELECT * FROM users WHERE email = ?", (email,)
             ).fetchone()
-            return dict(row) if row else None
+            return self._deserialize_user(row)
 
     def get_user_by_google_id(self, google_id: str) -> Optional[dict]:
         with self._connect() as conn:
             row = conn.execute(
                 "SELECT * FROM users WHERE google_id = ?", (google_id,)
             ).fetchone()
-            return dict(row) if row else None
+            return self._deserialize_user(row)
 
     def get_user_by_id(self, user_id: str) -> Optional[dict]:
         with self._connect() as conn:
             row = conn.execute(
                 "SELECT * FROM users WHERE id = ?", (user_id,)
             ).fetchone()
-            return dict(row) if row else None
+            return self._deserialize_user(row)
 
     def create_user(
         self,
@@ -101,16 +128,19 @@ class AuthDB:
         hashed_pw: Optional[str] = None,
         provider: str = "email",
         google_id: Optional[str] = None,
+        target_role: Optional[str] = None,
+        skills: Optional[list] = None,
     ) -> dict:
         user_id = str(uuid.uuid4())
         created_at = datetime.now(timezone.utc).isoformat()
+        skills_json = json.dumps(skills) if skills else None
         with self._lock, self._connect() as conn:
             conn.execute(
                 """
-                INSERT INTO users (id, email, name, picture, hashed_pw, provider, google_id, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO users (id, email, name, picture, hashed_pw, provider, google_id, created_at, target_role, skills)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
-                (user_id, email, name, picture, hashed_pw, provider, google_id, created_at),
+                (user_id, email, name, picture, hashed_pw, provider, google_id, created_at, target_role, skills_json),
             )
             conn.commit()
         return self.get_user_by_id(user_id)
@@ -153,12 +183,25 @@ class AuthDB:
             google_id=google_id,
         )
 
-    def update_user_profile(self, user_id: str, name: str) -> dict:
+    def update_user_profile(
+        self,
+        user_id: str,
+        name: str,
+        target_role: Optional[str] = None,
+        skills: Optional[list] = None,
+    ) -> dict:
+        skills_json = json.dumps(skills) if skills is not None else None
         with self._lock, self._connect() as conn:
-            conn.execute(
-                "UPDATE users SET name = ? WHERE id = ?",
-                (name, user_id),
-            )
+            if skills_json is not None:
+                conn.execute(
+                    "UPDATE users SET name = ?, target_role = ?, skills = ? WHERE id = ?",
+                    (name, target_role, skills_json, user_id),
+                )
+            else:
+                conn.execute(
+                    "UPDATE users SET name = ?, target_role = ? WHERE id = ?",
+                    (name, target_role, user_id),
+                )
             conn.commit()
         return self.get_user_by_id(user_id)
 

@@ -8,7 +8,7 @@ import { getToken, getUser, saveAuth } from "../lib/auth"
 
 const API_BASE = "http://localhost:8000"
 
-export default function SettingsPage() {
+export default function SettingsPage({ onProfileUpdate }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showPolicies, setShowPolicies] = useState(false)
@@ -19,6 +19,8 @@ export default function SettingsPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [targetRole, setTargetRole] = useState("Software / AI Engineer")
+  const [skills, setSkills] = useState([])      // list of skill strings
+  const [skillInput, setSkillInput] = useState("") // current text in skills input
   const [profileSaving, setProfileSaving] = useState(false)
   const [profileSuccess, setProfileSuccess] = useState(false)
   const [profileError, setProfileError] = useState("")
@@ -50,19 +52,10 @@ export default function SettingsPage() {
       // Load cached user if available
       if (cachedUser) {
         setUser(cachedUser)
-        setName(cachedUser.name || "Alex Parker")
-        setEmail(cachedUser.email || "alex.parker@sfu.ac.lk")
-      } else {
-        // Default fallback user profile
-        const defaultUser = {
-          name: "Alex Parker",
-          email: "alex.parker@sfu.ac.lk",
-          provider: "email",
-          role: "Software / AI Engineer"
-        }
-        setUser(defaultUser)
-        setName(defaultUser.name)
-        setEmail(defaultUser.email)
+        setName(cachedUser.name || "")
+        setEmail(cachedUser.email || "")
+        if (cachedUser.target_role) setTargetRole(cachedUser.target_role)
+        if (Array.isArray(cachedUser.skills)) setSkills(cachedUser.skills)
       }
 
       if (token) {
@@ -75,6 +68,8 @@ export default function SettingsPage() {
             setUser(data)
             setName(data.name || "")
             setEmail(data.email || "")
+            if (data.target_role) setTargetRole(data.target_role)
+            if (Array.isArray(data.skills)) setSkills(data.skills)
           }
         } catch (err) {
           console.error("Using cached profile:", err)
@@ -101,19 +96,20 @@ export default function SettingsPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({ name, target_role: targetRole })
+          body: JSON.stringify({ name, target_role: targetRole, skills })
         })
         if (res.ok) {
           const data = await res.json()
           setUser(data)
+          // Persist updated user (including target_role and skills) to localStorage
           saveAuth(token, data)
+          // Notify App.jsx to refresh authUser for the dashboard
+          if (onProfileUpdate) onProfileUpdate(data)
+        } else {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.detail || "Failed to update profile")
         }
       }
-      
-      // Update local state and cached user
-      const updatedUser = { ...(user || {}), name, email, target_role: targetRole }
-      setUser(updatedUser)
-      if (token) saveAuth(token, updatedUser)
 
       setProfileSuccess(true)
       setTimeout(() => setProfileSuccess(false), 3000)
@@ -185,8 +181,14 @@ export default function SettingsPage() {
       {/* Account Settings Header & Navigation Tabs */}
       <div className="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-tr from-brand-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-extrabold text-xl shadow-md">
-            {user?.name ? user.name.split(' ').map(n => n[0]).join('') : 'U'}
+          {/* Profile Photo */}
+          <div className="w-14 h-14 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0 shadow-md border-2 border-white dark:border-slate-700">
+            {user?.picture
+              ? <img src={user.picture} alt={user.name} className="w-full h-full object-cover" />
+              : <div className="w-full h-full bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white font-extrabold text-xl">
+                  {user?.name ? user.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase() : 'U'}
+                </div>
+            }
           </div>
           <div>
             <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{user?.name || "Candidate User"}</h2>
@@ -302,6 +304,64 @@ export default function SettingsPage() {
                   disabled 
                   className="w-full rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 px-4 py-2.5 text-sm text-slate-500 cursor-not-allowed font-semibold"
                 />
+              </div>
+            </div>
+
+            {/* Skills Section */}
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">My Skills</label>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">These show as your top skills on the dashboard when no resume is uploaded.</p>
+              {/* Tag list */}
+              <div className="flex flex-wrap gap-2 mb-2 min-h-[32px]">
+                {skills.map((skill, i) => (
+                  <span key={i} className="flex items-center gap-1.5 bg-brand-100 dark:bg-brand-950/50 text-brand-800 dark:text-brand-300 px-3 py-1 rounded-full text-xs font-bold border border-brand-200 dark:border-brand-700">
+                    {skill}
+                    <button
+                      type="button"
+                      onClick={() => setSkills(s => s.filter((_, j) => j !== i))}
+                      className="text-brand-500 hover:text-red-500 transition-colors ml-0.5 leading-none"
+                      title="Remove skill"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+                {skills.length === 0 && (
+                  <span className="text-xs text-slate-400 italic">No skills added yet.</span>
+                )}
+              </div>
+              {/* Input to add new skills */}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if ((e.key === 'Enter' || e.key === ',') && skillInput.trim()) {
+                      e.preventDefault()
+                      const newSkill = skillInput.trim().replace(/,$/, '')
+                      if (newSkill && !skills.includes(newSkill)) {
+                        setSkills(s => [...s, newSkill])
+                      }
+                      setSkillInput('')
+                    }
+                  }}
+                  placeholder="Type a skill and press Enter (e.g. Python, React)"
+                  className="flex-1 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newSkill = skillInput.trim().replace(/,$/, '')
+                    if (newSkill && !skills.includes(newSkill)) {
+                      setSkills(s => [...s, newSkill])
+                    }
+                    setSkillInput('')
+                  }}
+                  className="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition"
+                >
+                  Add
+                </button>
               </div>
             </div>
 

@@ -172,7 +172,7 @@ function AppContent() {
       {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
       {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
       {page === 'jobs' && <JobsPage sessionId={sessionId} />}
-      {page === 'settings' && <SettingsPage />}
+      {page === 'settings' && <SettingsPage onProfileUpdate={(updatedUser) => setAuthUser(updatedUser)} />}
     </MainLayout>
   )
 }

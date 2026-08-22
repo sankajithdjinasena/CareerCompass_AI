@@ -75,9 +75,13 @@ class UserResponse(BaseModel):
     picture: Optional[str]
     provider: str
     created_at: str
+    target_role: Optional[str] = None
+    skills: Optional[list] = []
 
 class UpdateProfileRequest(BaseModel):
     name: str
+    target_role: Optional[str] = None
+    skills: Optional[list] = None
 
 class UpdatePasswordRequest(BaseModel):
     current_password: str
@@ -225,7 +229,12 @@ async def me(user: dict = Depends(get_current_user)):
 
 @router.put("/profile", response_model=UserResponse)
 async def update_profile(body: UpdateProfileRequest, user: dict = Depends(get_current_user)):
-    updated_user = auth_db.update_user_profile(user["id"], body.name)
+    updated_user = auth_db.update_user_profile(
+        user["id"],
+        body.name,
+        target_role=body.target_role,
+        skills=body.skills,
+    )
     return UserResponse(**_safe_user(updated_user))
 
 @router.put("/password")

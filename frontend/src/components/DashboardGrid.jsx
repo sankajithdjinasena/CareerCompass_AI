@@ -71,10 +71,10 @@ export default function DashboardGrid({ sessionId, authUser }) {
         name: authUser?.name || 'You',
         email: authUser?.email || '',
         picture: authUser?.picture || null,
-        all_skills: []
+        all_skills: Array.isArray(authUser?.skills) ? authUser.skills : []
       }
     : data.profile;
-  const skill_gaps = isDemo ? { role: 'Upload Resume to Analyze', missing_skills: { must_have: [] } } : data.skill_gaps;
+  const skill_gaps = isDemo ? { role: authUser?.target_role || 'Upload Resume to Analyze', missing_skills: { must_have: [] } } : data.skill_gaps;
   const learning_roadmap = isDemo ? { phases: [] } : (data.learning_roadmap || { phases: [] });
   const job_matches = isDemo ? { jobs: [] } : (data.job_matches || { jobs: [] });
 
