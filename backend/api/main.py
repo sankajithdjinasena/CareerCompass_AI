@@ -87,6 +87,7 @@ class ReportResponse(BaseModel):
     learning_roadmap: Dict[str, Any]
     interview_results: Optional[Dict[str, Any]]
     job_matches: Dict[str, Any]
+    raw_skill_gaps: Optional[Dict[str, Any]] = None
     errors: List[str]
 
 class PipelineRequest(BaseModel):
@@ -192,6 +193,7 @@ async def get_report(session_id: str):
         learning_roadmap=session.get("learning_roadmap", {}),
         interview_results=session.get("interview_result"),
         job_matches=session.get("job_matches", {}),
+        raw_skill_gaps=session.get("raw_skill_gaps"),
         errors=session.get("errors", []),
     )
 
