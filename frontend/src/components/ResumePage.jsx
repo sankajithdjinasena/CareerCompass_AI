@@ -146,17 +146,39 @@ export default function ResumePage({ sessionId, onUploadComplete }) {
 
           {/* Upload Controls */}
           <div className="bg-slate-50 dark:bg-slate-800/80 p-4 rounded-xl border border-slate-200 dark:border-slate-700/60 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <select
-              value={targetRole}
-              onChange={(e) => setTargetRole(e.target.value)}
-              disabled={loading}
-              className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white text-xs rounded-lg px-3 py-2.5 font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
-            >
-              <option value="auto">Auto-Detect Role</option>
-              {ROLES.map(r => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
+            {targetRole !== 'custom' && !(!ROLES.includes(targetRole) && targetRole !== 'auto') ? (
+              <select
+                value={targetRole}
+                onChange={(e) => setTargetRole(e.target.value)}
+                disabled={loading}
+                className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white text-xs rounded-lg px-3 py-2.5 font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
+              >
+                <option value="auto">Auto-Detect Role</option>
+                {ROLES.map(r => (
+                  <option key={r} value={r}>{r}</option>
+                ))}
+                <option value="custom">Other (Custom Role)...</option>
+              </select>
+            ) : (
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  autoFocus
+                  placeholder="e.g. Quantum Engineer"
+                  value={targetRole === 'custom' ? '' : targetRole}
+                  onChange={(e) => setTargetRole(e.target.value)}
+                  disabled={loading}
+                  className="bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white text-xs rounded-lg px-3 py-2.5 font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 w-48"
+                />
+                <button
+                  type="button"
+                  onClick={() => setTargetRole('auto')}
+                  className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
 
             <div className="relative flex-1">
               <input
