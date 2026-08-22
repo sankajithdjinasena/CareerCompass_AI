@@ -120,5 +120,5 @@ yarl==1.24.5
 langgraph
 langchain-core
 
-duckduckgo-search
+ddgs
 

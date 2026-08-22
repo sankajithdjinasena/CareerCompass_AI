@@ -30,7 +30,7 @@ def get_live_web_jobs(target_role: str) -> list[dict]:
     """Uses DuckDuckGo Web Search to find the absolute latest job listings."""
     jobs = []
     try:
-        from duckduckgo_search import DDGS
+        from ddgs import DDGS
         with DDGS() as ddgs:
             # Construct a targeted search query for the role
             query = f"{target_role} jobs software remote OR Sri Lanka site:linkedin.com/jobs OR site:glassdoor.com"
@@ -65,7 +65,7 @@ def get_live_web_courses(skill: str) -> list[dict]:
     """Uses DuckDuckGo to find live YouTube crash courses for a skill."""
     courses = []
     try:
-        from duckduckgo_search import DDGS
+        from ddgs import DDGS
         with DDGS() as ddgs:
             query = f"{skill} tutorial crash course full course site:youtube.com"
             results = ddgs.text(query, max_results=3)
