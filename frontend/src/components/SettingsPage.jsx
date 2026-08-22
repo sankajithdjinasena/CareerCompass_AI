@@ -282,18 +282,39 @@ export default function SettingsPage({ onProfileUpdate }) {
 
               <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Primary Target Role</label>
-                <select
-                  value={targetRole}
-                  onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
-                >
-                  <option value="Software / AI Engineer">Software / AI Engineer</option>
-                  <option value="Backend Developer">Backend Developer</option>
-                  <option value="Frontend Developer">Frontend Developer</option>
-                  <option value="Full Stack Developer">Full Stack Developer</option>
-                  <option value="Data Scientist">Data Scientist</option>
-                  <option value="DevOps Engineer">DevOps Engineer</option>
-                </select>
+                {['Software / AI Engineer', 'Backend Developer', 'Frontend Developer', 'Full Stack Developer', 'Data Scientist', 'DevOps Engineer'].includes(targetRole) && targetRole !== 'custom' ? (
+                  <select
+                    value={targetRole}
+                    onChange={(e) => setTargetRole(e.target.value)}
+                    className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  >
+                    <option value="Software / AI Engineer">Software / AI Engineer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="custom">Other (Custom Role)...</option>
+                  </select>
+                ) : (
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder="e.g. Quantum Spacecraft Engineer"
+                      value={targetRole === 'custom' ? '' : targetRole}
+                      onChange={(e) => setTargetRole(e.target.value)}
+                      className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setTargetRole('Software / AI Engineer')}
+                      className="px-4 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 font-semibold text-sm transition"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div>
