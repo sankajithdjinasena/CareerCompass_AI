@@ -16,6 +16,7 @@ import ResetPasswordPage from './components/ResetPasswordPage'
 import { isLoggedIn, clearAuth, getUser } from './lib/auth'
 import { apiLogout } from './lib/api'
 import { getToken } from './lib/auth'
+import { ThemeProvider, useTheme } from './lib/ThemeContext'
 
 class ComponentErrorBoundary extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class ComponentErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-700">
+        <div className="p-6 bg-red-500/10 border border-red-500/30 rounded-xl text-red-700 dark:text-red-400">
           <h3 className="text-lg font-bold mb-2">Failed to render section</h3>
           <p className="font-mono text-xs bg-red-500/20 p-3 rounded">{this.state.error?.toString()}</p>
           <button
@@ -50,12 +51,56 @@ class ComponentErrorBoundary extends React.Component {
   }
 }
 
-function App() {
+function MainLayout({ children, title, subtitle, page, sessionId, setSessionId, onNavigate }) {
+  const { theme } = useTheme()
+
+  return (
+    <div className="flex h-screen font-montserrat overflow-hidden relative bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      {/* Background ambient accents for dark mode */}
+      {theme === 'dark' && (
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute -top-40 -left-40 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        </div>
+      )}
+
+      <div className="relative z-10 flex h-full w-full">
+        <Sidebar activePage={page} onNavigate={onNavigate} />
+
+        <main className="flex-1 overflow-y-auto p-6 md:p-8 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <header className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{title}</h1>
+                <p className="text-slate-600 dark:text-slate-300 mt-1 text-sm font-normal">{subtitle}</p>
+              </div>
+              {page === 'dashboard' && (
+                <div className="flex flex-col items-end gap-2">
+                  <ResumeUploader onUploadComplete={(id) => setSessionId(id)} />
+                  {sessionId && (
+                    <span className="bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/40 text-emerald-800 dark:text-emerald-300 text-xs tracking-wider uppercase px-3 py-1 rounded-full font-bold">
+                      Analysis Complete
+                    </span>
+                  )}
+                </div>
+              )}
+            </header>
+
+            <ComponentErrorBoundary>
+              {children}
+            </ComponentErrorBoundary>
+          </div>
+        </main>
+      </div>
+    </div>
+  )
+}
+
+function AppContent() {
   const [sessionId, setSessionId] = useState(null)
-  const [page, setPage] = useState('landing') // 'landing' | 'login' | 'register' | 'forgot-password' | 'reset-password' | 'dashboard' | 'resume' | 'practice'
+  const [page, setPage] = useState('landing')
   const [authUser, setAuthUser] = useState(null)
 
-  // On mount: if a valid token exists, jump straight to dashboard
   useEffect(() => {
     if (isLoggedIn()) {
       setAuthUser(getUser())
@@ -114,48 +159,29 @@ function App() {
   }
 
   return (
-    <div 
-      className="flex h-screen font-montserrat text-white overflow-hidden relative bg-slate-900 bg-cover bg-center"
-      style={{ backgroundImage: "url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')" }}
+    <MainLayout
+      title={title}
+      subtitle={subtitle}
+      page={page}
+      sessionId={sessionId}
+      setSessionId={setSessionId}
+      onNavigate={setPage}
     >
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-slate-900/50 mix-blend-multiply pointer-events-none z-0"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/40 to-slate-900 pointer-events-none z-0"></div>
-      
-      <div className="relative z-10 flex h-full w-full">
-        <Sidebar activePage={page} onNavigate={setPage} />
+      {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
+      {page === 'resume' && <ResumePage sessionId={sessionId} onUploadComplete={(id) => setSessionId(id)} />}
+      {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
+      {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
+      {page === 'jobs' && <JobsPage sessionId={sessionId} />}
+      {page === 'settings' && <SettingsPage />}
+    </MainLayout>
+  )
+}
 
-        <main className="flex-1 overflow-y-auto p-8 relative z-10">
-          <div className="max-w-6xl mx-auto">
-            <header className="mb-8 flex justify-between items-start">
-              <div>
-                <h1 className="text-3xl font-bold text-white tracking-wide">{title}</h1>
-                <p className="text-slate-300 mt-1 font-light">{subtitle}</p>
-              </div>
-              {page === 'dashboard' && (
-                <div className="flex flex-col items-end gap-2">
-                  <ResumeUploader onUploadComplete={(id) => setSessionId(id)} />
-                  {sessionId && (
-                    <span className="bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-full font-medium">
-                      Analysis Complete
-                    </span>
-                  )}
-                </div>
-              )}
-            </header>
-
-            <ComponentErrorBoundary>
-              {page === 'dashboard' && <DashboardGrid sessionId={sessionId} />}
-              {page === 'resume' && <ResumePage sessionId={sessionId} onUploadComplete={(id) => setSessionId(id)} />}
-              {page === 'practice' && <InterviewPractice sessionId={sessionId} />}
-              {page === 'roadmap' && <RoadmapPage sessionId={sessionId} />}
-              {page === 'jobs' && <JobsPage sessionId={sessionId} />}
-              {page === 'settings' && <SettingsPage />}
-            </ComponentErrorBoundary>
-          </div>
-        </main>
-      </div>
-    </div>
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 

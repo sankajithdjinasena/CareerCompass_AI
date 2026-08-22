@@ -97,32 +97,32 @@ export default function InterviewPractice({ sessionId }) {
 
   if (!sessionId) {
     return (
-      <div className="bg-white/5 backdrop-blur-md p-8 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] text-center">
-        <PlayCircle className="w-10 h-10 text-emerald-400 mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-white">No active session</h3>
-        <p className="text-slate-400 text-sm mt-1">Upload and analyze a resume from the Dashboard first.</p>
+      <div className="bg-white dark:bg-slate-900/90 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md text-center transition-colors">
+        <PlayCircle className="w-12 h-12 text-brand-500 mx-auto mb-3" />
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white">No active session</h3>
+        <p className="text-slate-600 dark:text-slate-300 text-sm mt-1 font-medium">Upload and analyze a resume from the Dashboard first.</p>
       </div>
     )
   }
 
   if (phase === 'loading') {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-white/5 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-white/10">
-        <Loader2 className="w-8 h-8 text-emerald-400 animate-spin mb-4" />
-        <h3 className="text-lg font-medium text-white">Preparing your 20-question mock test...</h3>
-        <p className="text-slate-400 text-sm mt-1">Generating 10 MCQs and 10 Open-Ended technical scenarios</p>
+      <div className="flex flex-col items-center justify-center h-64 bg-white dark:bg-slate-900/90 rounded-xl shadow-sm dark:shadow-md border border-slate-200 dark:border-slate-800 p-6 transition-colors">
+        <Loader2 className="w-8 h-8 text-brand-500 animate-spin mb-4" />
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Preparing your 20-question mock test...</h3>
+        <p className="text-slate-600 dark:text-slate-300 text-sm mt-1 font-medium">Generating 10 MCQs and 10 Open-Ended technical scenarios</p>
       </div>
     )
   }
 
   if (phase === 'error') {
     return (
-      <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400">
+      <div className="p-6 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded-xl text-red-800 dark:text-red-300">
         <h3 className="text-lg font-bold mb-2">Something went wrong</h3>
-        <p className="text-sm">{error}</p>
+        <p className="text-sm font-medium">{error}</p>
         <button
           onClick={loadQuestions}
-          className="mt-4 bg-white/5 backdrop-blur-md border border-red-500/30 text-red-400 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-500/20"
+          className="mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition"
         >
           Try again
         </button>
@@ -133,22 +133,22 @@ export default function InterviewPractice({ sessionId }) {
   if (phase === 'scored' && result) {
     return (
       <div className="space-y-6">
-        <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+        <div className="bg-white dark:bg-slate-900/90 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md transition-colors">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
             <div>
-              <h3 className="text-lg font-bold text-white">Interview Results</h3>
-              <p className="text-xs text-slate-400">Evaluated across all 20 questions</p>
+              <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">Interview Results</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Evaluated across all 20 questions</p>
             </div>
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              <span className="text-2xl font-bold text-emerald-400">{result.readiness_score}</span>
-              <span className="text-slate-400 text-sm">/ 100 readiness</span>
+              <TrendingUp className="w-6 h-6 text-emerald-500" />
+              <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{result.readiness_score}</span>
+              <span className="text-slate-500 dark:text-slate-400 text-xs uppercase font-bold">/ 100 readiness</span>
             </div>
           </div>
 
           {result.adaptive_loop_triggered && (
-            <div className="bg-amber-500/10 border border-amber-500/20 text-amber-300 text-sm rounded-lg px-4 py-3 mb-4 flex items-start gap-2">
-              <RefreshCw className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <div className="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 text-sm rounded-lg p-4 mb-4 flex items-start gap-2.5 font-medium">
+              <RefreshCw className="w-5 h-5 mt-0.5 text-amber-500 flex-shrink-0" />
               <span>
                 Your live answers revealed skill gaps your resume didn't show. The Learning Path Agent
                 automatically updated your roadmap — check the Dashboard.
@@ -161,31 +161,31 @@ export default function InterviewPractice({ sessionId }) {
               const q = questions.find((qq) => qq.id === f.id)
               const verdictColor =
                 f.verdict === 'strong'
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800/60'
                   : f.verdict === 'partial'
-                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                  : 'bg-red-500/10 text-red-400 border-red-500/20'
+                  ? 'bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-800/60'
+                  : 'bg-red-100 dark:bg-red-950/40 text-red-800 dark:text-red-300 border-red-300 dark:border-red-800/60'
               
               const isMcq = q?.type === 'mcq' || (q?.options && q.options.length > 0)
               const userAns = answers[q?.id]
 
               return (
-                <div key={f.id} className="border border-white/10 rounded-lg p-4 bg-black/20">
+                <div key={f.id} className="border border-slate-200 dark:border-slate-800 rounded-lg p-4 bg-slate-50 dark:bg-slate-800/50">
                   <div className="flex items-start justify-between gap-3 mb-1">
                     <div>
-                      <span className="text-xs font-semibold text-slate-400 mr-2">Q{f.id} {isMcq ? '(MCQ)' : '(Open)'}</span>
-                      <span className="text-sm font-medium text-white">{q?.question}</span>
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mr-2">Q{f.id} {isMcq ? '(MCQ)' : '(Open)'}</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{q?.question}</span>
                     </div>
                     <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border capitalize flex-shrink-0 ${verdictColor}`}>
                       {f.verdict}
                     </span>
                   </div>
                   {isMcq && userAns && (
-                    <p className="text-xs font-medium text-slate-300 mt-1">
-                      Your answer: <span className="text-emerald-400 font-semibold">{userAns}</span>
+                    <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1">
+                      Your answer: <span className="text-brand-600 dark:text-brand-400 font-bold">{userAns}</span>
                     </p>
                   )}
-                  <p className="text-xs text-slate-400 mt-1">{f.feedback}</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed">{f.feedback}</p>
                 </div>
               )
             })}
@@ -193,10 +193,10 @@ export default function InterviewPractice({ sessionId }) {
 
           {result.newly_detected_gaps?.length > 0 && (
             <div className="mt-4">
-              <h5 className="text-xs font-semibold uppercase text-slate-400 mb-2">Newly detected gaps</h5>
+              <h5 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Newly detected gaps</h5>
               <div className="flex flex-wrap gap-2">
                 {result.newly_detected_gaps.map((g) => (
-                  <span key={g} className="bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded text-xs font-medium border border-amber-500/20">
+                  <span key={g} className="bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 px-2.5 py-1 rounded text-xs font-semibold border border-amber-200 dark:border-amber-800/60">
                     {g}
                   </span>
                 ))}
@@ -206,7 +206,7 @@ export default function InterviewPractice({ sessionId }) {
 
           <button
             onClick={handleRetry}
-            className="mt-6 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="mt-6 bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-lg font-bold transition-colors flex items-center gap-2 shadow"
           >
             <RefreshCw className="w-4 h-4" /> Practice again
           </button>
@@ -220,16 +220,16 @@ export default function InterviewPractice({ sessionId }) {
   const openQuestions = questions.filter(q => q.type !== 'mcq' && (!q.options || q.options.length === 0))
 
   return (
-    <div className="bg-white/5 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-2">
+    <div className="bg-white dark:bg-slate-900/90 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md space-y-6 transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4 gap-2">
         <div>
-          <h3 className="text-lg font-bold text-white">Comprehensive Mock Test</h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Comprehensive Mock Test</h3>
+          <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 font-medium">
             20 total questions (10 Multiple Choice + 10 Technical Scenarios).
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
+          <span className="text-xs font-bold px-3 py-1 bg-brand-50 dark:bg-brand-950/40 text-brand-700 dark:text-brand-300 rounded-full border border-brand-200 dark:border-brand-800/60">
             {answeredCount} / {questions.length} Answered
           </span>
         </div>
@@ -238,32 +238,32 @@ export default function InterviewPractice({ sessionId }) {
       {/* Part 1: Multiple Choice Questions */}
       {mcqQuestions.length > 0 && (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm border-b border-white/10 pb-2">
-            <HelpCircle className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 text-brand-600 dark:text-brand-400 font-extrabold text-sm border-b border-slate-100 dark:border-slate-800 pb-2">
+            <HelpCircle className="w-4 h-4 text-brand-500" />
             <span>Part 1: Multiple Choice Questions ({mcqQuestions.length} Questions)</span>
           </div>
 
           <div className="space-y-4">
             {mcqQuestions.map((q, idx) => (
-              <div key={q.id} className="p-4 border border-white/10 rounded-xl bg-black/20 space-y-3">
+              <div key={q.id} className="p-4 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-800/40 space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded mr-2">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-brand-700 dark:text-brand-300 bg-brand-100 dark:bg-brand-950/50 border border-brand-200 dark:border-brand-800/60 px-2 py-0.5 rounded mr-2">
                       Q{idx + 1} (MCQ)
                     </span>
-                    <span className="text-xs text-slate-400">Targets: {q.targets_skill}</span>
-                    <h4 className="text-sm font-semibold text-white mt-1.5">{q.question}</h4>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Targets: {q.targets_skill}</span>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-1.5">{q.question}</h4>
                   </div>
                   <button 
                     onClick={() => speakQuestion(q.question)}
                     title="Read question out loud"
-                    className="p-1 text-emerald-400 hover:bg-emerald-500/10 rounded-full transition-colors flex-shrink-0"
+                    className="p-1.5 text-brand-600 dark:text-brand-400 hover:bg-brand-100 dark:hover:bg-slate-700 rounded-full transition-colors flex-shrink-0"
                   >
                     <Volume2 className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {(q.options || []).map((opt) => {
                     const selected = answers[q.id] === opt
                     return (
@@ -271,10 +271,10 @@ export default function InterviewPractice({ sessionId }) {
                         key={opt}
                         type="button"
                         onClick={() => handleAnswerChange(q.id, opt)}
-                        className={`text-left p-3 rounded-lg border text-sm font-medium transition-all ${
+                        className={`text-left p-3 rounded-lg border text-sm font-semibold transition-all ${
                           selected
-                            ? 'bg-emerald-500 text-white border-emerald-500 shadow-sm'
-                            : 'bg-white/5 text-slate-300 border-white/10 hover:border-emerald-500/40 hover:bg-white/10'
+                            ? 'bg-brand-600 text-white border-brand-600 shadow-md'
+                            : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                         }`}
                       >
                         {opt}
@@ -291,26 +291,26 @@ export default function InterviewPractice({ sessionId }) {
       {/* Part 2: Open-Ended Technical Scenarios */}
       {openQuestions.length > 0 && (
         <div className="space-y-4 pt-2">
-          <div className="flex items-center gap-2 text-purple-400 font-bold text-sm border-b border-white/10 pb-2">
-            <FileText className="w-4 h-4 text-purple-400" />
+          <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-extrabold text-sm border-b border-slate-100 dark:border-slate-800 pb-2">
+            <FileText className="w-4 h-4 text-indigo-500" />
             <span>Part 2: Open-Ended Technical & Scenario Questions ({openQuestions.length} Questions)</span>
           </div>
 
           <div className="space-y-4">
             {openQuestions.map((q, idx) => (
-              <div key={q.id} className="p-4 border border-white/10 rounded-xl bg-black/20 space-y-2">
+              <div key={q.id} className="p-4 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-800/40 space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded mr-2">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800/60 px-2 py-0.5 rounded mr-2">
                       Q{mcqQuestions.length + idx + 1} (Scenario)
                     </span>
-                    <span className="text-xs text-slate-400">Targets: {q.targets_skill}</span>
-                    <h4 className="text-sm font-semibold text-white mt-1.5">{q.question}</h4>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">Targets: {q.targets_skill}</span>
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white mt-1.5">{q.question}</h4>
                   </div>
                   <button 
                     onClick={() => speakQuestion(q.question)}
                     title="Read question out loud"
-                    className="p-1 text-emerald-400 hover:bg-emerald-500/10 rounded-full transition-colors flex-shrink-0"
+                    className="p-1.5 text-brand-600 dark:text-brand-400 hover:bg-brand-100 dark:hover:bg-slate-700 rounded-full transition-colors flex-shrink-0"
                   >
                     <Volume2 className="w-4 h-4" />
                   </button>
@@ -320,7 +320,7 @@ export default function InterviewPractice({ sessionId }) {
                   value={answers[q.id] || ''}
                   onChange={(e) => handleAnswerChange(q.id, e.target.value)}
                   rows={3}
-                  className="w-full rounded-lg bg-black/20 text-white placeholder-slate-500 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 border border-slate-300 dark:border-slate-700 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium"
                   placeholder="Type your detailed answer..."
                 />
               </div>
@@ -332,7 +332,7 @@ export default function InterviewPractice({ sessionId }) {
       <button
         onClick={handleSubmit}
         disabled={phase === 'submitting'}
-        className="mt-6 w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+        className="mt-6 w-full sm:w-auto bg-brand-600 hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2 shadow-md"
       >
         {phase === 'submitting' ? (
           <>

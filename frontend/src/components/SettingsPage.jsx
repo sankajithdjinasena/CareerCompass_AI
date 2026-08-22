@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { 
   User, Lock, Loader2, CheckCircle2, ShieldCheck, Scale, 
-  FileText, Cpu, ExternalLink, Sliders, Bell, Database, Key, Sparkles, AlertCircle, Save
+  FileText, Cpu, ExternalLink, Sliders, Save, Key
 } from "lucide-react"
 import PoliciesModal from "./PoliciesModal"
 import { getToken, getUser, saveAuth } from "../lib/auth"
@@ -172,9 +172,9 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-white/5 backdrop-blur-md rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.2)] border border-white/10">
-        <Loader2 className="w-8 h-8 text-emerald-400 animate-spin mb-4" />
-        <h3 className="text-lg font-medium text-white">Loading Account Settings...</h3>
+      <div className="flex flex-col items-center justify-center h-64 bg-white dark:bg-slate-900/90 rounded-xl shadow-sm dark:shadow-md border border-slate-200 dark:border-slate-800 p-6 transition-colors">
+        <Loader2 className="w-8 h-8 text-brand-500 animate-spin mb-4" />
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Loading Account Settings...</h3>
       </div>
     )
   }
@@ -183,15 +183,15 @@ export default function SettingsPage() {
     <div className="space-y-6 max-w-5xl">
       
       {/* Account Settings Header & Navigation Tabs */}
-      <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900/90 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-tr from-emerald-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-[0_0_30px_rgba(0,0,0,0.3)]">
+          <div className="w-14 h-14 bg-gradient-to-tr from-brand-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-extrabold text-xl shadow-md">
             {user?.name ? user.name.split(' ').map(n => n[0]).join('') : 'U'}
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">{user?.name || "Candidate User"}</h2>
-            <p className="text-xs text-slate-400 font-medium">{user?.email || "user@example.com"}</p>
-            <span className="inline-block mt-1 px-2.5 py-0.5 bg-emerald-500/10 text-emerald-400 font-semibold text-[11px] rounded-full border border-emerald-500/30">
+            <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{user?.name || "Candidate User"}</h2>
+            <p className="text-xs text-slate-600 dark:text-slate-400 font-semibold">{user?.email || "user@example.com"}</p>
+            <span className="inline-block mt-1 px-3 py-0.5 bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 font-bold text-xs rounded-full border border-emerald-300 dark:border-emerald-800/60">
               Active Student Account
             </span>
           </div>
@@ -201,38 +201,46 @@ export default function SettingsPage() {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setActiveSubTab('profile')}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'profile' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition ${
+              activeSubTab === 'profile' 
+                ? 'bg-brand-600 text-white shadow' 
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
           >
-            <User className="w-3.5 h-3.5" />
+            <User className="w-4 h-4" />
             Profile Details
           </button>
           <button
             onClick={() => setActiveSubTab('security')}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'security' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition ${
+              activeSubTab === 'security' 
+                ? 'bg-brand-600 text-white shadow' 
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
           >
-            <Lock className="w-3.5 h-3.5" />
+            <Lock className="w-4 h-4" />
             Security & Password
           </button>
           <button
             onClick={() => setActiveSubTab('ai_pref')}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'ai_pref' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition ${
+              activeSubTab === 'ai_pref' 
+                ? 'bg-brand-600 text-white shadow' 
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
           >
-            <Sliders className="w-3.5 h-3.5 text-brand-400" />
+            <Sliders className="w-4 h-4" />
             AI Preferences
           </button>
           <button
             onClick={() => setActiveSubTab('privacy')}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition ${
-              activeSubTab === 'privacy' ? 'bg-white/5 backdrop-blur-xl border-r border-white/10 text-white' : 'bg-white/10 text-slate-300 hover:bg-white/20'
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition ${
+              activeSubTab === 'privacy' 
+                ? 'bg-brand-600 text-white shadow' 
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+            <ShieldCheck className="w-4 h-4" />
             Privacy & Governance
           </button>
         </div>
@@ -240,42 +248,42 @@ export default function SettingsPage() {
 
       {/* SUB-TAB 1: Profile Settings */}
       {activeSubTab === 'profile' && (
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-          <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
-            <User className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-base font-bold text-white">Personal & Target Role Information</h3>
+        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md overflow-hidden transition-colors">
+          <div className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex items-center gap-3">
+            <User className="w-5 h-5 text-brand-500" />
+            <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Personal & Target Role Information</h3>
           </div>
           
           <form onSubmit={handleUpdateProfile} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Full Name</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Full Name</label>
                 <input 
                   type="text" 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full rounded-xl bg-black/20 text-white placeholder-slate-500 border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                  className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Email Address</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Email Address</label>
                 <input 
                   type="email" 
                   value={email} 
                   disabled 
-                  className="w-full rounded-xl bg-black/30 border border-white/10 px-4 py-2.5 text-sm text-slate-400 cursor-not-allowed"
+                  className="w-full rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 px-4 py-2.5 text-sm text-slate-500 cursor-not-allowed font-medium"
                 />
-                <p className="text-[11px] text-slate-400 mt-1">Managed via authentication provider.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Managed via authentication provider.</p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Primary Target Role</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Primary Target Role</label>
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full rounded-xl bg-slate-800 text-white border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   <option value="Software / AI Engineer">Software / AI Engineer</option>
                   <option value="Backend Developer">Backend Developer</option>
@@ -287,34 +295,34 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Institution / University</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Institution / University</label>
                 <input 
                   type="text" 
                   value="Sabaragamuwa University of Sri Lanka" 
                   disabled 
-                  className="w-full rounded-xl bg-black/30 border border-white/10 px-4 py-2.5 text-sm text-slate-400 cursor-not-allowed font-medium"
+                  className="w-full rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 px-4 py-2.5 text-sm text-slate-500 cursor-not-allowed font-semibold"
                 />
               </div>
             </div>
 
-            <div className="flex items-center gap-4 border-t border-white/10 pt-4">
+            <div className="flex items-center gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
               <button 
                 type="submit"
                 disabled={profileSaving}
-                className="bg-brand-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-[0_0_30px_rgba(0,0,0,0.3)] shadow-brand-600/20"
+                className="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-bold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow"
               >
                 {profileSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Save Changes
               </button>
               
               {profileSuccess && (
-                <span className="flex items-center gap-1.5 text-emerald-600 text-xs font-semibold">
+                <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-extrabold">
                   <CheckCircle2 className="w-4 h-4" /> Profile updated successfully
                 </span>
               )}
               
               {profileError && (
-                <span className="text-red-500 text-xs font-medium">{profileError}</span>
+                <span className="text-red-600 dark:text-red-400 text-xs font-bold">{profileError}</span>
               )}
             </div>
           </form>
@@ -325,40 +333,40 @@ export default function SettingsPage() {
       {activeSubTab === 'security' && (
         <div className="space-y-6">
           {user?.provider === "google" ? (
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] p-6 flex items-start gap-4">
-              <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+            <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md p-6 flex items-start gap-4 transition-colors">
+              <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center shrink-0">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-bold text-white">Google OAuth Single Sign-On Enabled</h4>
-                <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                <h4 className="font-bold text-slate-900 dark:text-white">Google OAuth Single Sign-On Enabled</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed font-medium">
                   Your account is authenticated via Google SSO. Password management and multi-factor authentication are handled directly through your Google Security Settings.
                 </p>
               </div>
             </div>
           ) : (
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-              <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
-                <Lock className="w-5 h-5 text-emerald-400" />
-                <h3 className="text-base font-bold text-white">Change Password</h3>
+            <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md overflow-hidden transition-colors">
+              <div className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex items-center gap-3">
+                <Lock className="w-5 h-5 text-brand-500" />
+                <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Change Password</h3>
               </div>
               
               <form onSubmit={handleUpdatePassword} className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Current Password</label>
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Current Password</label>
                     <input 
                       type="password" 
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       required
                       placeholder="••••••••"
-                      className="w-full rounded-xl bg-black/20 text-white placeholder-slate-500 border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                      className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">New Password</label>
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">New Password</label>
                     <input 
                       type="password" 
                       value={newPassword}
@@ -366,29 +374,29 @@ export default function SettingsPage() {
                       required
                       minLength={8}
                       placeholder="At least 8 characters"
-                      className="w-full rounded-xl bg-black/20 text-white placeholder-slate-500 border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+                      className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 border-t border-white/10 pt-4">
+                <div className="flex items-center gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
                   <button 
                     type="submit"
                     disabled={passwordSaving}
-                    className="bg-brand-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-[0_0_30px_rgba(0,0,0,0.3)] shadow-brand-600/20"
+                    className="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-bold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow"
                   >
                     {passwordSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Key className="w-4 h-4" />}
                     Update Password
                   </button>
                   
                   {passwordSuccess && (
-                    <span className="flex items-center gap-1.5 text-emerald-600 text-xs font-semibold">
+                    <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-extrabold">
                       <CheckCircle2 className="w-4 h-4" /> Password updated successfully
                     </span>
                   )}
                   
                   {passwordError && (
-                    <span className="text-red-500 text-xs font-medium">{passwordError}</span>
+                    <span className="text-red-600 dark:text-red-400 text-xs font-bold">{passwordError}</span>
                   )}
                 </div>
               </form>
@@ -399,68 +407,68 @@ export default function SettingsPage() {
 
       {/* SUB-TAB 3: AI Coaching & Preference Options */}
       {activeSubTab === 'ai_pref' && (
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-          <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
-            <Sliders className="w-5 h-5 text-emerald-400" />
-            <h3 className="text-base font-bold text-white">AI Coaching & Agent Configurations</h3>
+        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md overflow-hidden transition-colors">
+          <div className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex items-center gap-3">
+            <Sliders className="w-5 h-5 text-brand-500" />
+            <h3 className="text-base font-extrabold text-slate-900 dark:text-white">AI Coaching & Agent Configurations</h3>
           </div>
 
           <form onSubmit={handleSaveAiPreferences} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Groq LPU Inference Model</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Groq LPU Inference Model</label>
                 <select
                   value={aiModel}
                   onChange={(e) => setAiModel(e.target.value)}
-                  className="w-full rounded-xl bg-slate-800 text-white border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   <option value="llama-3.3-70b-versatile">Llama-3.3 70B Versatile (Recommended)</option>
                   <option value="llama3-8b-8192">Llama-3 8B (Low Latency)</option>
                   <option value="mixtral-8x7b-32768">Mixtral 8x7B (Deep Reasoning)</option>
                 </select>
-                <p className="text-[11px] text-slate-400 mt-1">Select inference model hosted on Groq API.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Select inference model hosted on Groq API.</p>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1.5">Mock Interview Difficulty</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">Mock Interview Difficulty</label>
                 <select
                   value={interviewDifficulty}
                   onChange={(e) => setInterviewDifficulty(e.target.value)}
-                  className="w-full rounded-xl bg-slate-800 text-white border border-white/10 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-300 dark:border-slate-700 px-4 py-2.5 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
                   <option value="beginner">Junior / Undergraduate Entry</option>
                   <option value="intermediate">Intermediate (CodeSplash Benchmark)</option>
                   <option value="advanced">Senior / Lead Engineer Level</option>
                 </select>
-                <p className="text-[11px] text-slate-400 mt-1">Controls interview simulator question rigor.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Controls interview simulator question rigor.</p>
               </div>
             </div>
 
-            <div className="p-4 bg-black/20 text-white rounded-xl border border-white/10 flex items-center justify-between">
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/60 flex items-center justify-between">
               <div>
-                <h4 className="text-xs font-bold text-white">Adaptive Re-trigger Loop</h4>
-                <p className="text-[11px] text-slate-400 mt-0.5">Automatically revise learning roadmap if interview simulator detects newly uncovered gaps.</p>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Adaptive Re-trigger Loop</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">Automatically revise learning roadmap if interview simulator detects newly uncovered gaps.</p>
               </div>
               <input
                 type="checkbox"
                 checked={autoFeedbackLoop}
                 onChange={(e) => setAutoFeedbackLoop(e.target.checked)}
-                className="w-5 h-5 text-emerald-400 rounded focus:ring-emerald-500 cursor-pointer"
+                className="w-5 h-5 text-brand-600 rounded focus:ring-brand-500 cursor-pointer"
               />
             </div>
 
-            <div className="flex items-center gap-4 border-t border-white/10 pt-4">
+            <div className="flex items-center gap-4 border-t border-slate-100 dark:border-slate-800 pt-4">
               <button 
                 type="submit"
                 disabled={aiSaving}
-                className="bg-brand-600 hover:bg-emerald-500 text-white px-6 py-2.5 rounded-xl font-semibold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow-[0_0_30px_rgba(0,0,0,0.3)] shadow-brand-600/20"
+                className="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2.5 rounded-xl font-bold text-xs transition disabled:opacity-50 flex items-center gap-2 shadow"
               >
                 {aiSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Save AI Preferences
               </button>
 
               {aiSuccess && (
-                <span className="flex items-center gap-1.5 text-emerald-600 text-xs font-semibold">
+                <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 text-xs font-extrabold">
                   <CheckCircle2 className="w-4 h-4" /> Preferences saved
                 </span>
               )}
@@ -471,86 +479,86 @@ export default function SettingsPage() {
 
       {/* SUB-TAB 4: Privacy & Governance */}
       {activeSubTab === 'privacy' && (
-        <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(0,0,0,0.2)] overflow-hidden">
-          <div className="border-b border-white/10 bg-black/20 text-white/50 px-6 py-4 flex items-center gap-3">
+        <div className="bg-white dark:bg-slate-900/90 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-md overflow-hidden transition-colors">
+          <div className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 px-6 py-4 flex items-center gap-3">
             <ShieldCheck className="w-5 h-5 text-emerald-600" />
-            <h3 className="text-base font-bold text-white">Legal, Privacy & Governance Center</h3>
+            <h3 className="text-base font-extrabold text-slate-900 dark:text-white">Legal, Privacy & Governance Center</h3>
           </div>
 
           <div className="p-6 space-y-6">
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
               Review how your resume and career data are secured, our AI ethics standards, and our official Terms of Service built for CodeSplash '26.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <button
                 onClick={() => openPolicy('terms')}
-                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <Scale className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
+                  <Scale className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-brand-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Terms of Service</h4>
-                    <p className="text-[11px] text-slate-400">Usage rules & guidelines</p>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">Terms of Service</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Usage rules & guidelines</p>
                   </div>
                 </div>
-                <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+                <ExternalLink size={14} className="text-slate-400 group-hover:text-brand-600" />
               </button>
 
               <button
                 onClick={() => openPolicy('privacy')}
-                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
+                  <FileText className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-brand-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Privacy Policy</h4>
-                    <p className="text-[11px] text-slate-400">Resume security & rights</p>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">Privacy Policy</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Resume security & rights</p>
                   </div>
                 </div>
-                <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+                <ExternalLink size={14} className="text-slate-400 group-hover:text-brand-600" />
               </button>
 
               <button
                 onClick={() => openPolicy('ethics')}
-                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <Cpu className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
+                  <Cpu className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-brand-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">AI Ethics</h4>
-                    <p className="text-[11px] text-slate-400">Bias & advisory notice</p>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">AI Ethics</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Bias & advisory notice</p>
                   </div>
                 </div>
-                <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+                <ExternalLink size={14} className="text-slate-400 group-hover:text-brand-600" />
               </button>
 
               <button
                 onClick={() => openPolicy('portability')}
-                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
+                  <FileText className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-brand-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Data Export</h4>
-                    <p className="text-[11px] text-slate-400">Dossiers & deletion</p>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">Data Export</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Dossiers & deletion</p>
                   </div>
                 </div>
-                <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+                <ExternalLink size={14} className="text-slate-400 group-hover:text-brand-600" />
               </button>
 
               <button
                 onClick={() => openPolicy('governance')}
-                className="flex items-center justify-between p-4 rounded-xl border border-white/10 hover:border-emerald-500 hover:bg-emerald-500/10/50 transition text-left group"
+                className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-brand-500 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <ShieldCheck className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 transition" />
+                  <ShieldCheck className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-brand-600 transition" />
                   <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-wide">Governance</h4>
-                    <p className="text-[11px] text-slate-400">Team Predictra · SUSL</p>
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wide">Governance</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Team Predictra · SUSL</p>
                   </div>
                 </div>
-                <ExternalLink size={14} className="text-slate-400 group-hover:text-emerald-600" />
+                <ExternalLink size={14} className="text-slate-400 group-hover:text-brand-600" />
               </button>
             </div>
           </div>
