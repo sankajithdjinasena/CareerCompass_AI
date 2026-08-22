@@ -3,8 +3,7 @@ import re
 from pathlib import Path
 
 import pdfplumber
-
-from shared_store.groq_client import get_groq_client, get_model
+from shared_store.groq_client import call_groq_with_retry
 
 SCHEMA_INSTRUCTIONS = """
 You are a resume-parsing engine. Given raw resume text, extract structured data
@@ -40,7 +39,11 @@ def extract_text_from_pdf(file_path: str) -> str:
     if not path.exists():
         raise FileNotFoundError(f"Resume file not found: {file_path}")
     if path.suffix.lower() != ".pdf":
-        raise ValueError(f"Expected a PDF file, got: {path.suffix}")
+        # Support TXT resumes directly
+        if path.suffix.lower() == ".txt":
+            with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                return f.read().strip()
+        raise ValueError(f"Expected a PDF or TXT file, got: {path.suffix}")
 
     text_chunks = []
     with pdfplumber.open(path) as pdf:
@@ -97,47 +100,21 @@ def _extract_json(text: str) -> dict:
 
 def structure_resume_text(raw_text: str) -> dict:
     """Send raw resume text to Groq and parse the structured JSON response."""
-    client = get_groq_client()
-    model = get_model()
-    
-    last_err = None
-    for attempt in range(2):
-        try:
-            response = client.chat.completions.create(
-                model=model,
-                messages=[
-                    {"role": "system", "content": SCHEMA_INSTRUCTIONS},
-                    {"role": "user", "content": raw_text},
-                ],
-                temperature=0.1 + (0.2 * attempt), # Increase temperature slightly on retry
-                max_tokens=4000,
-            )
-        
-            content = response.choices[0].message.content
-            return _extract_json(content)
-        except Exception as e:
-            last_err = e
-            
-    raise ValueError(f"Failed to parse structured resume JSON after 2 attempts. Last error: {last_err}")
+    content = call_groq_with_retry(
+        prompt=raw_text,
+        system_prompt=SCHEMA_INSTRUCTIONS,
+        temperature=0.1,
+        max_retries=3
+    )
+    return _extract_json(content)
 
 
 def parse_resume(file_path: str) -> dict:
     """
-    Full pipeline: PDF -> raw text -> structured profile JSON.
+    Full pipeline: PDF/TXT -> raw text -> structured profile JSON.
     This is the function other agents/endpoints should call.
     """
     raw_text = extract_text_from_pdf(file_path)
     structured = structure_resume_text(raw_text)
     structured["_raw_text_length"] = len(raw_text)
     return structured
-
-
-if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) != 2:
-        print("Usage: python resume_parser.py <path_to_resume.pdf>")
-        sys.exit(1)
-
-    result = parse_resume(sys.argv[1])
-    print(json.dumps(result, indent=2))
